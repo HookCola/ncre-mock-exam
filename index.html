@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全国计算机等级考试（NCRE）全真模拟与交互式实训平台</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 14px;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
+      --shadow-hover: 0 12px 20px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.05);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1120;
+        --card-bg: #1e293b;
+        --text: #f8fafc;
+        --text-muted: #94a3b8;
+        --border: #334155;
+      }
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #2563eb;
+      background-color: rgba(37, 99, 235, 0.12);
+      border-radius: 9999px;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    p.subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto;
+    }
+    .level-section {
+      margin-bottom: 40px;
+    }
+    .level-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .exam-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .exam-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: #93c5fd;
+    }
+    .card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 14px;
+    }
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    .card-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .tag {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .card-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 10px 16px;
+      background-color: var(--primary);
+      color: white;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+    }
+    .exam-card:hover .card-btn {
+      background-color: var(--primary-hover);
+    }
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="badge">NCRE 在线实训系统</span>
+      <h1>全国计算机等级考试 · 全真模拟考场</h1>
+      <p class="subtitle">
+        严格对标教育部教育考试院最新大纲与现行统考规范，纯前端单文件离线交互，支持全真模考计时与逐题刷题模式。
+      </p>
+    </header>
+
+    <main>
+      <div class="level-section">
+        <h2 class="level-title">
+          <span>📚</span> 三级考试科目（Level 3）
+        </h2>
+
+        <div class="grid">
+          <!-- Card 1: Network Technology -->
+          <a class="exam-card" href="./三级/三级网络技术全真模拟交互考试系统.html">
+            <div>
+              <div class="card-icon">🌐</div>
+              <h3 class="card-title">三级网络技术</h3>
+              <p class="card-desc">
+                包含 3 套完整统考全真大卷（共 135 题）。涵盖传输速率、交换机双工带宽、CIDR 地址汇聚、Cisco 路由器配置、DHCP 交互报文及 Sniffer / Wireshark 抓包十六进制分析等核心必考题型。
+              </p>
+              <div class="card-tags">
+                <span class="tag">40道单选(40分)</span>
+                <span class="tag">4道综合(40分)</span>
+                <span class="tag">1道应用(20分)</span>
+                <span class="tag">120分钟限时</span>
+              </div>
+            </div>
+            <div class="card-btn">
+              进入考场 / 开始答题 ➔
+            </div>
+          </a>
+
+          <!-- Card 2: Database Technology -->
+          <a class="exam-card" href="./三级/三级数据库技术全真模拟交互考试系统.html">
+            <div>
+              <div class="card-icon">🗄️</div>
+              <h3 class="card-title">三级数据库技术</h3>
+              <p class="card-desc">
+                包含 3 套完整统考全真大卷（共 171 题）。涵盖模式范式规范化与闭包求解、SQL Server 存储与索引、T-SQL 触发器与存储过程设计、并发冲突可串行化及基于日志检查点的故障恢复等。
+              </p>
+              <div class="card-tags">
+                <span class="tag">40道单选(40分)</span>
+                <span class="tag">15道填空(30分)</span>
+                <span class="tag">2道设计应用(30分)</span>
+                <span class="tag">120分钟限时</span>
+              </div>
+            </div>
+            <div class="card-btn">
+              进入考场 / 开始答题 ➔
+            </div>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>开源项目：<a href="https://github.com/HookCola/ncre-mock-exam" target="_blank">HookCola/ncre-mock-exam</a> · 纯离线静态页面，零外部追踪</p>
+    </footer>
+  </div>
+</body>
+</html>

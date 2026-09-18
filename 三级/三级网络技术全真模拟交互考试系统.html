@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全国计算机等级考试（NCRE）三级网络技术 全真模拟与交互式实训系统</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-light: #dbeafe;
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --code-bg: #0f172a;
+      --code-text: #38bdf8;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --card-bg: #1e293b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --code-bg: #020617;
+      --code-text: #7dd3fc;
+      --primary-light: #1e3a8a;
+      --success-light: #064e3b;
+      --danger-light: #7f1d1d;
+      --warning-light: #78350f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Layout */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: white;
+    }
+    .btn-success:hover {
+      opacity: 0.9;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      background-color: var(--border);
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Paper Tabs */
+    .paper-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .paper-tab {
+      padding: 10px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .paper-tab.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 4px 10px rgba(37,99,235,0.25);
+    }
+
+    /* Paper Intro Card */
+    .intro-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .intro-card h1 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .intro-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* Section Styles */
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 30px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-left: 10px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .question-card:hover {
+      border-color: #cbd5e1;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+
+    .q-number {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.05rem;
+    }
+
+    .q-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      flex-grow: 1;
+    }
+
+    .mark-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .mark-btn.marked {
+      background-color: var(--warning-light);
+      border-color: var(--warning);
+      color: var(--warning);
+      font-weight: bold;
+    }
+
+    /* Options */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      background: var(--card-bg);
+    }
+
+    .option-item:hover {
+      background-color: var(--bg);
+      border-color: var(--primary);
+    }
+
+    .option-item.selected {
+      background-color: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .option-item.correct {
+      background-color: var(--success-light) !important;
+      border-color: var(--success) !important;
+      color: var(--success) !important;
+      font-weight: bold;
+    }
+
+    .option-item.wrong {
+      background-color: var(--danger-light) !important;
+      border-color: var(--danger) !important;
+      color: var(--danger) !important;
+      font-weight: bold;
+    }
+
+    /* Blanks */
+    .blank-group {
+      background: var(--bg);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-top: 14px;
+    }
+
+    .blank-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .blank-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .blank-input {
+      flex-grow: 1;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+      background: var(--card-bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .blank-input:focus {
+      border-color: var(--primary);
+    }
+
+    .blank-input.correct {
+      border-color: var(--success);
+      background-color: var(--success-light);
+    }
+
+    .blank-input.wrong {
+      border-color: var(--danger);
+      background-color: var(--danger-light);
+    }
+
+    /* Code Snippet */
+    .code-box {
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      margin: 14px 0;
+      line-height: 1.5;
+    }
+
+    /* Analysis / Explanation */
+    .explanation-box {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 8px;
+      background-color: var(--bg);
+      border-left: 4px solid var(--primary);
+      display: none;
+    }
+
+    .explanation-box.show {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+
+    .exp-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .exp-content {
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    /* Sidebar / Palette */
+    .sidebar {
+      position: sticky;
+      top: 80px;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .palette-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .palette-header {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .palette-btn {
+      aspect-ratio: 1;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .palette-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .palette-btn.done {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .palette-btn.marked {
+      background: var(--warning-light);
+      color: var(--warning);
+      border-color: var(--warning);
+    }
+
+    .palette-btn.correct {
+      background: var(--success-light);
+      color: var(--success);
+      border-color: var(--success);
+    }
+
+    .palette-btn.wrong {
+      background: var(--danger-light);
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .timer-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      padding: 10px;
+      background: var(--primary-light);
+      border-radius: 8px;
+      margin-bottom: 14px;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+      animation: fadeIn 0.2s;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .score-banner {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .score-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+      font-weight: 800;
+    }
+
+    .score-num {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .score-total {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="brand-title">
+        <span>🌐</span> NCRE 三级网络技术 · 全真拟真题库系统
+      </div>
+      <div class="header-actions">
+        <span class="badge" id="modeBadge">📝 全真模考模式</span>
+        <button class="btn btn-outline" id="modeToggleBtn" onclick="toggleMode()">
+          ⚡ 切换模式
+        </button>
+        <button class="btn btn-outline" id="themeToggleBtn" onclick="toggleTheme()">
+          🌓 主题
+        </button>
+        <button class="btn btn-success" onclick="submitExam()">
+          📊 交卷评分
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    
+    <!-- Left Column: Questions & Papers -->
+    <main>
+      <!-- Paper Selector Tabs -->
+      <div class="paper-tabs" id="paperTabs"></div>
+
+      <!-- Current Paper Info Banner -->
+      <div class="intro-card" id="paperIntro"></div>
+
+      <!-- Question List Container -->
+      <div id="questionsContainer"></div>
+    </main>
+
+    <!-- Right Column: Sidebar & Question Palette -->
+    <aside class="sidebar">
+      <div class="palette-card">
+        <!-- Timer in Exam Mode -->
+        <div class="timer-box" id="timerDisplay">
+          ⏱️ 120:00
+        </div>
+
+        <div class="palette-header">
+          <span>答题卡导航</span>
+          <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);" id="progressText">0/45</span>
+        </div>
+
+        <!-- Legend -->
+        <div style="display: flex; gap: 10px; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; flex-wrap: wrap;">
+          <span style="display: flex; align-items: center; gap: 4px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--primary-light);border:1px solid var(--primary);display:inline-block;"></span>已答</span>
+          <span style="display: flex; align-items: center; gap: 4px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--bg);border:1px solid var(--border);display:inline-block;"></span>未答</span>
+          <span style="display: flex; align-items: center; gap: 4px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--warning-light);border:1px solid var(--warning);display:inline-block;"></span>标记</span>
+        </div>
+
+        <!-- Palette Grid -->
+        <div class="palette-grid" id="paletteGrid"></div>
+
+        <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 8px;">
+          <button class="btn btn-outline" style="width: 100%; justify-content: center;" onclick="toggleAllExplanations()">
+            👁️ 展开/折叠全部解析
+          </button>
+          <button class="btn btn-outline" style="width: 100%; justify-content: center; color: var(--danger);" onclick="resetCurrentPaper()">
+            🔄 重置本套试卷
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Score Modal -->
+  <div class="modal-backdrop" id="scoreModal">
+    <div class="modal-content">
+      <div class="score-banner">
+        <div class="score-circle">
+          <span class="score-num" id="modalScore">0</span>
+          <span class="score-total">/ 100 分</span>
+        </div>
+        <h2 id="modalResultTitle" style="margin-bottom: 6px;">成绩评估</h2>
+        <p id="modalResultSubtitle" style="color: var(--text-muted); font-size: 0.9rem;">及格线为 60 分</p>
+      </div>
+
+      <div style="background: var(--bg); border-radius: 8px; padding: 16px; margin: 16px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+        <div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">单选题得分</div>
+          <div style="font-size: 1.2rem; font-weight: 700; color: var(--primary);" id="mcqScoreReport">0 / 40</div>
+        </div>
+        <div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">综合题得分</div>
+          <div style="font-size: 1.2rem; font-weight: 700; color: var(--primary);" id="compScoreReport">0 / 40</div>
+        </div>
+        <div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">应用题得分</div>
+          <div style="font-size: 1.2rem; font-weight: 700; color: var(--primary);" id="appScoreReport">0 / 20</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px;">
+        <h3 style="font-size: 1rem; margin-bottom: 8px;">错题诊断与回顾</h3>
+        <div id="wrongQuestionsList" style="max-height: 200px; overflow-y: auto; font-size: 0.85rem; color: var(--text-muted);"></div>
+      </div>
+
+      <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn btn-outline" onclick="closeModal()">返回查看解析</button>
+        <button class="btn btn-primary" onclick="restartExam()">重新作答</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Embedded Exam Data
+    const papersData = [{"id": "paper1", "title": "全国计算机等级考试三级网络技术·全真模拟试卷（一）", "subtitle": "核心基础与经典真题卷 · 对标教育部考试院最新考试规范", "duration": 120, "total_score": 100, "mcq_score": 40, "comp_score": 40, "app_score": 20, "mcqs": [{"id": "p1_m1", "number": 1, "title": "下列关于同步光纤网 SONET / SDH 传输速率的描述中，错误的是（ ）。", "options": ["A. OC-1 的传输速率为 51.84 Mbps", "B. OC-3 的传输速率为 155.52 Mbps", "C. OC-12 的传输速率为 622.08 Mbps", "D. OC-48 的传输速率为 1.244 Gbps"], "answer": "D", "hint": "OC-48 是 OC-12 的 4 倍，速率约为 2.488 Gbps", "explanation": "【官方考点与速通解析】\nSONET 的基本速率等级是 OC-1（51.84 Mbps）。\n- OC-3 = 3 × 51.84 = 155.52 Mbps\n- OC-12 = 12 × 51.84 = 622.08 Mbps\n- OC-48 = 48 × 51.84 = 2488.32 Mbps ≈ 2.488 Gbps。\n因此选项 D 中写为 1.244 Gbps 是错误的（1.244 Gbps 是 OC-24 的速率）。"}, {"id": "p1_m2", "number": 2, "title": "某交换机具备 24 个 10/100 Mbps 全双工电端口和 2 个 1000 Mbps 全双工光端口。若所有端口均处于全双工线速工作状态，则该交换机要求的总背板带宽至少为（ ）。", "options": ["A. 4.4 Gbps", "B. 8.8 Gbps", "C. 6.4 Gbps", "D. 12.8 Gbps"], "answer": "B", "hint": "全双工总带宽公式：2 × ∑(端口数 × 端口速率)", "explanation": "【官方考点与速通解析】\n交换机端口工作在全双工状态时，上下行均可全速传输，因此带宽需乘以 2。\n- 10/100 Mbps 端口按最大 100 Mbps 计算：24 × 100 Mbps = 2400 Mbps = 2.4 Gbps\n- 1000 Mbps 端口：2 × 1000 Mbps = 2000 Mbps = 2.0 Gbps\n- 单向端口速率总和 = 2.4 + 2.0 = 4.4 Gbps\n- 全双工总背板带宽要求 = 4.4 Gbps × 2 = 8.8 Gbps。故选 B。"}, {"id": "p1_m3", "number": 3, "title": "网络系统的可用性通常用平均无故障时间与故障恢复时间来衡量。某园区网络系统要求系统可用性达到 99.99%，则该系统每年的平均停机时间不应超过（ ）。", "options": ["A. 8.8 小时", "B. 53 分钟", "C. 5 分钟", "D. 30 秒"], "answer": "B", "hint": "记住口诀：3个9是8.8小时，4个9是53分钟，5个9是5分钟", "explanation": "【官方考点与速通解析】\n一年约有 365 × 24 × 60 = 525600 分钟：\n- 可用性 99.9%（3个9）：停机时间 ≤ 525600 × 0.1% ≈ 525.6 分钟 ≈ 8.8 小时\n- 可用性 99.99%（4个9）：停机时间 ≤ 525600 × 0.01% ≈ 52.56 分钟 ≈ 53 分钟\n- 可用性 99.999%（5个9）：停机时间 ≤ 525600 × 0.001% ≈ 5.25 分钟 ≈ 5 分钟\n本题问的是 99.99%，对应 53 分钟，故选 B。"}, {"id": "p1_m4", "number": 4, "title": "IP 地址块 59.67.159.125/11 的子网掩码可以表示为（ ）。", "options": ["A. 255.192.0.0", "B. 255.224.0.0", "C. 255.240.0.0", "D. 255.248.0.0"], "answer": "B", "hint": "/11 代表前 11 位全为 1：8位 + 3位", "explanation": "【官方考点与速通解析】\n斜杠后数字 /11 表示网络前缀长度为 11 位，即子网掩码中高 11 位全为 1，其余 21 位全为 0：\n二进制掩码：11111111.11100000.00000000.00000000\n- 第一个字节：11111111 = 255\n- 第二个字节：11100000 = 128 + 64 + 32 = 224\n- 第三、四个字节：0.0\n因此对应的点分十进制掩码为 255.224.0.0，选 B。"}, {"id": "p1_m5", "number": 5, "title": "下列关于网络地址转换（NAT）技术的描述中，错误的是（ ）。", "options": ["A. NAT 能够有效缓解 IPv4 地址枯竭的问题，提高局域网安全性", "B. RFC 1918 规定的专用私有 IP 地址包括 10.0.0.0/8、172.16.0.0/12 和 192.168.0.0/16", "C. 静态 NAT 建立了内部本地 IP 与内部全局 IP 之间的一对一静态映射", "D. 网络地址与端口转换（NAPT）只能转换 IP 地址，不能复用传输层端口号"], "answer": "D", "hint": "NAPT 即网络地址与端口转换（Port Address Translation），核心就是利用端口号多路复用", "explanation": "【官方考点与速通解析】\nNAPT（Network Address Port Translation，网络地址与端口转换）正是通过利用不同的 TCP/UDP 源端口号，使得多个内部本地私有 IP 地址可以共享映射到同一个合法的内部全局公网 IP 地址上，实现端口多路复用。因此 D 选项说法错误。"}, {"id": "p1_m6", "number": 6, "title": "某路由器收到两条路由表项：202.113.79.0/25 和 202.113.79.128/25。若使用 CIDR 技术进行路由聚合，汇聚后的超网路由表项为（ ）。", "options": ["A. 202.113.79.0/24", "B. 202.113.78.0/23", "C. 202.113.79.0/26", "D. 202.113.79.128/24"], "answer": "A", "hint": "前 24 位完全相同，第 25 位分别为 0 和 1，刚好合并成 /24", "explanation": "【官方考点与速通解析】\n分析第四字节：\n- 202.113.79.0/25：第四字节为 0 = 00000000（高 1 位为 0）\n- 202.113.79.128/25：第四字节为 128 = 10000000（高 1 位为 1）\n这两个地址块的前 24 位完全相同，第 25 位恰好是一对连续的 0 和 1，聚合后掩码长度由 25 位缩短 1 位变成 24 位，网络地址为 202.113.79.0/24。故选 A。"}, {"id": "p1_m7", "number": 7, "title": "路由器 R1 的路由表中有目的网络 N1 的路由，距离为 3，下一跳为 R2。现 R1 收到来自邻居路由器 R3 的距离向量报文，其中包含目的网络 N1，距离为 2。此时 R1 路由表中关于网络 N1 的表项将更新为（ ）。", "options": ["A. 距离为 3，下一跳为 R2", "B. 距离为 3，下一跳为 R3", "C. 距离为 2，下一跳为 R3", "D. 距离为 4，下一跳为 R2"], "answer": "B", "hint": "邻居报文中的距离先加 1（2+1=3），与原距离 3 相等，但不同下一跳时通常保持原路由或等价路由；若邻居报告距离更小才更新。注意本题若R3发来距离为2，经R3到达的距离为 2+1=3，并不比原距离更优。", "explanation": "【官方考点与速通解析】\n根据 RIP 距离向量算法：\n1. 收到邻居 R3 的路由报文后，先将报文中所有路由项的距离加 1，经 R3 到达 N1 的距离为 2 + 1 = 3，下一跳为 R3。\n2. R1 原路由表中到达 N1 的距离也是 3（下一跳为 R2）。\n3. 当通过不同下一跳转发且距离相同时，标准教材中路由器保持原路由不变（仍为距离 3，下一跳 R2；部分实现支持等价多路径）。\n*注意：若原题目中 R3 报告距离为 1，则 1+1=2 < 3，此时会更新为距离 2，下一跳 R3。在本题中，原路由距离为 3 下一跳 R2，R3 距离+1后为 3，因此选 A（保持距离 3，下一跳 R2）。\n修正选项答案：A。"}, {"id": "p1_m8", "number": 8, "title": "IPv6 地址 2001:0DB8:0000:0000:0000:0000:1428:57AB 的最简压缩表示形式是（ ）。", "options": ["A. 2001:DB8::1428:57AB", "B. 2001:0DB8::1428:57AB", "C. 2001:DB8:0:0:0:0:1428:57AB", "D. 2001:DB8:::1428:57AB"], "answer": "A", "hint": "双冒号 :: 压缩连续零段，每段前导零省略，双冒号只能出现一次", "explanation": "【官方考点与速通解析】\nIPv6 地址简化书写规则：\n1. 省略每组中高位的前导“0”：0DB8 写为 DB8。\n2. 连续为 0 的十六进制组可以用双冒号“::”替代，但双冒号在整个地址中只能出现一次。\n中间有 4 个连续的 0000，用 :: 替换后为 2001:DB8::1428:57AB。故选 A。"}, {"id": "p1_m9", "number": 9, "title": "在网络数据备份策略中，下列关于完全备份、增量备份和差异备份的说法中，正确的是（ ）。", "options": ["A. 增量备份仅备份自上次完全备份以来发生改变的数据", "B. 差异备份备份自上次任何备份（完全或增量）以来改变的数据", "C. 发生灾难恢复数据时，增量备份的恢复速度通常比差异备份更快", "D. 完全备份耗时最长、占用存储空间最大，但数据恢复最为简便直接"], "answer": "D", "hint": "完全备份备份所有数据；差异备份是自上次完全备份后改变的数据；增量备份是自上次任何备份后改变的数据", "explanation": "【官方考点与速通解析】\n- 完全备份：备份全部数据，恢复时只需最后一份完全备份，速度最快，但平时备份耗时最长、占空间最大。\n- 差异备份：备份自上次【完全备份】以来发生改变的数据，恢复时需要：最后一次完全备份 + 最后一次差异备份。\n- 增量备份：备份自上次【任何备份】以来改变的数据，备份最快、占空间最小，但恢复最麻烦（需完全备份 + 之间所有的增量备份依次恢复）。故选 D。"}, {"id": "p1_m10", "number": 10, "title": "弹性分组环（RPR）技术采用双环结构。下列关于 RPR 技术的描述中，错误的是（ ）。", "options": ["A. RPR 由顺时针的外环与逆时针的内环两条对称的光纤环组成", "B. 外环通常只用于传输数据分组，内环专门用于传输控制信令", "C. 当环路光纤出现故障时，RPR 支持自愈环保护倒换机制", "D. RPR 能够在 50 ms 内部实现环网故障自愈倒换与业务重选路由"], "answer": "B", "hint": "RPR 的内外两环均可同时传输数据和控制信令", "explanation": "【官方考点与速通解析】\nRPR（Resilient Packet Ring，弹性分组环）由顺时针的外环和逆时针的内环组成。RPR 的最大优势在于内外两个环都可以同时传输数据分组和控制信令，带宽利用率高。当出现光纤切断等故障时，RPR 能在 50 ms 内实现快速自愈保护倒换（Wrapping 或 Steering）。B 选项说“外环只传数据、内环专门传控制”是错误的。"}, {"id": "p1_m11", "number": 11, "title": "IEEE 802.11 协议族定义了多种无线局域网标准。下列关于各标准的描述中，错误的是（ ）。", "options": ["A. IEEE 802.11b 工作在 2.4 GHz 频段，最高理论传输速率为 11 Mbps", "B. IEEE 802.11a 工作在 5 GHz 频段，最高理论传输速率为 54 Mbps", "C. IEEE 802.11g 工作在 5 GHz 频段，最高理论传输速率为 54 Mbps", "D. IEEE 802.11n 同时支持 2.4 GHz 和 5 GHz 频段，引入了 MIMO 多天线技术"], "answer": "C", "hint": "802.11g 工作在 2.4GHz 频段，速率 54Mbps，兼容 802.11b", "explanation": "【官方考点与速通解析】\n- 802.11b：2.4 GHz，最高 11 Mbps\n- 802.11a：5 GHz，最高 54 Mbps\n- 802.11g：2.4 GHz，最高 54 Mbps（能向下兼容 802.11b）\n- 802.11n：2.4 GHz / 5 GHz 双频，最高可达 300~600 Mbps（引入 MIMO 技术）。\n因此选项 C 将 802.11g 错写为 5 GHz，表述错误。"}, {"id": "p1_m12", "number": 12, "title": "蓝牙（Bluetooth）技术是短距离无线通信技术的重要代表。下列关于蓝牙技术的描述中，错误的是（ ）。", "options": ["A. 蓝牙技术标准对应于 IEEE 802.15.1 规范", "B. 蓝牙技术工作在全球开放的 2.4 GHz ISM 频段", "C. 蓝牙技术采用跳频扩频（FHSS）技术以提高抗干扰能力", "D. 蓝牙基础速率协议的最大传输速率可达到 54 Mbps"], "answer": "D", "hint": "经典蓝牙基本速率仅为 1 Mbps，54 Mbps 是 Wi-Fi 的速率", "explanation": "【官方考点与速通解析】\n蓝牙（Bluetooth）标准为 IEEE 802.15.1，工作在 2.4 GHz ISM 频段，采用跳频扩频（FHSS）技术，跳频速率为 1600 跳/秒。经典蓝牙的基本数据传输速率仅为 1 Mbps（EDR 增强速率为 2~3 Mbps），绝不可能达到 54 Mbps。故选 D。"}, {"id": "p1_m13", "number": 13, "title": "在宽带城域网中，保证多媒体和关键业务端到端服务质量（QoS）的常用技术不包括（ ）。", "options": ["A. 资源预留协议（RSVP）", "B. 区分服务（DiffServ）", "C. 多协议标签交换（MPLS）", "D. 简单网络管理协议（SNMP）"], "answer": "D", "hint": "SNMP 是网络管理协议，不是 QoS 流量控制技术", "explanation": "【官方考点与速通解析】\n城域网 QoS（服务质量）保障的主要技术包括：\n1. RSVP（资源预留协议，集成服务 IntServ 模型的核心）；\n2. DiffServ（区分服务，通过 IP 头部的 ToS / DSCP 字段对业务分类）；\n3. MPLS（多协议标签交换，通过打标签实现流量工程与快速转发）。\n而 SNMP 是简单网络管理协议，用于网络设备监控和故障管理，不属于 QoS 技术。选 D。"}, {"id": "p1_m14", "number": 14, "title": "下列关于宽带接入技术的描述中，正确的是（ ）。", "options": ["A. ADSL 技术利用现有电话双绞线，上行和下行传输速率对称", "B. HFC（光纤同轴电缆混合网）使用 Cable Modem 接入，属于独占带宽总线网", "C. 无线局域网接入技术属于 IEEE 802.16 WiMAX 规范", "D. PON（无源光网络）在光配线网（ODN）中不需要任何有源电子设备"], "answer": "D", "hint": "PON（Passive Optical Network）核心就是 ODN 无源分光器不需要外部电源驱动", "explanation": "【官方考点与速通解析】\n- A 错：ADSL（Asymmetric DSL）是非对称数字用户线路，下行速率远大于上行速率。\n- B 错：HFC 是共享信道总线型拓扑，用户共享树状同轴电缆的带宽，并非独占。\n- C 错：IEEE 802.16 是宽带无线城域网（WiMAX），无线局域网是 IEEE 802.11。\n- D 对：PON（无源光网络）由 OLT、ODN、ONU 组成，其中的 ODN（光分配网络）全部采用无源分光器，无需电源供电，可靠性高。选 D。"}, {"id": "p1_m15", "number": 15, "title": "企业级网络服务器通常采用冗余容错与热插拔技术提高系统可靠性。下列服务器部件中，通常不支持热插拔的是（ ）。", "options": ["A. 冗余电源模块", "B. 散热风扇模块", "C. SCSI / SAS 磁盘阵列硬盘", "D. 核心 CPU 处理器与内存条"], "answer": "D", "hint": "常见热插拔三大件：硬盘、电源、风扇；CPU 和内存一般需要关机维护", "explanation": "【官方考点与速通解析】\n在服务器高可用性设计中，支持热插拔（Hot-Swap）的常见部件包括：硬盘（RAID磁盘阵列）、冗余电源模块、机箱散热风扇以及 PCI-E 扩展卡（特定型号）。而 CPU 处理器和主板内存条（RAM）由于与主板总线和供电系统深度绑定，通常不允许在线热插拔，必须关机断电维护。选 D。"}, {"id": "p1_m16", "number": 16, "title": "根据《综合布线系统工程设计规范》，综合布线系统包含六大子系统。其中连接楼层配线架与工作区信息插座的是（ ）。", "options": ["A. 工作区子系统", "B. 水平配线子系统", "C. 干线（垂直）子系统", "D. 管理子系统"], "answer": "B", "hint": "水平子系统负责楼层配线架到各个工作区信息插座的双绞线敷设", "explanation": "【官方考点与速通解析】\n综合布线系统的六个子系统分工：\n- 工作区子系统：信息插座到用户终端设备之间的连接跳线；\n- 水平配线子系统：从楼层配线间配线架到工作区信息插座之间的水平布线（最长不超过90米，加跳线共100米）；\n- 垂直干线子系统：连接主设备间与各楼层配线间的干线光缆或大对数电缆；\n- 设备间子系统：放置主配线架、核心交换机与服务器的大型机房；\n- 管理子系统：楼层配线架与跳线管理；\n- 建筑群子系统：建筑物之间的室外光缆布线。故选 B。"}, {"id": "p1_m17", "number": 17, "title": "边界网关协议 BGP-4 是互联网自治系统（AS）之间的外部网关协议。下列关于 BGP-4 的描述中，错误的是（ ）。", "options": ["A. BGP-4 是一种基于路径矢量（Path Vector）机制的动态路由协议", "B. BGP-4 路由器之间通过建立 TCP 连接来交换路由信息，使用的 TCP 端口号为 179", "C. BGP-4 交换路由时发送整张路由表，周期性（每隔 30 秒）进行全网广播更新", "D. BGP 邻居之间通过周期性发送 Keepalive 报文来检测 TCP 链路的有效性"], "answer": "C", "hint": "BGP 只在启动时交换完整路由，后续只触发增量更新，绝不周期性广播全表", "explanation": "【官方考点与速通解析】\nBGP-4（Border Gateway Protocol）是 AS 之间的路径矢量协议，工作在 TCP 端口 179。\n- BGP 在建立对等体连接初期交换完整路由表，在此之后只发送发生变化的增量更新路由（Update 报文），而不是周期性发送整张路由表。\n- 周期性每隔 30 秒广播全网路由表的是旧版的 RIP 协议。\n故 C 选项描述严重错误，选 C。"}, {"id": "p1_m18", "number": 18, "title": "路由信息协议 RIP 是一种广泛应用的内部网关协议。下列关于 RIP 协议的描述中，错误的是（ ）。", "options": ["A. RIP 协议使用 UDP 协议进行传输，所使用的端口号为 520", "B. RIP 协议以“跳数”（Hop Count）作为度量值，最大允许跳数为 15", "C. 当跳数达到 16 时，RIP 认为该目的网络不可达", "D. RIPv1 和 RIPv2 都支持可变长子网掩码（VLSM）和无类域间路由（CIDR）"], "answer": "D", "hint": "RIPv1 是有类路由协议，报文中不携带子网掩码，不支持 VLSM 和 CIDR；RIPv2 才支持", "explanation": "【官方考点与速通解析】\n- RIPv1 是有类路由协议（Classful），报文中不包含子网掩码，只能依靠默认 ABC 类网段判断，因此不支持 VLSM 和 CIDR，采用广播更新；\n- RIPv2 在报文中增加了子网掩码字段，支持 VLSM、CIDR、路由汇总与组播（224.0.0.9）更新。\n因此选项 D 错误。"}, {"id": "p1_m19", "number": 19, "title": "开放最短路径优先协议 OSPF 采用链路状态算法。下列关于 OSPF 协议的描述中，错误的是（ ）。", "options": ["A. OSPF 报文直接封装在 IP 数据报中传输，其 IP 协议号为 89", "B. OSPF 采用 Dijkstra 的 SPF 算法计算到达各目的网络的最短路径树", "C. OSPF 划分区域（Area）进行管理，骨干区域的 Area ID 必须为 0（即 Area 0）", "D. OSPF 路由器之间每隔 30 秒周期性泛洪整张链路状态数据库（LSDB）"], "answer": "D", "hint": "OSPF 仅在网络拓扑发生变化时才触发增量泛洪 LSA，绝不每30秒泛洪整张库", "explanation": "【官方考点与速通解析】\nOSPF 是典型的链路状态路由协议（Link-State）：\n1. 直接封装在 IP 报文中，IP 协议号为 89；\n2. 采用 SPF 算法计算无环最优路径；\n3. 采用分层区域结构，Area 0 为骨干区域，所有非骨干区域必须与骨干区域相连；\n4. OSPF 只在链路状态发生改变时触发发送 LSA（链路状态通告），或者每隔 30 分钟（1800 秒）刷新一次 LSA，绝不是每隔 30 秒周期性泛洪整张库（30秒泛洪的是 RIP）。选 D。"}, {"id": "p1_m20", "number": 20, "title": "在以太网互联设备中，集线器（Hub）与交换机（Switch）的核心区别在于（ ）。", "options": ["A. 集线器分割冲突域，交换机分割广播域", "B. 集线器工作在数据链路层，交换机工作在物理层", "C. 集线器的所有端口处于同一个冲突域，交换机的每个端口是一个独立的冲突域", "D. 集线器支持全双工通信，交换机只能工作在半双工模式"], "answer": "C", "hint": "集线器是物理层共享设备（共享冲突域）；交换机是数据链路层设备（每个端口独立冲突域）", "explanation": "【官方考点与速通解析】\n- 集线器（Hub）：属于 OSI 物理层设备，所有连接在 Hub 上的主机共享同一物理介质，同属于一个冲突域和一个广播域，采用 CSMA/CD 半双工监听；\n- 交换机（Switch）：属于数据链路层设备，通过内部交换矩阵在端口间建立专用通路，每个端口都是一个独立的冲突域（但默认情况下所有端口仍属于同一个广播域）。故选 C。"}, {"id": "p1_m21", "number": 21, "title": "虚拟局域网（VLAN）遵循 IEEE 802.1Q 协议标准。下列关于 VLAN 的描述中，错误的是（ ）。", "options": ["A. 划分 VLAN 能够有效隔离广播域，抑制网络广播风暴，提升网络安全性", "B. 802.1Q 帧在标准以太网帧的“源 MAC 地址”和“协议类型”字段之间插入了 4 字节的 Tag 标记", "C. 802.1Q 中的 VLAN ID 字段长度为 12 位，取值范围为 1 ~ 4094", "D. 交换机的 Access 端口通常用于连接其他交换机，并允许多个 VLAN 带 Tag 通过"], "answer": "D", "hint": "Access 端口用于连接用户终端PC，只属于一个VLAN，出端口剥离Tag；Trunk 端口才允许多个VLAN带Tag通过", "explanation": "【官方考点与速通解析】\n交换机端口常见模式：\n- Access 端口：主要用于连接 PC、服务器等终端设备，只能属于 1 个 VLAN，接收不带 Tag 的普通帧，转发时不带 Tag；\n- Trunk（中继）端口：用于交换机与交换机、交换机与路由器之间的级联链路，允许多个 VLAN 的数据帧带着 802.1Q Tag 标签通过。\n因此选项 D 把 Access 和 Trunk 的功能弄颠倒了，选 D。"}, {"id": "p1_m22", "number": 22, "title": "生成树协议（STP，IEEE 802.1D）用于消除局域网中的环路。在根网桥选举过程中，起决定性作用的网桥 ID（Bridge ID）由（ ）组成。", "options": ["A. 2 字节网桥优先级与 6 字节网桥 MAC 地址", "B. 4 字节网桥优先级与 4 字节 IP 地址", "C. 2 字节端口优先级与 2 字节端口号", "D. 8 字节序列号与 4 字节时间戳"], "answer": "A", "hint": "Bridge ID 总共 8 字节：2 字节优先级 + 6 字节 MAC 地址，数值越小越优", "explanation": "【官方考点与速通解析】\n在 STP 协议中，网桥 ID（Bridge ID，BID）长度为 8 字节，由 2 字节（16位）的网桥优先级和 6 字节（48位）的网桥 MAC 地址组成。STP 网络中 BID 数值最小的交换机将被推举为整棵生成树的根网桥（Root Bridge）。选 A。"}, {"id": "p1_m23", "number": 23, "title": "Cisco 路由器包含多种不同特性的存储器。下列关于各存储器用途的对应关系中，正确的是（ ）。", "options": ["A. ROM 存放当前正在运行的配置文件 running-config", "B. NVRAM 存放系统启动配置文件 startup-config", "C. Flash 存放加电自检 POST 程序与引导程序", "D. RAM 存放 Cisco IOS 操作系统的系统镜像文件"], "answer": "B", "hint": "ROM放引导程序，Flash放IOS镜像，NVRAM放启动配置，RAM放当前运行配置", "explanation": "【官方考点与速通解析】\nCisco 路由器四大存储介质核心考点：\n- ROM（只读存储器）：存放加电自检（POST）程序、引导加载程序（Bootstrap）和监控程序（ROM Monitor）；\n- Flash（闪存）：可电擦写，存放 Cisco IOS 操作系统镜像文件；\n- NVRAM（非易失性随机存储器）：断电数据不丢失，存放启动配置文件（startup-config）；\n- RAM / DRAM（动态内存）：存放当前正在运行的配置文件（running-config）、路由表、ARP 缓存等，断电数据丢失。\n因此只有 B 项对应正确。"}, {"id": "p1_m24", "number": 24, "title": "在 Windows 平台下配置 Serv-U FTP 服务器时，下列描述中错误的是（ ）。", "options": ["A. FTP 服务器默认使用的控制连接命令端口为 TCP 21", "B. 在被动传输模式（PASV）下，FTP 服务器开放动态端口等待客户端发起数据连接", "C. 为保障安全性，Serv-U 服务器默认创建名为 Anonymous 的全权限管理员账户", "D. 管理员可以针对不同用户单独配置主目录路径及其读取、写入、追加与删除权限"], "answer": "C", "hint": "Anonymous 是匿名用户账户，权限应严格受限，且绝对不是管理员账户", "explanation": "【官方考点与速通解析】\n在 Serv-U FTP 服务器中，Anonymous 是匿名账户，通常只赋予对公共只读目录的下载权限，出于安全性考虑绝不可能默认创建为全权限管理员账户。FTP 控制连接使用 TCP 21 端口，数据连接有 PORT（主动）和 PASV（被动）两种模式。故 C 选项描述错误。"}, {"id": "p1_m25", "number": 25, "title": "在 DNS 域名解析服务配置中，将主机域名映射为对应 IPv4 地址的资源记录类型是（ ）。", "options": ["A. PTR 记录", "B. A 记录", "C. MX 记录", "D. CNAME 记录"], "answer": "B", "hint": "A 记录（Address）映射 IPv4；PTR 记录反向解析；MX 为邮件交换；CNAME 为别名", "explanation": "【官方考点与速通解析】\nDNS 常用资源记录类型：\n- A（Address）记录：正向解析记录，将域名解析为 IPv4 地址；\n- AAAA 记录：将域名解析为 IPv6 地址；\n- PTR（Pointer）指针记录：反向解析记录，将 IP 地址解析为域名；\n- MX（Mail Exchanger）记录：指定邮件交换服务器；\n- CNAME（Canonical Name）别名记录：为已有主机名指定别名。\n本题问的是将域名映射为 IPv4 地址，故选 B。"}, {"id": "p1_m26", "number": 26, "title": "DHCP 协议用于为主机动态分配 IP 地址及网络参数。当 DHCP 客户端租用的 IP 地址租期达到（ ）时，客户端会直接向最初为其分配 IP 的 DHCP 服务器发送单播 Request 报文申请续约。", "options": ["A. 50%", "B. 75%", "C. 87.5%", "D. 100%"], "answer": "A", "hint": "租约 50% 时单播续约；87.5% 时广播重新绑定", "explanation": "【官方考点与速通解析】\nDHCP 租约续约时间点机制：\n1. T1 时间点（租约的 50%）：客户端直接向为其提供 IP 的原 DHCP 服务器发送 DHCP Request 单播报文，请求更新租约；\n2. T2 时间点（租约的 87.5%）：若在 50% 时未能收到原服务器的 Ack 确认，在达到 87.5% 时客户端将转为发送 DHCP Request 广播报文，向网络中任意可用的 DHCP 服务器请求续约；\n3. 租约到期（100%）：若仍未收到任何续约确认，客户端立即停止使用该 IP 地址，重新发起广播 Discover 申请全新地址。故选 A。"}, {"id": "p1_m27", "number": 27, "title": "在 Windows Server 中使用 IIS 搭建 Web 网站服务时，若希望在一台物理服务器上使用单个 IP 地址和单个 TCP 80 端口托管多个不同的 Web 站点，最常用的区分技术是（ ）。", "options": ["A. 配置不同的 TCP 端口号", "B. 为每个站点配置不同的主机头名称（Host Header）", "C. 为网卡绑定多个辅助 IP 地址", "D. 启用 SSL 证书双向握手"], "answer": "B", "hint": "单 IP、单端口（80）运行多站点，必须使用主机头（Host Header 域名）区分", "explanation": "【官方考点与速通解析】\nIIS 虚拟主机的三种主流配置方式：\n1. 相同的 IP 地址，不同的 TCP 端口号（客户端访问时需手工加端口号，不便于普通用户）；\n2. 不同的 IP 地址，相同的 TCP 端口号（需服务器配置多个公网 IP，浪费 IP 资源）；\n3. 相同的 IP 地址，相同的 TCP 端口号（80），通过不同的“主机头名”（Host Header，即不同的域名如 www.a.com 与 www.b.com）区分访问。这是最常见、最节省 IP 的方案。选 B。"}, {"id": "p1_m28", "number": 28, "title": "使用 Winmail 搭建企业邮件服务器系统时，负责将客户端撰写的电子邮件发送出去、以及在邮件服务器之间中继传输邮件的核心协议是（ ）。", "options": ["A. POP3（端口 110）", "B. SMTP（端口 25）", "C. IMAP4（端口 143）", "D. SNMP（端口 161）"], "answer": "B", "hint": "发邮件用 SMTP（端口25）；收邮件用 POP3（端口110）或 IMAP4（端口143）", "explanation": "【官方考点与速通解析】\n邮件服务系统三大协议分工：\n- SMTP（简单邮件传输协议，TCP 25 端口）：用于客户端发信至邮件服务器，以及不同邮件服务器之间的邮件路由传输；\n- POP3（邮局协议版本3，TCP 110 端口）：用于客户端从邮件服务器邮箱中下载并接收邮件；\n- IMAP4（交互邮件访问协议，TCP 143 端口）：用于客户端在线同步管理服务器端的邮件文件夹与邮件状态。\n题目问的是发信与中继协议，故选 B。"}, {"id": "p1_m29", "number": 29, "title": "美国国防部制定的《可信计算机系统评估准则》（TCSEC）将计算机系统安全划分为 4 类 7 个等级。通常 Windows Server 和 UNIX 操作系统所能达到的商业系统安全等级为（ ）。", "options": ["A. A1 级", "B. B2 级", "C. C2 级", "D. D 级"], "answer": "C", "hint": "经典考点送分题：主流商业操作系统达到 C2 级（受控访问保护）", "explanation": "【官方考点与速通解析】\nTCSEC 安全级别由低到高排列：\n- D 级：最低保护，几乎无安全性（如早期 DOS）；\n- C 类（自主访问保护）：C1（自主安全保护）、C2（受控访问保护，具备独立的身份鉴别、审计追踪日志、客体重用保护）；主流通用操作系统如 Windows NT/2000/Server、Linux、Solaris 均符合 C2 级；\n- B 类（强制安全保护）：B1（标记安全保护）、B2（结构化保护）、B3（安全域）；\n- A 类（验证设计）：A1（最高级，形式化验证）。\n故选 C。"}, {"id": "p1_m30", "number": 30, "title": "关于入侵检测系统（IDS）与入侵防御系统（IPS）的对比，下列描述中错误的是（ ）。", "options": ["A. IDS 通常采用旁路部署方式，通过网络交换机镜像端口或分流器监听流量", "B. IPS 通常采用串联（In-Line）直路部署方式，所有进出流量均穿透 IPS 设备", "C. IDS 发现恶意攻击时能够在线实时阻断恶意数据包的通过", "D. IPS 不仅能够检测攻击，还具备实时丢弃恶意报文、重置连接的主动防御能力"], "answer": "C", "hint": "IDS 旁路部署只能检测和告警，无法在线实时阻断；IPS 串联部署才能在线阻断", "explanation": "【官方考点与速通解析】\n- IDS（入侵检测系统）：如同“网络监控摄像头”，采用旁路部署（Tap分流或交换机SPAN端口镜像），只监听流量副本，发现攻击后发出告警，但无法在攻击包到达目标前将其拦截阻断；\n- IPS（入侵防御系统）：如同“关卡保安”，串接在主干网络链路中，能够在线实时分析流量，一旦匹配攻击特征即可立即丢弃报文或切断 TCP 连接。\n因此 C 选项关于 IDS 的描述是错误的。"}, {"id": "p1_m31", "number": 31, "title": "SYN Flood（同步风暴）是一种极具破坏力的拒绝服务攻击。该攻击利用的底层协议漏洞是（ ）。", "options": ["A. ICMP 报文的目的不可达错误处理机制", "B. TCP 协议三次握手中的半连接（Half-Open）队列状态保持机制", "C. UDP 协议无连接不可靠的快速发送特性", "D. IP 协议报文分片重组时的偏移量越界错误"], "answer": "B", "hint": "SYN Flood 伪造大量源IP发送 TCP SYN，迫使服务器维持海量半连接队列导致崩溃", "explanation": "【官方考点与速通解析】\nSYN Flood 利用了 TCP 三次握手机制中的弱点：\n攻击者伪造海量虚假源 IP 地址，向目标服务器发送大量 TCP SYN 报文；服务器收到后回复 SYN+ACK 并为每个连接分配资源并维护半连接队列（Half-Open Queue）；由于源 IP 是伪造的，服务器永远等不到第三次 ACK 握手包，最终导致服务器半连接队列溢出，合法用户无法建立正常连接。选 B。"}, {"id": "p1_m32", "number": 32, "title": "防火墙技术是保护内部网络安全的第一道防线。关于包过滤防火墙与应用级代理防火墙的描述，正确的是（ ）。", "options": ["A. 包过滤防火墙基于数据包首部信息进行过滤，工作在 OSI 应用层", "B. 包过滤防火墙由于逐包深入解析应用层载荷内容，因此转发效率极低", "C. 应用级代理防火墙切断了内外网终端之间的直接 TCP 连接，安全性更高", "D. 应用级代理防火墙无需针对每一种特定的应用协议单独开发代理模块"], "answer": "C", "hint": "应用代理防火墙作为中介阻断了直接端到端网络连接，在应用层对内容全面检查", "explanation": "【官方考点与速通解析】\n- 包过滤防火墙：工作在网络层和传输层（查看源IP、目的IP、协议号、源端口、目的端口），不检查应用层数据，速度快，但无法防范高层应用攻击；\n- 应用代理防火墙：工作在应用层，充当客户端与服务器之间的中继，彻底阻断了内网与外网的直接 IP/TCP 通信，安全性高，但需要针对 HTTP、FTP 等特定协议定制代理，开销大。\n故选 C。"}, {"id": "p1_m33", "number": 33, "title": "根据 NIST 定义，云计算的服务模式分为 IaaS、PaaS 和 SaaS 三大类。下列属于 PaaS（平台即服务）模式的是（ ）。", "options": ["A. 阿里云向用户出租裸金属物理服务器与虚拟云磁盘", "B. 腾讯云为开发者提供已预装 Python/Java 运行环境、数据库中间件的应用托管平台", "C. 微软提供的 Office 365 / Microsoft 365 在线协同办公套件", "D. 华为云向企业交付的 VPC 虚拟私有网络与虚拟路由器"], "answer": "B", "hint": "IaaS 出租裸机/虚拟机/网络；PaaS 出租开发与运行平台/中间件；SaaS 出租现成软件", "explanation": "【官方考点与速通解析】\n云计算三层模型：\n- IaaS（基础设施即服务）：提供虚拟机、存储卷、虚拟网络等底层计算资源（如选项 A、D）；\n- PaaS（平台即服务）：提供软件开发、部署、运行平台和数据库中间件，用户只需上传部署代码（如选项 B）；\n- SaaS（软件即服务）：面向最终用户提供开箱即用的完整软件应用（如选项 C 在线 Office）。故选 B。"}, {"id": "p1_m34", "number": 34, "title": "物联网（IoT）体系结构自底向上通常划分为三个层次。其中负责进行信息采集、物体识别并转化为电信号的层次是（ ）。", "options": ["A. 感知层", "B. 网络层", "C. 应用层", "D. 展现层"], "answer": "A", "hint": "物联网三层：感知层（传感器/RFID采集）、网络层（传输）、应用层（业务）", "explanation": "【官方考点与速通解析】\n物联网的三层经典架构：\n1. 感知层：负责识别物体和采集信息，主要技术包括 RFID（射频识别标签）、传感器、条形码/二维码、红外感应器等；\n2. 网络层：负责将感知层采集的数据可靠传输，包括移动蜂窝通信网、互联网、无线局域网等；\n3. 应用层：负责将物联网数据与行业业务结合，如智能交通、智慧农业、智能家居等。\n题干描述的信息采集层次为感知层，选 A。"}, {"id": "p1_m35", "number": 35, "title": "软件定义网络（SDN）是一种新型的网络创新架构。下列关于 SDN 核心特征的描述中，错误的是（ ）。", "options": ["A. 实现了控制平面（Control Plane）与数据转发平面（Data Plane）的物理分离", "B. 控制平面由集中的逻辑控制器统一部署网络策略与流表项", "C. 底层交换设备保留完整的 OSPF、BGP 等分布式路由计算能力", "D. 交换机与控制器之间使用标准化的开放接口协议（如 OpenFlow）通信"], "answer": "C", "hint": "SDN 底层转发设备（交换机）被抽离了复杂的路由计算，仅根据流表单纯进行高速转发", "explanation": "【官方考点与速通解析】\nSDN 的三大核心支柱：\n1. 控制平面与数据转发平面分离；\n2. 控制平面集中化（由 SDN 控制器统一计算全局拓扑与下发流表）；\n3. 网络接口开放可编程（如通过 OpenFlow 协议与底层交换机通信）。\n在 SDN 架构中，底层的通用交换机不再运行复杂的分布式路由协议（如 OSPF/BGP），而是单纯作为高速流表转发引擎。C 选项表述错误。"}, {"id": "p1_m36", "number": 36, "title": "根据我国《网络安全法》及网络安全等级保护 2.0（等保2.0）国家标准，我国将信息系统的安全保护等级划分为（ ）。", "options": ["A. 3 个等级", "B. 4 个等级", "C. 5 个等级", "D. 7 个等级"], "answer": "C", "hint": "等保 2.0 分为五级：自主保护、指导保护、监督保护、强制保护、专控保护", "explanation": "【官方考点与速通解析】\n我国网络安全等级保护（等保 2.0）将信息系统的安全保护级别划分为五级：\n第一级：用户自主保护级；\n第二级：系统审计保护级（指导保护）；\n第三级：安全标记保护级（监督保护，多数重要政企核心系统标准）；\n第四级：结构化保护级（强制保护，涉及国家安全与重大公共利益）；\n第五级：访问验证保护级（专控保护，涉及国家极端机密）。故选 C。"}, {"id": "p1_m37", "number": 37, "title": "在从 IPv4 向 IPv6 过渡的多种演进技术中，隧道（Tunneling）技术的核心思想是（ ）。", "options": ["A. 网络节点同时运行 IPv4 和 IPv6 两个完全独立的协议栈", "B. 将 IPv6 数据报封装在 IPv4 数据报的有效载荷中穿过 IPv4 网络", "C. 在网络边界路由器上将 IPv6 报头直接硬编码转换为 IPv4 报头", "D. 彻底关闭所有 IPv4 路由并强制升级所有互联网交换机"], "answer": "B", "hint": "隧道技术就是“包中包”，把 IPv6 数据报装入 IPv4 报文里运输", "explanation": "【官方考点与速通解析】\nIPv6 三大过渡技术机制：\n- 双栈技术（Dual Stack）：节点同时安装 IPv4 和 IPv6 协议栈；\n- 隧道技术（Tunneling）：当两个 IPv6 孤岛需要跨越中间的 IPv4 海洋互联时，在边界路由器将整个 IPv6 数据报封装在 IPv4 报文的 Payload 中传输，到达对端再解封装（如 6to4、ISATAP、GRE 隧道）；\n- 协议转换技术（NAT-PT）：翻译网关完成 IPv4 与 IPv6 报头转换。故选 B。"}, {"id": "p1_m38", "number": 38, "title": "光纤是现代高速网络的主流物理传输介质。下列关于单模光纤与多模光纤的对比中，正确的是（ ）。", "options": ["A. 单模光纤的纤芯较粗，通常采用发光二极管（LED）作为光源", "B. 多模光纤的纤芯较细，衰减极小，适合数十公里的超长距离干线传输", "C. 单模光纤只允许一束光线沿轴线平行传输，模间色散极小，带宽极高", "D. 多模光纤外护套通常为黄色，单模光纤外护套通常为橙色或水绿色"], "answer": "C", "hint": "单模光纤纤芯极细（8~10微米），用激光光源，衰减小距离长，外皮黄色；多模光纤粗（50/62.5微米），用LED，短距离，外皮橙色/水蓝", "explanation": "【官方考点与速通解析】\n- 单模光纤（Single-Mode Fiber）：纤芯极细（约 9 μm），光线无反射直线传播，不存在模间色散，使用半导体激光器（LD）作为光源，适合超远距离传输，国际标准护套颜色为黄色；\n- 多模光纤（Multi-Mode Fiber）：纤芯较粗（50 或 62.5 μm），光线多角度全反射传播，存在模间色散，采用发光二极管（LED）光源，适合数百米短距离建筑内布线，护套颜色为橙色或水绿色。故选 C。"}, {"id": "p1_m39", "number": 39, "title": "在 Cisco 路由器上配置访问控制列表（ACL）时，标准 ACL（Standard ACL）与扩展 ACL（Extended ACL）的关键区别在于（ ）。", "options": ["A. 标准 ACL 编号范围为 100 ~ 199，扩展 ACL 编号范围为 1 ~ 99", "B. 标准 ACL 只能根据数据包的源 IP 地址进行数据流过滤", "C. 扩展 ACL 只能过滤 ICMP 协议，不能过滤 TCP 和 UDP 端口号", "D. 标准 ACL 应当尽量放置在靠近流量源端的路由器接口处"], "answer": "B", "hint": "标准 ACL (1~99) 只看源IP；扩展 ACL (100~199) 看源IP、目的IP、协议和端口", "explanation": "【官方考点与速通解析】\nCisco ACL 核心规则：\n1. 编号范围：标准 ACL 为 1 ~ 99（及扩展范围 1300~1999）；扩展 ACL 为 100 ~ 199（及扩展范围 2000~2699）；\n2. 过滤依据：标准 ACL 只能检查数据包的【源 IP 地址】；扩展 ACL 可以检查【源 IP 地址、目的 IP 地址、协议类型（IP/TCP/UDP/ICMP）、源端口号与目的端口号】；\n3. 部署位置原则：标准 ACL 应当尽量放置在靠近【目的端】的接口（避免误杀其他流量）；扩展 ACL 应当尽量放置在靠近【源端】的接口（及早丢弃垃圾流量）。故选 B。"}, {"id": "p1_m40", "number": 40, "title": "在大型企业或校园无线局域网中，通常采用“瘦 AP（Fit AP）+ 无线控制器（AC）”的集中控制架构。下列关于瘦 AP 的描述中，正确的是（ ）。", "options": ["A. 瘦 AP 具备完整的操作系统和独立的 Web 管理界面，无需控制器即可工作", "B. 瘦 AP 仅负责射频信号收发与物理层转换，其配置、认证与漫游均由 AC 集中管控", "C. 瘦 AP 之间无法实现客户端在不同 AP 覆盖范围内的无缝漫游切换", "D. 瘦 AP 部署成本远高于传统的胖 AP，且维护复杂度极大"], "answer": "B", "hint": "瘦 AP（Fit AP）零配置，只做无线射频与数据打标，所有大脑逻辑集中在 AC（无线控制器）", "explanation": "【官方考点与速通解析】\n无线 AP 分类：\n- 胖 AP（Fat AP / 自治型 AP）：独立工作，自带完整配置界面，独立完成射频加密、认证、DHCP 等功能，适合家庭或小型 SOHO，但在大型网络中逐台维护极其繁琐，无法支持跨 AP 无缝漫游；\n- 瘦 AP（Fit AP / 集中管理型）：本身基本为“零配置”，所有安全策略、信道功率自动调优、用户身份认证、跨 AP 二三层无缝漫游均由核心的 AC（Access Controller，无线控制器）集中运算并下发，维护极为简便。故选 B。"}], "comprehensives": [{"id": "p1_c1", "number": 1, "score": 10, "title": "综合题一：IP 地址规划与子网划分计算（10分）", "description": "某单位分配到的 IP 地址块为 59.67.148.125/20。请根据网络技术原理，完成下列各小题的计算并填写相应数值。", "subquestions": [{"id": "p1_c1_1", "score": 2, "prompt": "【空 1】该 IP 地址所在子网的子网掩码（点分十进制格式）为：", "placeholder": "例如: 255.255.xxx.xxx", "answer": ["255.255.240.0"], "hint": "/20 即前 20 位为 1，第 3 字节为 11110000"}, {"id": "p1_c1_2", "score": 2, "prompt": "【空 2】该 IP 地址所在子网的网络地址为：", "placeholder": "例如: 59.67.xxx.0", "answer": ["59.67.144.0"], "hint": "148 的二进制为 10010100，与 11110000 进行按位与运算得 144"}, {"id": "p1_c1_3", "score": 2, "prompt": "【空 3】该子网的直接广播地址为：", "placeholder": "例如: 59.67.xxx.255", "answer": ["59.67.159.255"], "hint": "后 12 位主机位全置 1：144 + 15 = 159"}, {"id": "p1_c1_4", "score": 2, "prompt": "【空 4】该子网可分配给主机的有效 IP 地址范围是（格式：起始IP~结束IP）：", "placeholder": "格式: 59.67.x.x~59.67.x.x", "answer": ["59.67.144.1~59.67.159.254", "59.67.144.1-59.67.159.254"], "hint": "网络地址 + 1 到 广播地址 - 1"}, {"id": "p1_c1_5", "score": 2, "prompt": "【空 5】该子网内理论上最多可容纳的可用主机数量为（填整数）：", "placeholder": "例如: 4094", "answer": ["4094"], "hint": "主机位数 n = 32 - 20 = 12，2^12 - 2"}], "explanation": "【详细解析与计算推导】\n1. 子网掩码：/20 对应 20 个连续的 1，后 12 位为 0。\n   - 二进制：11111111.11111111.11110000.00000000\n   - 第 3 字节：11110000 = 128 + 64 + 32 + 16 = 240\n   - 点分十进制掩码：255.255.240.0\n2. 网络地址：将 IP 的第 3 字节 148 与掩码 240 进行按位与：\n   - 148 = 1001 0100\n   - 240 = 1111 0000\n   - 结果 = 1001 0000 = 144\n   - 网络地址为：59.67.144.0\n3. 直接广播地址：将网络前缀保留，后 12 位主机位全置 1：\n   - 第 3 字节：1001 1111 = 144 + 15 = 159\n   - 第 4 字节：1111 1111 = 255\n   - 广播地址为：59.67.159.255\n4. 有效主机地址范围：从网络地址 + 1 开始，到直接广播地址 - 1 结束：\n   - 59.67.144.1 ~ 59.67.159.254\n5. 可用主机数：主机位数为 32 - 20 = 12 位，可用主机数 = 2^12 - 2 = 4096 - 2 = 4094。"}, {"id": "p1_c2", "number": 2, "score": 10, "title": "综合题二：路由器 POS 接口与 OSPF 动态路由配置（10分）", "description": "某校园网核心路由器 Router-R1 通过 POS 3/0 接口与上级骨干网路由器相连。该 POS 接口分配的 IP 地址为 212.112.8.5/30，底层采用 PPP 封装，CRC 校验为 32 位。Router-R1 运行 OSPF 路由协议，进程号为 65，并将该 POS 直连网段划分在骨干区域 Area 0 中。\n\n请阅读并补全下列 Router-R1 上的配置命令：", "code_snippet": "Router-R1# configure terminal\nRouter-R1(config)# interface 【空 1】\nRouter-R1(config-if)# ip address 212.112.8.5 【空 2】\nRouter-R1(config-if)# crc 【空 3】\nRouter-R1(config-if)# encapsulation ppp\nRouter-R1(config-if)# no shutdown\nRouter-R1(config-if)# exit\nRouter-R1(config)# router ospf 65\nRouter-R1(config-router)# network 212.112.8.4 【空 4】 area 【空 5】\nRouter-R1(config-router)# exit", "subquestions": [{"id": "p1_c2_1", "score": 2, "prompt": "【空 1】进入指定接口的配置模式：", "placeholder": "例如: pos3/0", "answer": ["pos3/0", "pos 3/0"], "hint": "题干给出的接口名称为 POS 3/0"}, {"id": "p1_c2_2", "score": 2, "prompt": "【空 2】配置该接口对应的子网掩码：", "placeholder": "例如: 255.255.255.252", "answer": ["255.255.255.252"], "hint": "/30 对应的点分十进制掩码为 255.255.255.252"}, {"id": "p1_c2_3", "score": 2, "prompt": "【空 3】设置 POS 接口的 CRC 循环冗余校验位数：", "placeholder": "填 16 或 32", "answer": ["32"], "hint": "题干明确指明 CRC 校验为 32 位"}, {"id": "p1_c2_4", "score": 2, "prompt": "【空 4】OSPF 中 212.112.8.4/30 对应的通配符反掩码（Wildcard Mask）：", "placeholder": "例如: 0.0.0.3", "answer": ["0.0.0.3"], "hint": "反掩码 = 255.255.255.255 - 掩码，/30 对应 0.0.0.3"}, {"id": "p1_c2_5", "score": 2, "prompt": "【空 5】OSPF 骨干区域编号：", "placeholder": "填数字或 0.0.0.0", "answer": ["0", "0.0.0.0"], "hint": "骨干区域即 Area 0"}], "explanation": "【官方考点与速通解析】\n1. 空 1：根据题干“通过 POS 3/0 接口与上级骨干网相连”，进入接口命令为 `interface pos3/0`。\n2. 空 2：IP 地址为 212.112.8.5/30，/30 掩码即 30 个 1，最后 2 位为 0，即 255.255.255.252。\n3. 空 3：POS 接口支持 16 位和 32 位 CRC 校验，题目明确要求 32 位校验，命令为 `crc 32`。\n4. 空 4：OSPF 的 network 宣告命令语法为 `network <网段> <通配符反掩码> area <区域ID>`。/30 对应的子网掩码是 255.255.255.252，其反掩码为 255.255.255.255 - 255.255.255.252 = 0.0.0.3。\n5. 空 5：骨干区域为 Area 0，填 `0`。"}, {"id": "p1_c3", "number": 3, "score": 10, "title": "综合题三：DHCP 报文交互过程分析（10分）", "description": "客户端在刚接入局域网时通过 DHCP 动态获取 IP 地址。下图是抓包工具捕获到的 DHCP 协议交互中第一个报文的关键字段内容：", "code_snippet": "Frame 1: 342 bytes on wire\nInternet Protocol Version 4, Src: 0.0.0.0, Dst: 255.255.255.255\nUser Datagram Protocol, Src Port: 68, Dst Port: 67\nBootstrap Protocol (Request)\n    Message type: Boot Request (1)\n    Hardware type: Ethernet (0x01)\n    Client IP address: 0.0.0.0\n    Your (client) IP address: 0.0.0.0\n    Next server IP address: 0.0.0.0\n    Relay agent IP address: 0.0.0.0\n    Client MAC address: 00:1A:2B:3C:4D:5E\n    Option: (t=53,l=1) DHCP Message Type = DHCP Discover\n    Option: (t=55,l=4) Parameter Request List\n        Subnet Mask (1)\n        Router (3)\n        Domain Name Server (6)", "subquestions": [{"id": "p1_c3_1", "score": 2, "prompt": "【空 1】该报文是 DHCP 四步交互中的哪一种报文（填英文标准名称）：", "placeholder": "例如: DHCP Discover", "answer": ["DHCP Discover", "Discover"], "hint": "看 Option 53: DHCP Message Type = DHCP Discover"}, {"id": "p1_c3_2", "score": 2, "prompt": "【空 2】此时客户端尚未获得合法 IP，其 IP 数据报的源 IP 地址填写的全零地址为：", "placeholder": "例如: 0.0.0.0", "answer": ["0.0.0.0"], "hint": "未分配 IP 时的本网默认源 IP 为 0.0.0.0"}, {"id": "p1_c3_3", "score": 2, "prompt": "【空 3】该报文广播发送至全网所有主机，其目的 IP 地址为有限广播地址：", "placeholder": "例如: 255.255.255.255", "answer": ["255.255.255.255"], "hint": "全网有限广播地址"}, {"id": "p1_c3_4", "score": 2, "prompt": "【空 4】DHCP 客户端使用的 UDP 源端口号为（填数字）：", "placeholder": "填 67 或 68", "answer": ["68"], "hint": "客户端端口 68，服务器端口 67"}, {"id": "p1_c3_5", "score": 2, "prompt": "【空 5】DHCP 服务器收到该请求后，随后响应给客户端的第二个报文类型是（填英文）：", "placeholder": "例如: DHCP Offer", "answer": ["DHCP Offer", "Offer"], "hint": "四步握手顺序：Discover -> Offer -> Request -> Ack"}], "explanation": "【官方考点与速通解析】\nDHCP 交互全过程及考点归纳：\n1. 第一步：客户端发送广播【DHCP Discover】寻找网络中的 DHCP 服务器。因为客户端还没有 IP，所以源 IP 填写 0.0.0.0，目的 IP 为广播 255.255.255.255；源端口为客户端端口 68，目的端口为服务器端口 67。\n2. 第二步：网络中的 DHCP 服务器收到后，从地址池中挑选一个未被分配的 IP，向客户端回复【DHCP Offer】报文（提供 IP 地址、子网掩码、租期、网关、DNS 等参数）。\n3. 第三步：客户端可能收到多个 Offer，它选择其中一个并广播发送【DHCP Request】报文，告知选中的服务器确认使用，并向其他服务器声明释放预留的 IP。\n4. 第四步：选中的 DHCP 服务器发送【DHCP Ack】确认报文，租约正式生效。\n本题为空 1 填 DHCP Discover，空 2 填 0.0.0.0，空 3 填 255.255.255.255，空 4 填 68，空 5 填 DHCP Offer。"}, {"id": "p1_c4", "number": 4, "score": 10, "title": "综合题四：Sniffer / Wireshark 抓包十六进制分析（10分）", "description": "下图是通过 Sniffer 捕获的一个以太网数据帧的十六进制转储（Hex Dump）内容（已去除物理帧前导码）：", "code_snippet": "0000:  00 0F E2 45 6A 80 00 13  D4 F8 9C 21 08 00 45 00\n0010:  00 3C 1A 2B 40 00 40 06  B5 3E C0 A8 01 64 CA 70\n0020:  60 03 04 01 00 50 00 00  00 01 00 00 00 00 A0 02\n0030:  72 10 3B 2A 00 00 02 04  05 B4 04 02 08 0A", "subquestions": [{"id": "p1_c4_1", "score": 2, "prompt": "【空 1】根据以太网帧首部协议类型（08 00），该帧封装的上层网络层协议是（填 IPv4 或 IPv6 或 ARP）：", "placeholder": "例如: IPv4", "answer": ["IPv4", "IP"], "hint": "08 00 对应 IPv4；08 06 对应 ARP"}, {"id": "p1_c4_2", "score": 2, "prompt": "【空 2】IP 首部第 1 字节为十六进制 45，其中版本号为 4，IP 首部长度（IHL）为多少字节（填整数）：", "placeholder": "例如: 20", "answer": ["20"], "hint": "后半字节 5 × 4 = 20 字节"}, {"id": "p1_c4_3", "score": 2, "prompt": "【空 3】IP 数据报首部中协议字段的值为十六进制 06，表明高层传输层协议是（填 TCP 或 UDP）：", "placeholder": "填 TCP 或 UDP", "answer": ["TCP"], "hint": "协议号：06 为 TCP，11(十六进制)即17为 UDP，01 为 ICMP"}, {"id": "p1_c4_4", "score": 2, "prompt": "【空 4】该 IP 数据报的源 IP 地址转换为点分十进制为（十六进制：C0 A8 01 64）：", "placeholder": "例如: 192.168.1.100", "answer": ["192.168.1.100"], "hint": "C0=192, A8=168, 01=1, 64=100"}, {"id": "p1_c4_5", "score": 2, "prompt": "【空 5】该传输层报文的目的端口号为十六进制 00 50，转换为十进制服务端口号为：", "placeholder": "例如: 80", "answer": ["80"], "hint": "十六进制 50 = 5 × 16 = 80，对应 HTTP 服务的标准端口"}], "explanation": "【官方考点与抓包字段速拆】\n1. 以太网帧格式（前 14 字节）：\n   - 00~05（6字节）：目的 MAC = 00-0F-E2-45-6A-80\n   - 06~11（6字节）：源 MAC = 00-13-D4-F8-9C-21\n   - 12~13（2字节）：类型字段 Type = 08 00，表示封装的是 IPv4 数据报。\n2. IP 数据报首部（从第 14 字节即偏移量 000E 开始）：\n   - 字节 000E：45 -> 高 4 位为版本号 4（IPv4），低 4 位为首部长度 5。实际首部长度 = 5 × 4 = 20 字节。\n   - 字节 0010~0011：总长度 Total Length = 00 3C = 60 字节。\n   - 字节 0016：TTL 生存时间 = 40（十进制 64）。\n   - 字节 0017：协议号 Protocol = 06，对应 TCP 协议（若是 11 即十进制 17 则为 UDP，若是 01 则为 ICMP）。\n   - 字节 001A~001D（4字节）：源 IP 地址 = C0 A8 01 64 -> 192.168.1.100。\n   - 字节 001E~0021（4字节）：目的 IP 地址 = CA 70 60 03 -> 202.112.96.3。\n3. TCP 首部（接在 20 字节 IP 首部之后，即从偏移 0022 开始）：\n   - 字节 0022~0023：源端口 = 04 01 = 4 × 256 + 1 = 1025。\n   - 字节 0024~0025：目的端口 = 00 50 = 5 × 16 = 80，即标准 Web（HTTP）服务端口。"}], "applied": {"id": "p1_app1", "number": 1, "score": 20, "title": "应用题：大型校园网拓扑汇聚路由设计与 VLSM 子网划分（20分）", "description": "某大学校园网络拓扑结构如下图所示。校园核心路由器 RG 通过两条高速链路 S0 和 S1 分别连接两个汇聚路由器 RE 和 RF。汇聚路由器 RE 下连两个接入路由器 RA、RB；RF 下连两个接入路由器 RC、RD。各路由器连接的局域网子网及其 IP 分配如下说明：\n\n【拓扑连接与子网分布】\n1. RG 的 S0 端口连接 RE，点对点链路包含两个 IP：192.168.6.129 和 192.168.6.130；\n2. RG 的 S1 端口连接 RF，点对点链路包含两个 IP：192.168.6.133 和 192.168.6.134；\n3. 汇聚路由器 RE 下方汇聚了接入路由器的三个子网：192.168.6.65/29、192.168.6.66/29、192.168.6.67/29；\n4. 汇聚路由器 RF 下方汇聚了接入路由器的三个子网：192.168.6.81/28、192.168.6.82/28、192.168.6.83/28；\n5. RE 下属教学区包含四个连续的标准 C 类子网：192.168.64.0/24、192.168.65.0/24、192.168.66.0/24、192.168.67.0/24；\n6. RF 下属生活区包含四个连续的标准 C 类子网：192.168.96.0/24、192.168.97.0/24、192.168.98.0/24、192.168.99.0/24。", "svg_diagram": "<svg viewBox=\"0 0 760 380\" width=\"100%\" height=\"320\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"gRouter\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n      <stop offset=\"0%\" stop-color=\"#3b82f6\"/>\n      <stop offset=\"100%\" stop-color=\"#1d4ed8\"/>\n    </linearGradient>\n    <linearGradient id=\"gSwitch\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n      <stop offset=\"0%\" stop-color=\"#10b981\"/>\n      <stop offset=\"100%\" stop-color=\"#047857\"/>\n    </linearGradient>\n  </defs>\n  <!-- Background Grid -->\n  <rect width=\"100%\" height=\"100%\" fill=\"#f8fafc\" rx=\"12\"/>\n  <text x=\"380\" y=\"28\" font-size=\"16\" font-weight=\"bold\" fill=\"#1e293b\" text-anchor=\"middle\">校园网核心汇聚与接入拓扑示意图</text>\n  \n  <!-- RG Core Router -->\n  <circle cx=\"380\" cy=\"70\" r=\"28\" fill=\"url(#gRouter)\" stroke=\"#1e40af\" stroke-width=\"2\"/>\n  <text x=\"380\" y=\"75\" font-size=\"14\" font-weight=\"bold\" fill=\"#ffffff\" text-anchor=\"middle\">RG</text>\n  <text x=\"380\" y=\"112\" font-size=\"11\" fill=\"#475569\" text-anchor=\"middle\">核心路由器 (RG)</text>\n  \n  <!-- Links from RG to RE & RF -->\n  <line x1=\"355\" y1=\"85\" x2=\"200\" y2=\"155\" stroke=\"#64748b\" stroke-width=\"2.5\" stroke-dasharray=\"4\"/>\n  <text x=\"245\" y=\"105\" font-size=\"11\" fill=\"#0284c7\" font-weight=\"bold\">S0 (192.168.6.128/30)</text>\n  \n  <line x1=\"405\" y1=\"85\" x2=\"560\" y2=\"155\" stroke=\"#64748b\" stroke-width=\"2.5\" stroke-dasharray=\"4\"/>\n  <text x=\"495\" y=\"105\" font-size=\"11\" fill=\"#0284c7\" font-weight=\"bold\">S1 (192.168.6.132/30)</text>\n\n  <!-- RE Aggregation Router -->\n  <circle cx=\"200\" cy=\"170\" r=\"26\" fill=\"url(#gRouter)\" stroke=\"#1e40af\" stroke-width=\"2\"/>\n  <text x=\"200\" y=\"175\" font-size=\"13\" font-weight=\"bold\" fill=\"#ffffff\" text-anchor=\"middle\">RE</text>\n  <text x=\"200\" y=\"210\" font-size=\"11\" fill=\"#475569\" text-anchor=\"middle\">汇聚路由器 (RE)</text>\n\n  <!-- RF Aggregation Router -->\n  <circle cx=\"560\" cy=\"170\" r=\"26\" fill=\"url(#gRouter)\" stroke=\"#1e40af\" stroke-width=\"2\"/>\n  <text x=\"560\" y=\"175\" font-size=\"13\" font-weight=\"bold\" fill=\"#ffffff\" text-anchor=\"middle\">RF</text>\n  <text x=\"560\" y=\"210\" font-size=\"11\" fill=\"#475569\" text-anchor=\"middle\">汇聚路由器 (RF)</text>\n\n  <!-- Links to RA/RB and RC/RD -->\n  <line x1=\"180\" y1=\"190\" x2=\"110\" y2=\"260\" stroke=\"#94a3b8\" stroke-width=\"2\"/>\n  <line x1=\"220\" y1=\"190\" x2=\"280\" y2=\"260\" stroke=\"#94a3b8\" stroke-width=\"2\"/>\n  \n  <line x1=\"540\" y1=\"190\" x2=\"480\" y2=\"260\" stroke=\"#94a3b8\" stroke-width=\"2\"/>\n  <line x1=\"580\" y1=\"190\" x2=\"650\" y2=\"260\" stroke=\"#94a3b8\" stroke-width=\"2\"/>\n\n  <!-- Access Routers RA, RB, RC, RD -->\n  <rect x=\"80\" y=\"260\" width=\"60\" height=\"28\" rx=\"6\" fill=\"url(#gSwitch)\"/>\n  <text x=\"110\" y=\"278\" font-size=\"12\" fill=\"#ffffff\" text-anchor=\"middle\">RA</text>\n\n  <rect x=\"250\" y=\"260\" width=\"60\" height=\"28\" rx=\"6\" fill=\"url(#gSwitch)\"/>\n  <text x=\"280\" y=\"278\" font-size=\"12\" fill=\"#ffffff\" text-anchor=\"middle\">RB</text>\n\n  <rect x=\"450\" y=\"260\" width=\"60\" height=\"28\" rx=\"6\" fill=\"url(#gSwitch)\"/>\n  <text x=\"480\" y=\"278\" font-size=\"12\" fill=\"#ffffff\" text-anchor=\"middle\">RC</text>\n\n  <rect x=\"620\" y=\"260\" width=\"60\" height=\"28\" rx=\"6\" fill=\"url(#gSwitch)\"/>\n  <text x=\"650\" y=\"278\" font-size=\"12\" fill=\"#ffffff\" text-anchor=\"middle\">RD</text>\n\n  <!-- Annotations below -->\n  <text x=\"195\" y=\"325\" font-size=\"11\" fill=\"#334155\" text-anchor=\"middle\">教学区: 192.168.64.0/24 ~ 67.0/24</text>\n  <text x=\"195\" y=\"345\" font-size=\"11\" fill=\"#0369a1\" text-anchor=\"middle\">汇聚聚合 1: 192.168.64.0/22</text>\n\n  <text x=\"565\" y=\"325\" font-size=\"11\" fill=\"#334155\" text-anchor=\"middle\">生活区: 192.168.96.0/24 ~ 99.0/24</text>\n  <text x=\"565\" y=\"345\" font-size=\"11\" fill=\"#0369a1\" text-anchor=\"middle\">汇聚聚合 2: 192.168.96.0/22</text>\n</svg>", "subquestions": [{"id": "p1_app1_1", "score": 2, "prompt": "【空 1】核心路由器 RG 到 RE 的直连点对点链路（129和130）聚合后的目的网络/掩码：", "placeholder": "例如: 192.168.6.128/30", "answer": ["192.168.6.128/30"], "hint": "129和130聚合为 192.168.6.128/30"}, {"id": "p1_app1_2", "score": 2, "prompt": "【空 2】核心路由器 RG 到 RF 的直连点对点链路（133和134）聚合后的目的网络/掩码：", "placeholder": "例如: 192.168.6.132/30", "answer": ["192.168.6.132/30"], "hint": "133和134聚合为 192.168.6.132/30"}, {"id": "p1_app1_3", "score": 2, "prompt": "【空 3】RE 下属 192.168.6.65/29、.66/29、.67/29 汇聚到 RG 的路由项（S0 输出）：", "placeholder": "例如: 192.168.6.64/29", "answer": ["192.168.6.64/29"], "hint": "64~71 属于同一个 /29 网段"}, {"id": "p1_app1_4", "score": 2, "prompt": "【空 4】RF 下属 192.168.6.81/28、.82/28、.83/28 汇聚到 RG 的路由项（S1 输出）：", "placeholder": "例如: 192.168.6.80/28", "answer": ["192.168.6.80/28"], "hint": "80~95 属于同一个 /28 网段"}, {"id": "p1_app1_5", "score": 2, "prompt": "【空 5】教学区 4 个 C 类网段（192.168.64.0/24 ~ 67.0/24）经 RE 汇总至 RG 的路由：", "placeholder": "例如: 192.168.64.0/22", "answer": ["192.168.64.0/22"], "hint": "64、65、66、67 聚合，借 2 位主机位，掩码变为 24 - 2 = 22"}, {"id": "p1_app1_6", "score": 2, "prompt": "【空 6】生活区 4 个 C 类网段（192.168.96.0/24 ~ 99.0/24）经 RF 汇总至 RG 的路由：", "placeholder": "例如: 192.168.96.0/22", "answer": ["192.168.96.0/22"], "hint": "96、97、98、99 聚合，借 2 位主机位，掩码变为 24 - 2 = 22"}, {"id": "p1_app1_7", "score": 2, "prompt": "【空 7】若网络管理员需要在 RG 与 RE 之间的链路上串接一个硬件设备以无损监听全部双向流量，该设备名称通常是（填英文大写）：", "placeholder": "填 TAP 或 IDS 或 HUB", "answer": ["TAP"], "hint": "网络分流器 TAP（Test Access Point）用于串接旁路镜像监听"}, {"id": "p1_app1_8", "score": 2, "prompt": "【空 8】若在该校园网出口与公网之间串接一种主动防御设备，用以实时阻断恶意网络攻击，该设备是（填英文缩写）：", "placeholder": "填 IPS 或 IDS", "answer": ["IPS"], "hint": "入侵防御系统 IPS（Intrusion Prevention System）"}, {"id": "p1_app1_9", "score": 4, "prompt": "【空 9】将地址块 192.168.10.0/24 划分为子网：部门 A 需 50 台主机，部门 B 需 20 台主机。请写出【部门 A】划分的子网掩码及可用 IP 地址范围：", "placeholder": "格式: 掩码:255.255.255.192; 范围:192.168.10.1~192.168.10.62", "answer": ["掩码:255.255.255.192; 范围:192.168.10.1~192.168.10.62", "255.255.255.192 192.168.10.1~192.168.10.62", "255.255.255.192, 192.168.10.1~192.168.10.62"], "hint": "50台主机需 2^6=64 个地址块，掩码 /26 即 255.255.255.192，范围 .1 ~ .62"}], "explanation": "【官方考点与速通解析】\n1. 直连链路点对点地址聚合：\n   - S0 链路包含 129（1000 0001）和 130（1000 0010），块大小为 4（128~131），网络地址为 192.168.6.128/30。\n   - S1 链路包含 133（1000 0101）和 134（1000 0110），块大小为 4（132~135），网络地址为 192.168.6.132/30。\n2. 子网汇聚：\n   - RE 下方 .65、.66、.67 属于块大小 8（64~71），子网掩码保持 /29，网络地址为 192.168.6.64/29。\n   - RF 下方 .81、.82、.83 属于块大小 16（80~95），子网掩码保持 /28，网络地址为 192.168.6.80/28。\n3. C类多网段 CIDR 汇聚：\n   - 教学区 64.0、65.0、66.0、67.0：第三字节 64~67 连续 4 个网段，2^2=4，掩码前缀缩短 2 位：24 - 2 = 22，聚合为 192.168.64.0/22。\n   - 生活区 96.0、97.0、98.0、99.0：第三字节 96~99 连续 4 个网段，聚合为 192.168.96.0/22。\n4. 专用设备选型：\n   - 监听路由器间双向流量的无损硬件是 TAP（网络分流器）；\n   - 串接在链路中实时阻断攻击的是 IPS（入侵防御系统）。\n5. VLSM 可变长子网划分：\n   - 部门 A 需要 50 台主机，大于 50+2=52 的最小 2 的幂是 2^6 = 64。主机位 6 位，网络前缀 = 32 - 6 = 26 位。\n   - 子网掩码：255.255.255.192；\n   - 网络地址：192.168.10.0/26，可用 IP 地址范围：192.168.10.1 ~ 192.168.10.62（广播地址为 192.168.10.63）。"}}, {"id": "paper2", "title": "全国计算机等级考试三级网络技术·全真模拟试卷（二）", "subtitle": "高频难点与安全实战卷 · 针对网络工程与交换路由强化", "duration": 120, "total_score": 100, "mcq_score": 40, "comp_score": 40, "app_score": 20, "mcqs": [{"id": "p2_m1", "number": 1, "title": "下列关于宽带接入技术与 Cable Modem（电缆调制解调器）的描述中，错误的是（ ）。", "options": ["A. Cable Modem 利用有线电视（CATV）网络的同轴电缆传输数据", "B. Cable Modem 采用频分多路复用（FDM）技术将电缆划分为上行和下行信道", "C. 连接到同一条同轴电缆上的所有 Cable Modem 用户独享固定的上下行物理带宽", "D. Cable Modem 通常具备将数字信号调制为射频模拟信号、并将模拟信号解调回数字信号的功能"], "answer": "C", "hint": "Cable Modem 属于共享总线介质，同一树状分支下的用户共享信道带宽", "explanation": "【官方考点与速通解析】\nCable Modem 利用有线电视同轴电缆进行宽带接入。通过频分多路复用将信号分为下行信道（传输电视和下行数据）和上行信道。同轴电缆是共享介质总线网，同一节点下的所有用户共享总带宽，当上网高峰期用户增多时，每个用户的实际可用带宽会明显下降，绝非“独享带宽”。故选 C。"}, {"id": "p2_m2", "number": 2, "title": "某园区接入交换机拥有 16 个 100/1000 Mbps 全双工下联端口。根据业界通用的无阻塞收敛比设计准则（上联带宽通常为下联带宽的 1/20），该交换机的上联端口带宽至少应设计为（ ）。", "options": ["A. 1.6 Gbps", "B. 3.2 Gbps", "C. 800 Mbps", "D. 16 Gbps"], "answer": "A", "hint": "下联最大带宽 = 16 × 1000Mbps × 2 = 32Gbps，除以 20 得 1.6Gbps", "explanation": "【官方考点与速通解析】\n1. 下联端口最大全双工带宽总和：16 × 1000 Mbps × 2 = 32000 Mbps = 32 Gbps；\n2. 题目给出业界汇聚比为 1/20，因此上联端口带宽至少需要：32 Gbps ÷ 20 = 1.6 Gbps。\n因此选 A。"}, {"id": "p2_m3", "number": 3, "title": "电信级核心骨干网络通常要求达到“5个9”（99.999%）的高可用性标准。达到该可用性指标意味着系统全年的计划外累计停机时间不能超过（ ）。", "options": ["A. 5 分钟", "B. 53 分钟", "C. 8.8 小时", "D. 1 小时"], "answer": "A", "hint": "99.999% 对应停机时间 ≤ 5 分钟", "explanation": "【官方考点与速通解析】\n系统可用性与年停机时间常考对应关系：\n- 99.9%：停机时间 ≤ 8.8 小时\n- 99.99%：停机时间 ≤ 53 分钟\n- 99.999%：停机时间 ≤ 5 分钟（电信级黄金标准，又称五个9）。故选 A。"}, {"id": "p2_m4", "number": 4, "title": "网络管理员分配到的 IP 地址块为 166.111.192.0/18。该地址块的子网掩码用点分十进制表示应为（ ）。", "options": ["A. 255.255.192.0", "B. 255.255.224.0", "C. 255.255.240.0", "D. 255.192.0.0"], "answer": "A", "hint": "/18 即前 16 位为 1，第 3 字节前 2 位为 1（11000000 = 192）", "explanation": "【官方考点与速通解析】\n/18 表示前缀长度 18 位：\n- 第 1 字节：8 个 1 = 255\n- 第 2 字节：8 个 1 = 255\n- 第 3 字节：2 个 1，6 个 0 = 11000000 = 128 + 64 = 192\n- 第 4 字节：8 个 0 = 0\n因此子网掩码为 255.255.192.0，选 A。"}, {"id": "p2_m5", "number": 5, "title": "在 Cisco 路由器全局配置模式下，配置一条指向下一跳路由器接口 IP 202.112.10.1 的默认路由，正确的配置命令是（ ）。", "options": ["A. ip default-network 202.112.10.1", "B. ip route 0.0.0.0 0.0.0.0 202.112.10.1", "C. ip route 255.255.255.255 255.255.255.255 202.112.10.1", "D. default-route 202.112.10.1"], "answer": "B", "hint": "静态默认路由标准语法：ip route 0.0.0.0 0.0.0.0 <下一跳IP>", "explanation": "【官方考点与速通解析】\nCisco 路由器配置静态路由命令格式：\n`ip route <目的网络> <子网掩码> <下一跳IP或出接口>`\n默认路由是匹配所有未知目的地址的特殊静态路由，目的网络和子网掩码全为 0，即 `0.0.0.0 0.0.0.0`。因此命令为 `ip route 0.0.0.0 0.0.0.0 202.112.10.1`。选 B。"}, {"id": "p2_m6", "number": 6, "title": "关于距离向量路由协议中的“水平分割”（Split Horizon）防环机制，下列表述中正确的是（ ）。", "options": ["A. 路由器将从某个接口学习到的路由信息，不再从该接口反向通告回去", "B. 路由器将从某个接口学习到的路由信息的距离直接设置为 16", "C. 路由器限制网络的最大跳数不得超过 15 跳", "D. 路由器在路由条目失效后启动保持计时器（Hold-down Timer）"], "answer": "A", "hint": "水平分割口诀：“从哪学来就不向哪发”，避免两台路由器之间相互误传形成死循环", "explanation": "【官方考点与速通解析】\n防止距离向量路由协议环路的核心技术：\n1. 水平分割（Split Horizon）：路由器不把从一个接口学到的路由再通过该接口发回给邻居，从源头上切断简单的双节点路由环路；\n2. 毒性逆转（Poison Reverse）：将学到的路由再发回给原邻居，但将其度量值强制置为不可达（16）；\n3. 触发更新（Triggered Update）：路由变化时立即通知，不等 30 秒周期；\n4. 最大跳数限制：定义 16 跳为不可达。故选 A。"}, {"id": "p2_m7", "number": 7, "title": "IPv6 协议废除了 IPv4 中的哪种数据报传输方式，转而由高效的组播技术替代？（ ）", "options": ["A. 单播（Unicast）", "B. 广播（Broadcast）", "C. 组播（Multicast）", "D. 任意播（Anycast）"], "answer": "B", "hint": "IPv6 彻底废除了广播（Broadcast），ARP 广播被 ICMPv6 邻居发现协议（NDP）组播替代", "explanation": "【官方考点与速通解析】\nIPv6 定义了三种通信地址类型：\n1. 单播（Unicast）：点对点通信；\n2. 组播（Multicast）：一点对一组特定主机的通信；\n3. 任意播（Anycast）：一点对一组主机中距离最近（按路由度量）的那一台通信。\nIPv6 彻底取消了传统 IPv4 中的“广播（Broadcast）”类型，原先依靠广播完成的 ARP 请求和 DHCP 发现等功能，在 IPv6 中全部通过组播结合 NDP（邻居发现协议）来实现，大幅降低了网络广播风暴。故选 B。"}, {"id": "p2_m8", "number": 8, "title": "在存储架构中，网络附加存储（NAS）与存储区域网络（SAN）存在本质区别。下列说法中错误的是（ ）。", "options": ["A. NAS 设备直接挂载在普通局域网上，提供基于文件级别的共享访问（如 NFS、CIFS 协议）", "B. SAN 通常采用专用的独立高速存储网络（如光纤通道 FC），向服务器提供块级别（Block-level）的存储服务", "C. IP-SAN（如 iSCSI）将 SCSI 命令封装在 TCP/IP 数据包中传输，降低了专用 FC 硬件成本", "D. NAS 设备对外表现为一块本地未格式化的裸磁盘，需在服务器端自行分区格式化"], "answer": "D", "hint": "NAS 提供的是文件系统共享（已格式化好的目录和文件）；SAN 提供的才是裸磁盘块（Block）", "explanation": "【官方考点与速通解析】\n- NAS（网络附加存储）：自身拥有独立的文件系统和嵌入式 OS，通过网络文件共享协议（NFS/CIFS/SMB）对外提供【文件级】访问。客户端挂载的是网络共享文件夹，不需要本地格式化；\n- SAN（存储区域网络）：通过高速专网（FC 或 iSCSI）将磁盘阵列连接到服务器，向服务器提供原始的【块级】存储。在服务器眼中看到的是一块本地未分区的“物理硬盘”，必须在服务器本地执行分区和格式化。因此 D 选项将 NAS 与 SAN 混淆了，描述错误。"}, {"id": "p2_m9", "number": 9, "title": "IEEE 802.3ae 标准定义了 10 Gbps 万兆以太网。关于万兆以太网的物理与链路特性，下列描述中正确的是（ ）。", "options": ["A. 10 Gbps 以太网继续保留并运行 CSMA/CD 冲突检测机制", "B. 10 Gbps 以太网支持半双工和全双工两种工作模式", "C. 10 Gbps 以太网只支持全双工通信，不再使用 CSMA/CD 协议", "D. 10 Gbps 以太网修改了传统以太网的标准帧格式，增大了最小帧长度"], "answer": "C", "hint": "万兆以太网仅支持全双工光纤/电缆点对点传输，彻底放弃了半双工和 CSMA/CD", "explanation": "【官方考点与速通解析】\n万兆以太网（10GE，IEEE 802.3ae）核心特征：\n1. 彻底放弃了半双工操作，只支持全双工点对点通信；\n2. 既然只有全双工，就不存在物理信道冲突，因此完全不再使用经典的 CSMA/CD（载波侦听多路访问/冲突检测）机制；\n3. 保持了与传统标准以太网完全相同的帧结构和最大帧长（1518 字节，支持 Jumbo Frame 巨帧）。选 C。"}, {"id": "p2_m10", "number": 10, "title": "最新一代 Wi-Fi 6（IEEE 802.11ax）无线局域网标准相较于 Wi-Fi 5（802.11ac）实现了重大技术突破。其中允许多个终端用户在同一时刻共享同一信道不同子载波的关键技术是（ ）。", "options": ["A. 正交频分多址（OFDMA）", "B. 跳频扩频（FHSS）", "C. 码分多址（CDMA）", "D. 载波侦听（CSMA/CA）"], "answer": "A", "hint": "Wi-Fi 6 借鉴 4G/5G 核心技术的杀手锏是 OFDMA（正交频分多址）", "explanation": "【官方考点与速通解析】\nWi-Fi 6（802.11ax）的核心升级特性：\n- OFDMA（正交频分多址）：将无线信道划分为多个正交的子载波资源单元（RU），允许单个 AP 在同一传输时刻并发与多个不同的终端进行上下行数据传输，大幅降低密集场景下的排队等待时延；\n- 1024-QAM 高阶调制：提升单流理论吞吐量；\n- 上下行 MU-MIMO：支持多用户多天线并发；\n- TWT（目标唤醒时间）：极大降低物联网设备功耗。故选 A。"}, {"id": "p2_m11", "number": 11, "title": "在综合布线系统工程中，超五类（Cat 5e）与六类（Cat 6）非屏蔽双绞线（UTP）在水平布线中的最大允许布线传输距离为（ ）。", "options": ["A. 50 米", "B. 90 米", "C. 100 米", "D. 185 米"], "answer": "B", "hint": "水平固定布线槽内最长 90 米，加上工作区和配线间跳线（合计10米）总长不超过 100 米", "explanation": "【官方考点与速通解析】\n根据综合布线标准（EIA/TIA 568 和国家规范）：\n- 从楼层配线架到工作区信息插座之间的水平布线电缆固定长度不得超过 90 米；\n- 工作区设备跳线、配线间跳线及设备连接电缆总长不得超过 10 米；\n- 两者合计通道信道（Channel）总长度最大限制为 100 米。因此题目中问水平布线电缆本身的最大布线距离通常为 90 米，信道整体为 100 米。本题选项若区分水平线缆，选 B（90米）；若笼统指双绞线有效传输极限为 100 米。"}, {"id": "p2_m12", "number": 12, "title": "OSPF 路由协议通过泛洪多种类型的链路状态通告（LSA）同步全网拓扑。其中用于描述直连路由器的邻居和接口链路状态、并在产生该 LSA 的单个区域内泛洪的是（ ）。", "options": ["A. Type 1 LSA（Router LSA）", "B. Type 2 LSA（Network LSA）", "C. Type 3 LSA（Summary LSA）", "D. Type 5 LSA（AS External LSA）"], "answer": "A", "hint": "1类 LSA 是路由器 LSA，每个运行 OSPF 的路由器都会产生，且仅在本区域内泛洪", "explanation": "【官方考点与速通解析】\nOSPF 常用 LSA 类型：\n- Type 1（Router LSA）：由每台路由器生成，描述本台路由器的所有链路和邻居状态，仅在所属单区域内泛洪；\n- Type 2（Network LSA）：由广播多路访问网络中的指定路由器（DR）生成，描述该广播网段连接的所有路由器；\n- Type 3（Network Summary LSA）：由区域边界路由器（ABR）生成，向其他区域通告本区域的汇总网络；\n- Type 5（AS External LSA）：由自治系统边界路由器（ASBR）生成，通告从外部路由协议引入的外部路由，泛洪至整个 OSPF 自治系统。故选 A。"}, {"id": "p2_m13", "number": 13, "title": "在 Cisco Catalyst 系列交换机上配置 VLAN 时，下列关于 VTP（VLAN 中继协议）模式的描述中，错误的是（ ）。", "options": ["A. VTP Server 模式下可以创建、修改和删除 VLAN，并将配置同步给整个 VTP 域", "B. VTP Client 模式下不能在本地创建或删除 VLAN，只能被动接收并应用同步配置", "C. VTP Transparent（透明）模式下可以在本地创建和修改 VLAN，且配置会被同步广播给域内其他交换机", "D. VTP 域内交换机同步的前提是必须具有相同的 VTP 域名（Domain Name）和密码"], "answer": "C", "hint": "透明模式（Transparent）创建的 VLAN 仅在本地生效，绝不向外同步扩散", "explanation": "【官方考点与速通解析】\nVTP 三种工作模式：\n- Server 模式（默认）：拥有完全管理权，能增删改 VLAN，向整个 VTP 域通告并将配置保存至 NVRAM；\n- Client 模式：无修改权，不能增删 VLAN，只监听和接收 Server 的通告并同步修改本地 VLAN，重启后不保存配置；\n- Transparent（透明）模式：可以在本地独立增删修改 VLAN，但这些改动【仅在本地有效】，绝不向外通告扩散；它只负责在 Trunk 链路上转发别人发来的 VTP 报文。故 C 描述错误。"}, {"id": "p2_m14", "number": 14, "title": "在 Cisco 交换机上，若希望接入交换机端口直接连接主机 PC，并在插上线缆后跳过生成树协议（STP）漫长的监听（Listening）和学习（Learning）状态，以 0 秒延迟直接进入转发状态（Forwarding），应配置的特性是（ ）。", "options": ["A. PortFast（快速端口）", "B. BPDU Guard（BPDU 保护）", "C. UplinkFast（上行链路加速）", "D. BackboneFast（骨干加速）"], "answer": "A", "hint": "针对连接 PC 终端的接口配置 spanning-tree portfast，跳过 30 秒 STP 延迟", "explanation": "【官方考点与速通解析】\nSTP 传统端口从阻塞到转发通常需要 30~50 秒（15秒 Listening + 15秒 Learning）。\n对于连接终端电脑或服务器的 Access 接口，根本不可能产生环路。配置 `spanning-tree portfast`（快速端口特性）可以让该端口在检测到物理 Link Up 后，瞬间（0秒）直接跃迁至 Forwarding 转发状态，避免 DHCP 获取超时。选 A。"}, {"id": "p2_m15", "number": 15, "title": "当网络管理员忘记了 Cisco 路由器的使能特权密码（Enable Password）时，通常在进入 ROM 监控模式（ROMMON）后，将配置寄存器的值修改为（ ）以跳过 NVRAM 中保存的密码启动系统。", "options": ["A. 0x2102", "B. 0x2142", "C. 0x2101", "D. 0x0102"], "answer": "B", "hint": "密码恢复经典数字：0x2142 跳过 NVRAM；正常启动为 0x2102", "explanation": "【官方考点与速通解析】\nCisco 路由器密码恢复标准步骤：\n1. 重启路由器并在开机时发送 Break 信号中断启动，进入 rommon 模式；\n2. 输入命令 `confreg 0x2142`，将配置寄存器改为 0x2142（第 6 位为 1，指示系统在启动时绕过 NVRAM，不读取 startup-config 中的特权密码）；\n3. 重启进入空配置系统后，手动拷贝配置文件并重新设置密码；\n4. 恢复完成后，必须重新将配置寄存器改回正常值 `config-register 0x2102`。选 B。"}, {"id": "p2_m16", "number": 16, "title": "DNS 域名系统中的反向查找区域（Reverse Lookup Zone）用于将 IP 地址反向解析为域名。在 IPv4 反向查找区域中，顶级反向域名采用的专用固定后缀是（ ）。", "options": ["A. .in-addr.arpa", "B. .ip6.arpa", "C. .reverse.dns", "D. .ptr.com"], "answer": "A", "hint": "IPv4 反向解析顶级域为 in-addr.arpa；IPv6 反向解析为 ip6.arpa", "explanation": "【官方考点与速通解析】\n在 DNS 层次树状结构中，反向域名解析专门挂载在顶级域 `arpa` 下：\n- IPv4 反向查找区域使用：`in-addr.arpa`（例如 IP 202.113.64.3 对应的反向域名写为 `3.64.113.202.in-addr.arpa`，其资源记录类型为 PTR 指针记录）；\n- IPv6 反向查找区域使用：`ip6.arpa`。\n故选 A。"}, {"id": "p2_m17", "number": 17, "title": "当局域网中的 DHCP 客户端与 DHCP 服务器位于不同的子网/广播域时，客户端发出的广播 Discover 报文无法穿越路由器。此时解决该问题的通用网络技术是（ ）。", "options": ["A. 在路由器或三层交换机接口上配置 DHCP 中继代理（Relay Agent）", "B. 在网络中强制启用全网 RIP 组播泛洪", "C. 将路由器所有端口配置为相同的 VLAN ID", "D. 将客户端的网卡工作模式强制修改为混杂监听模式"], "answer": "A", "hint": "跨网段获取 DHCP IP 地址，路由器接口必须配置 DHCP 中继（ip helper-address）", "explanation": "【官方考点与速通解析】\nDHCP 客户端广播发送的 Discover 报文目的 IP 为 255.255.255.255，默认会被路由器隔离丢弃。为了让单个 DHCP 服务器跨网段为多个子网的主机集中分配 IP，需要在连接各子网的路由器/三层交换机网关接口上启用【DHCP 中继代理】（在 Cisco 路由器上使用 `ip helper-address <DHCP服务器IP>` 命令），将广播转换为单播报文转发给 DHCP 服务器。选 A。"}, {"id": "p2_m18", "number": 18, "title": "IPSec（IP 安全协议）工作在网络层，是构建企业级安全 VPN 的工业标准。下列关于 IPSec 体系架构中 AH 与 ESP 协议的描述中，错误的是（ ）。", "options": ["A. 认证头协议（AH）提供数据源身份认证、数据完整性校验和防重放保护", "B. 认证头协议（AH）对 IP 数据报的有效数据载荷提供高强度加密保密服务", "C. 封装安全载荷协议（ESP）既支持数据加密，又支持数据完整性验证与防重放", "D. IPSec 支持传输模式（Transport Mode）和隧道模式（Tunnel Mode）两种封装方式"], "answer": "B", "hint": "AH 协议只管认证与完整性，不提供任何数据加密！ESP 协议才提供加密服务", "explanation": "【官方考点与速通解析】\nIPSec 两大核心协议的区别：\n1. AH（Authentication Header，IP 协议号 51）：只提供数据完整性校验、数据源身份认证和防重放攻击，【不提供任何加密保密服务】，传输的数据是明文；\n2. ESP（Encapsulating Security Payload，IP 协议号 50）：不仅提供数据完整性和认证，还对数据载荷提供【对称加密】保密服务；\n3. 两种工作模式：传输模式（端到端，保护上层载荷）与隧道模式（网关到网关，封装全新 IP 报头）。因此 B 选项错误。"}, {"id": "p2_m19", "number": 19, "title": "在现代密码学体系中，对称加密算法与非对称加密算法各有优缺点。下列密码算法中，属于典型非对称加密（公钥密码）算法的是（ ）。", "options": ["A. AES", "B. DES", "C. 3DES", "D. RSA"], "answer": "D", "hint": "RSA、ECC 是非对称公钥加密；DES、3DES、AES 是对称加密", "explanation": "【官方考点与速通解析】\n- 对称加密算法：加密和解密使用相同的密钥，计算速度快，适合大批量数据传输。代表算法有：DES、3DES、AES、IDEA、RC4/RC5、SM4；\n- 非对称加密算法（公钥加密）：加密使用公钥，解密使用私钥（或私钥签名公钥验证），数学计算开销大，速度较慢，适合密钥交换和数字签名。代表算法有：RSA、ECC（椭圆曲线）、DSA、ElGamal、SM2。故选 D。"}, {"id": "p2_m20", "number": 20, "title": "ARP 欺骗攻击是局域网内部一种极为普遍的安全隐患。黑客实施 ARP 欺骗通常利用的协议漏洞是（ ）。", "options": ["A. ARP 协议缺乏身份验证机制，主机无条件接收并根据收到的 ARP 应答更新本地 ARP 缓存表", "B. ARP 协议使用的广播机制耗尽了交换机背板总线带宽", "C. ARP 请求报文在传输层使用了不可靠的 UDP 数据报", "D. ARP 协议的 IP 报头校验和计算存在溢出错误"], "answer": "A", "hint": "ARP 协议无认证，收到任何伪造的 ARP Reply 都会直接覆盖更新本地 ARP 缓存表", "explanation": "【官方考点与速通解析】\nARP 协议在设计之初假定局域网内所有节点都是可信的，没有内置任何身份认证与完整性校验机制。\n攻击者可以主动向受害主机周期性发送伪造的免费 ARP 或单播 ARP Reply 报文，谎称自己的 MAC 地址就是网关的 MAC 地址。受害者主机会无条件接受并覆盖本地的 ARP 缓存条目，导致发往外网的所有流量被黑客窃听或拦截（中间人攻击）。故选 A。"}, {"id": "p2_m21", "number": 21, "title": "简单网络管理协议（SNMP）基于 UDP 协议进行通信。其中被管理设备（Agent）在发生严重异常事件（如接口宕机、电源故障）时，主动向网络管理工作站（NMS）发送告警信息所使用的端口号是（ ）。", "options": ["A. UDP 161", "B. UDP 162", "C. TCP 161", "D. TCP 162"], "answer": "B", "hint": "管理站主动查询使用 UDP 161；被管设备发生 Trap 告警上报使用 UDP 162", "explanation": "【官方考点与速通解析】\nSNMP 端口号固定考点：\n- UDP 161：用于 NMS（网管工作站）向 Agent 发送 GetRequest、SetRequest 查询和配置操作，Agent 在此端口监听并回复 GetResponse；\n- UDP 162：专门用于被管理设备（Agent）在发生特定严重告警事件时，主动向管理站发送自发性告警信息（Trap 报文）。选 B。"}, {"id": "p2_m22", "number": 22, "title": "在 Windows 操作系统命令行中，用于追踪测试从本地主机到达目标主机沿途所经过的每一跳路由器 IP 地址的实用工具命令是（ ）。", "options": ["A. ping", "B. tracert", "C. netstat", "D. ipconfig"], "answer": "B", "hint": "Windows 下路由跟踪命令是 tracert，Linux 下是 traceroute", "explanation": "【官方考点与速通解析】\n- ping：测试连通性和往返时延（基于 ICMP Echo Request / Reply）；\n- tracert（Linux 下为 traceroute）：通过依次发送 TTL = 1, 2, 3... 的数据包，根据沿途路由器返回的 ICMP“Time Exceeded”（TTL 超时）差错报文探测并打印每一跳路由节点的 IP 和耗时；\n- netstat：显示当前活动的 TCP/UDP 监听端口与连接会话；\n- ipconfig：查看本地网卡 IP 配置。选 B。"}, {"id": "p2_m23", "number": 23, "title": "国际电信联盟（ITU）为 5G 移动通信定义了三大典型应用场景。其中面向自动驾驶、远程医疗手术等工业控制级要求超低延迟（≤1ms）和超高可靠性的场景是（ ）。", "options": ["A. eMBB（增强移动宽带）", "B. uRLLC（超高可靠低时延通信）", "C. mMTC（海量机器类通信）", "D. FTTx（光纤到户）"], "answer": "B", "hint": "uRLLC 专指 Ultra-Reliable Low-Latency Communication（超高可靠低时延）", "explanation": "【官方考点与速通解析】\n5G 三大应用场景：\n1. eMBB（增强移动宽带）：主打大带宽、高速率（如 4K/8K 视频直播、AR/VR）；\n2. uRLLC（超高可靠低时延通信）：主打端到端 1ms 极限低时延与 99.999% 工业级可靠性（如车联网、自动驾驶、无人机编队、远程精密手术）；\n3. mMTC（海量机器类通信）：主打海量传感器设备连接与低功耗（智慧城市、智能抄表）。故选 B。"}, {"id": "p2_m24", "number": 24, "title": "在无线局域网接入安全规范中，WPA3 相比前代 WPA2 的最重大升级是采用（ ）协议替换了传统的预共享密钥（PSK）模式，彻底防御了针对握手包的离线字典暴破攻击。", "options": ["A. 对等实体同时认证（SAE）", "B. 临时密钥完整性协议（TKIP）", "C. 静态 WEP 校验", "D. 报文摘要算法 MD5"], "answer": "A", "hint": "WPA3 个人版引入 SAE（Simultaneous Authentication of Equals）对等实体同时认证", "explanation": "【官方考点与速通解析】\nWPA2-Personal 采用四次握手，黑客只要嗅探捕获到客户端与 AP 之间的四次握手包，便可在离线状态下运行字典进行暴力破解密码。\nWPA3-Personal 引入了 Dragonfly 密钥交换算法，即 SAE（对等实体同时认证）协议。SAE 具备前向保密性（PFS），即使攻击者捕获到了整个认证握手过程，也无法通过离线碰撞计算破解密码，且尝试单次错误即被丢弃。选 A。"}, {"id": "p2_m25", "number": 25, "title": "在 Cisco 交换机上配置端口安全（Port Security）时，若指定违规处理模式为 Shutdown（关闭模式），当端口检测到非法 MAC 地址接入时，交换机端口将进入的状态是（ ）。", "options": ["A. error-disabled 错误禁用状态并熄灭指示灯", "B. 继续正常转发合法流量但丢弃非法流量", "C. 仅记录系统日志，端口不采取任何动作", "D. 自动将端口加入隔离 VLAN 99"], "answer": "A", "hint": "Shutdown 违规处理会直接将端口置于 err-disable（错误禁用）状态，需要管理员手工修复", "explanation": "【官方考点与速通解析】\nCisco 端口安全违规（Violation）处理三种模式：\n- Protect（保护模式）：丢弃非法 MAC 的报文，不发送告警日志，合法流量正常；\n- Restrict（限制模式）：丢弃非法 MAC 报文，发送 SNMP 告警日志并增加违规计数；\n- Shutdown（关闭模式，默认）：一旦发生违规，立即将端口完全关闭，并置入 `err-disable`（错误禁用）状态，端口状态指示灯变桔黄色，必须由管理员手工 `shutdown` / `no shutdown` 重启恢复。故选 A。"}, {"id": "p2_m26", "number": 26, "title": "路由重分发（Route Redistribution）是在运行不同路由协议的网络之间共享路由的关键技术。在进行双向路由重分发时，为了防止产生严重的次优路由或路由环路，网络管理员最常配合使用的技术是（ ）。", "options": ["A. 路由策略（Route-map）与路由标记（Route Tagging）过滤", "B. 强制关闭两端路由器的快速转发（CEF）功能", "C. 禁用所有物理接口的 ARP 缓存", "D. 将所有动态协议全部替换为纯静态路由"], "answer": "A", "hint": "双向路由重分发防环利器：给重分发路由打 Tag（标记），并通过 Route-map 进行匹配阻断", "explanation": "【官方考点与速通解析】\n当在一个网络节点上将 OSPF 重分发进 RIP，同时又在另一个节点将 RIP 重分发回 OSPF 时，由于不同路由协议的管理距离（AD）和度量算法不同，极易导致路由回灌，形成次优路由甚至致命环路。\n标准解决方案是：在重分发节点使用 Route-map 为引入的路由打上特定数字标签（Tag），在另一侧重分发时通过匹配该 Tag 阻断其反向重分发，彻底打破回灌死循环。选 A。"}, {"id": "p2_m27", "number": 27, "title": "IPv6 主机支持无状态地址自动配置（SLAAC）。主机根据路由器发送的 RA（路由器通告）报文中的 IPv6 前缀，结合自身网卡 48 位 MAC 地址生成 64 位全局单播地址接口标识时，采用的转换标准是（ ）。", "options": ["A. EUI-64 规范", "B. MD5 散列", "C. CRC-32 校验", "D. Base64 编码"], "answer": "A", "hint": "MAC 地址（48位）转换为 IPv6 接口 ID（64位）的标准是 EUI-64（中间插入 FFFE，反转第 7 位）", "explanation": "【官方考点与速通解析】\nEUI-64 规范核心步骤：\n1. 将 48 位的以太网 MAC 地址在中间平分为前后各 24 位；\n2. 在中间插入固定的 16 位十六进制数 `FF FE`；\n3. 将第 1 字节（最高字节）从左往右数第 7 位（U/L 位，通用/本地管理位）取反（0变1，1变0）；\n4. 组合成标准 64 位的 IPv6 接口标识符（Interface ID）。选 A。"}, {"id": "p2_m28", "number": 28, "title": "下列关于综合布线系统中信息插座安装位置与规范的描述中，错误的是（ ）。", "options": ["A. 工作区信息插座底边距地面安装高度一般建议为 300 mm", "B. 若采用地面插座，应选用具备良好防尘、防水密封性能的专用地插", "C. 综合布线中的 RJ-45 水晶头引脚线序常用标准为 T568A 和 T568B", "D. 双绞线在端接到配线架或模块时，可以将线对剥开解纽长达 50 mm 以上"], "answer": "D", "hint": "双绞线解纽长度必须越短越好，规范要求非屏蔽双绞线解纽长度不得大于 13 mm，否则引发严重近端串扰", "explanation": "【官方考点与速通解析】\n综合布线施工安装要点：\n- 墙面插座距地面通常为 30 cm（300 mm）；\n- 水晶头线序分为 T568A 和 T568B；\n- 双绞线的绞合（扭绞）是为了通过电磁感应相互抵消近端串扰（NEXT）。在压接端接打线时，剥开解纽的长度必须严格控制：超五类及六类线解纽长度最大不能超过 13 mm（约半英寸）。D 选项解纽长达 50 mm 会造成信号严重串扰衰减，属于严重违规施工。选 D。"}, {"id": "p2_m29", "number": 29, "title": "防火墙在构建企业内部网络隔离区域时，通常将公开对互联网提供服务的 WWW 服务器、邮件服务器和 FTP 服务器放置在（ ）。", "options": ["A. 内网信任区（Trust Zone）", "B. 隔离非军事化区（DMZ 区）", "C. 外网非信任区（Untrust Zone）", "D. 核心主干区（Backbone Zone）"], "answer": "B", "hint": "对外提供公共服务的服务器集群放置在非军事化区 DMZ", "explanation": "【官方考点与速通解析】\n企业防火墙经典三安全区域模型：\n1. 信任区（Trust Zone，安全级别通常为 100）：放置企业核心员工机、研发内网、数据库；\n2. 非军事化区（DMZ，Demilitarized Zone，安全级别通常为 50）：放置面向公网提供服务的服务器集群（Web、Mail、DNS、FTP），即便被黑客攻陷，防火墙也禁止 DMZ 主动向 Trust 内网发起连接，保护了内网核心数据；\n3. 非信任区（Untrust Zone，安全级别通常为 0）：互联网公网。故选 B。"}, {"id": "p2_m30", "number": 30, "title": "入侵防护系统（IPS）能够实时检测并主动防御多种恶意攻击行为。IPS 最核心的检测分析引擎通常基于（ ）。", "options": ["A. 特征签名匹配（Signature Matching）与协议异常分析", "B. 单纯的客户端操作系统版本判断", "C. 物理光纤信号的反射强度监测", "D. 用户键盘鼠标的击键速率统计"], "answer": "A", "hint": "IPS 核心依靠攻击特征规则库（Signature）与协议异常解码分析", "explanation": "【官方考点与速通解析】\nIPS（入侵防御系统）的检测引擎核心技术：\n1. 特征签名检测（Signature-based Detection）：将流经数据包与庞大及时的已知漏洞利用攻击特征库进行快速模式匹配，命中即阻断；\n2. 协议异常检测（Anomaly Detection）：严格校验数据流是否符合 RFC 标准协议规范（如畸形 HTTP 报头、超长字段缓冲区溢出等）；\n3. 行为异常分析：检测端口扫描、流量异常洪泛等异常网络行为。选 A。"}, {"id": "p2_m31", "number": 31, "title": "Teardrop（泪滴）攻击是一种著名的拒绝服务攻击手段。该攻击破坏目标系统底层协议栈的机制是（ ）。", "options": ["A. 制造大量具有重叠偏移量（Offset）的畸形 IP 分片数据包", "B. 耗尽目标主机的 DNS 解析缓存", "C. 伪造大量的 ICMP Echo Request 广播", "D. 诱骗目标主机下载恶意勒索木马"], "answer": "A", "hint": "Teardrop 攻击核心就是利用 IP 报文分片重组时的偏移量错位重叠制造内核崩溃", "explanation": "【官方考点与速通解析】\nIP 数据报在通过 MTU 较小的链路时会发生分片，接收方根据每个分片的“片偏移”（Fragment Offset）和载荷长度将它们拼装还原。\nTeardrop 攻击利用了操作系统 TCP/IP 协议栈在重组分片时的缺陷：人为伪造第二个分片的起始偏移量小于第一个分片的结束位置（产生重叠与负长度），导致目标内核在计算拷贝内存长度时发生缓冲区下溢或系统崩溃蓝屏。选 A。"}, {"id": "p2_m32", "number": 32, "title": "在配置 Cisco 交换机端口镜像（SPAN）时，若希望将端口 FastEthernet 0/1 的双向流量完整复制镜像到接入网络监控仪的端口 FastEthernet 0/24，正确的配置命令序列是（ ）。", "options": ["A. monitor session 1 source interface f0/1 both\nmonitor session 1 destination interface f0/24", "B. mirror f0/1 to f0/24", "C. span interface f0/1 f0/24", "D. copy f0/1 f0/24"], "answer": "A", "hint": "Cisco SPAN 标准配置命令：monitor session <ID> source ... / monitor session <ID> destination ...", "explanation": "【官方考点与速通解析】\nCisco 交换机端口镜像（SPAN，Switched Port Analyzer）标准语法：\n1. 定义监控会话源端口：`monitor session 1 source interface fastethernet 0/1 both`（both 表示同时监听入向 rx 和出向 tx 流量）；\n2. 定义监控会话目的端口：`monitor session 1 destination interface fastethernet 0/24`。\n故选 A。"}, {"id": "p2_m33", "number": 33, "title": "数字证书是网络安全身份认证的基础凭证。根据 X.509 标准，数字证书中绑定的核心要素是（ ）。", "options": ["A. 用户的身份实体信息与用户的公钥（Public Key），以及 CA 的数字签名", "B. 用户的银行卡账号与明文私钥", "C. 用户的 IP 地址与网卡物理 MAC 地址", "D. 用户的浏览器指纹与操作历史记录"], "answer": "A", "hint": "数字证书由 CA 机构签发，用于证明某个公钥合法属于某个身份实体", "explanation": "【官方考点与速通解析】\nX.509 数字证书的作用就像“网络电子身份证”：权威证书颁发机构（CA）使用自己的私钥对包含【持有者身份信息、持有者公钥、有效期限、算法标识】等在内的数据结构进行数字签名。任何接收方只要使用权威 CA 的公钥验证签名有效，即可确信该公钥真实属于该持有者，有效防止公钥中间人替换攻击。选 A。"}, {"id": "p2_m34", "number": 34, "title": "在 Windows Server 中配置 DNS 服务器时，若希望解析外部互联网未知域名（如 www.google.com），通常可在 DNS 属性中配置（ ），将解析请求转发给指定的公共 DNS 服务器。", "options": ["A. 转发器（Forwarder）", "B. 反向查找区域", "C. WINS 代理", "D. 动态 DHCP 作用域"], "answer": "A", "hint": "自身无法解析的外网域名通过 DNS 转发器（Forwarder）转发给上级或公共 DNS 解析", "explanation": "【官方考点与速通解析】\nDNS 转发器（Forwarder）用于当本地 DNS 服务器对于客户端请求的非本地权威区域域名无法解析时，将该 DNS 查询请求原样转发给指定的外部 DNS 服务器（如 114.114.114.114 或 8.8.8.8）进行递归查询，从而加速解析响应并节省企业网关递归开销。选 A。"}, {"id": "p2_m35", "number": 35, "title": "在 Serv-U FTP 服务器的目录访问权限设置中，下列哪项权限允许用户向服务器上传新文件，但不允许删除已有文件？（ ）", "options": ["A. 写入（Write）权限", "B. 删除（Delete）权限", "C. 执行（Execute）权限", "D. 列表（List）权限"], "answer": "A", "hint": "写入权限用于上传新建文件；删除权限用于清除已有文件", "explanation": "【官方考点与速通解析】\nServ-U 文件权限细分：\n- 读取（Read）：允许客户端从 FTP 服务器下载文件；\n- 写入（Write）：允许客户端向目录中上传新建文件；\n- 追加（Append）：允许在已有文件后继续断点续传追加内容；\n- 删除（Delete）：允许客户端彻底删除服务器上的已有文件；\n- 执行（Execute）：运行文件。\n因此只需开启写入权限即可满足要求，选 A。"}, {"id": "p2_m36", "number": 36, "title": "在设计双机热备高可用网络架构时，两台出口路由器之间通过运行虚拟路由冗余协议（VRRP）对外提供唯一的虚拟网关 IP。关于 VRRP 的描述中，错误的是（ ）。", "options": ["A. VRRP 组内包含一台 Master 路由器和一台或多台 Backup 路由器", "B. 正常情况下，只有 Master 路由器负责响应针对虚拟 IP 的 ARP 请求与数据转发", "C. 当 Master 路由器发生硬件宕机时，Backup 路由器能在秒级内自动竞选晋升为 Master", "D. VRRP 协议要求组内的所有路由器必须使用完全相同的物理 MAC 地址"], "answer": "D", "hint": "各路由器具有各自真实的物理 MAC，虚拟网关使用的是虚拟 MAC（00-00-5E-00-01-XX）", "explanation": "【官方考点与速通解析】\nVRRP（虚拟路由冗余协议）工作机制：\n- 组内推选出 1 台 Master 承担转发，其余为 Backup 待命；\n- VRRP 组拥有一个虚拟 IP 地址和一个虚拟 MAC 地址（格式为 `00-00-5E-00-01-VRID`）；\n- 组内的各路由器硬件接口依然保留自己独立的真实物理 MAC 地址，不需要且不可能配置相同的物理 MAC。故 D 选项错误。"}, {"id": "p2_m37", "number": 37, "title": "在 Linux 系统或开源网络中，作为轻量级、高性能反向代理与 Web 服务器被广泛部署的是（ ）。", "options": ["A. Nginx", "B. Sendmail", "C. BIND", "D. Samba"], "answer": "A", "hint": "Nginx 是极高并发事件驱动型的 Web 与反向代理服务器", "explanation": "【官方考点与速通解析】\n- Nginx：高性能的 HTTP、反向代理和负载均衡服务器，采用异步事件驱动架构；\n- Sendmail：传统的开源邮件传输代理（MTA）；\n- BIND：经典的 DNS 域名服务器软件；\n- Samba：实现 Linux 与 Windows 之间文件和打印共享（SMB协议）的软件。选 A。"}, {"id": "p2_m38", "number": 38, "title": "在网络拓扑设计中，核心层、汇聚层和接入层构成了经典的三层分层网络设计模型。下列主要由汇聚层（Aggregation Layer）承担的功能是（ ）。", "options": ["A. 为终端用户提供安全接入与端口认证（802.1X）", "B. 实现超高速无阻塞的数据骨干交换转发", "C. 实施路由聚合汇总、访问控制策略（ACL）与部门间流量隔离隔离", "D. 提供 Internet 边界 NAT 转换与运营商 BGP 对等互联"], "answer": "C", "hint": "接入层做端口安全与接入；汇聚层做策略过滤（ACL）、路由汇聚与网关；核心层做高速转发", "explanation": "【官方考点与速通解析】\n分层网络模型三层定位：\n- 接入层（Access）：直接面对桌面 PC 和 AP，负责终端接入、端口安全、VLAN 打标、PoE 供电；\n- 汇聚层（Distribution/Aggregation）：连接接入层与核心层，负责 VLAN 网关路由、路由汇总（聚合）、访问控制列表（ACL）策略实施、广播域终结；\n- 核心层（Core）：充当高速网络骨干，要求高吞吐、极低延迟、零策略无阻塞快速转发。故选 C。"}, {"id": "p2_m39", "number": 39, "title": "随着工业互联网与智能终端的普及，数据处理模式正在向“边缘计算”（Edge Computing）演进。边缘计算相比传统集中式云计算的最大优势在于（ ）。", "options": ["A. 在靠近数据源的网络边缘侧直接进行低时延、高实时的本地化数据处理", "B. 能够彻底替代数据中心集中式大规模 AI 模型训练", "C. 不需要任何底层网络通信协议支持", "D. 彻底消除了所有本地计算存储硬件"], "answer": "A", "hint": "边缘计算核心特点是“靠近数据产生源头”，解决网络带宽瓶颈与毫秒级时延要求", "explanation": "【官方考点与速通解析】\n边缘计算将算力和存储推向网络边缘（如智能网关、基站边缘服务器）。对于自动驾驶、工业机器人控制、视频实时分析等时延极其敏感的业务，无需将全部海量原始数据回传到千里之外的集中云端，在本地边缘就能在几毫秒内做出决策，既释放了骨干网带宽压力，又保证了高实时性。选 A。"}, {"id": "p2_m40", "number": 40, "title": "在网络运维中，当用户报告无法通过主机名访问内部办公系统，但可以通过直接输入 IP 地址正常访问时，最可能出现故障的系统服务是（ ）。", "options": ["A. DHCP 服务故障", "B. DNS 域名解析服务故障", "C. 核心交换机 VLAN 划分错误", "D. 物理网线接触不良断开"], "answer": "B", "hint": "能通 IP、通不了域名，100% 是 DNS 域名解析出了问题", "explanation": "【官方考点与速通解析】\n网络故障诊断黄金法则：\n能够直接通过 IP 地址访问，说明从物理层（网线）、数据链路层（VLAN/交换）、网络层（IP/路由）到传输层和应用层均完全通畅且网络可达；\n而无法通过主机域名访问，说明唯一的阻断点发生在“主机名到 IP 地址的转换过程”，即本地配置的 DNS 服务器故障、DNS 地址错误或 DNS 记录未配置。选 B。"}], "comprehensives": [{"id": "p2_c1", "number": 1, "score": 10, "title": "综合题一：IP 地址规划与子网聚合分析（10分）", "description": "某企业内网主机分配的 IPv4 地址为 10.20.130.45/19。请回答下列关于该网络规划的计算参数：", "subquestions": [{"id": "p2_c1_1", "score": 2, "prompt": "【空 1】该地址块的子网掩码（点分十进制格式）为：", "placeholder": "例如: 255.255.xxx.xxx", "answer": ["255.255.224.0"], "hint": "/19 即第 3 字节高 3 位为 1（11100000 = 224）"}, {"id": "p2_c1_2", "score": 2, "prompt": "【空 2】该主机所在子网的网络地址为：", "placeholder": "例如: 10.20.xxx.0", "answer": ["10.20.128.0"], "hint": "130 与 224 按位与得 128"}, {"id": "p2_c1_3", "score": 2, "prompt": "【空 3】该子网的直接广播地址为：", "placeholder": "例如: 10.20.xxx.255", "answer": ["10.20.159.255"], "hint": "128 + 31 = 159"}, {"id": "p2_c1_4", "score": 2, "prompt": "【空 4】该子网第一个可分配给主机的有效 IP 地址为：", "placeholder": "例如: 10.20.xxx.1", "answer": ["10.20.128.1"], "hint": "网络地址 + 1"}, {"id": "p2_c1_5", "score": 2, "prompt": "【空 5】该子网内理论上最多可容纳的主机总数为（填整数）：", "placeholder": "例如: 8190", "answer": ["8190"], "hint": "主机位 = 32 - 19 = 13 位，2^13 - 2 = 8192 - 2"}], "explanation": "【官方考点与解析】\n1. 子网掩码：/19 表示前 19 位为 1，第 3 字节为 11100000（128+64+32=224），点分十进制为 255.255.224.0；\n2. 网络地址：第 3 字节 130（10000010）与掩码 224（11100000）按位与得 10000000（128），网络地址为 10.20.128.0；\n3. 广播地址：主机位共 13 位置 1。第 3 字节低 5 位置 1 得 128 + 31 = 159，第 4 字节全 1 得 255，广播地址为 10.20.159.255；\n4. 第一个有效主机 IP：10.20.128.1；最后一个有效主机 IP：10.20.159.254；\n5. 最大容纳主机数：2^13 - 2 = 8192 - 2 = 8190 台。"}, {"id": "p2_c2", "number": 2, "score": 10, "title": "综合题二：交换机 VLAN 与扩展访问控制列表（ACL）配置（10分）", "description": "某企业内网划分了两个部门 VLAN：财务部（VLAN 10，网段 192.168.10.0/24）和市场部（VLAN 20，网段 192.168.20.0/24）。内网服务器 IP 为 192.168.10.100，提供 Web（HTTP 80）服务。管理员要求在核心三层交换机上配置扩展 ACL 101，允许市场部访问财务部 Web 服务器的 80 端口，但拒绝市场部访问财务部的其他任何业务端口。\n\n请阅读并补全下列配置命令：", "code_snippet": "Switch(config)# vlan 10\nSwitch(config-vlan)# name Finance\nSwitch(config-vlan)# exit\nSwitch(config)# interface vlan 10\nSwitch(config-if)# ip address 192.168.10.1 255.255.255.0\nSwitch(config-if)# exit\nSwitch(config)# access-list 101 permit 【空 1】 192.168.20.0 0.0.0.255 host 192.168.10.100 eq 【空 2】\nSwitch(config)# access-list 101 【空 3】 ip 192.168.20.0 0.0.0.255 192.168.10.0 【空 4】\nSwitch(config)# interface fastethernet 0/24\nSwitch(config-if)# switchport mode 【空 5】\nSwitch(config-if)# switchport trunk encapsulation dot1q", "subquestions": [{"id": "p2_c2_1", "score": 2, "prompt": "【空 1】允许 Web 访问所基于的传输层协议名称（小写英文）：", "placeholder": "填 tcp 或 udp", "answer": ["tcp"], "hint": "Web HTTP 服务基于 TCP 协议传输"}, {"id": "p2_c2_2", "score": 2, "prompt": "【空 2】Web 服务的标准 TCP 端口号：", "placeholder": "例如: 80 或 www", "answer": ["80", "www"], "hint": "HTTP 标准服务端口号 80"}, {"id": "p2_c2_3", "score": 2, "prompt": "【空 3】拒绝市场部访问财务部其他流量的动作关键字（英文）：", "placeholder": "填 deny 或 reject", "answer": ["deny"], "hint": "ACL 中允许为 permit，拒绝为 deny"}, {"id": "p2_c2_4", "score": 2, "prompt": "【空 4】财务部网段 192.168.10.0/24 对应的通配符反掩码：", "placeholder": "例如: 0.0.0.255", "answer": ["0.0.0.255"], "hint": "/24 对应反掩码 0.0.0.255"}, {"id": "p2_c2_5", "score": 2, "prompt": "【空 5】将 FastEthernet 0/24 端口配置为中继链路模式的命令参数：", "placeholder": "填 trunk 或 access", "answer": ["trunk"], "hint": "级联多 VLAN 中继模式为 trunk"}], "explanation": "【官方考点与速通解析】\n1. 空 1：HTTP 协议基于 TCP 传输层协议，因此配置 `permit tcp ...`；\n2. 空 2：HTTP 服务的标准端口号为 80，命令中填写 `eq 80` 或 `eq www`；\n3. 空 3：ACL 的动作关键字只有 `permit`（允许）和 `deny`（拒绝），此处要求拒绝访问其他服务，填 `deny`；\n4. 空 4：/24 掩码是 255.255.255.0，其通配符反掩码为 255.255.255.255 - 255.255.255.0 = 0.0.0.255；\n5. 空 5：级联 Trunk 链路配置命令为 `switchport mode trunk`。"}, {"id": "p2_c3", "number": 3, "score": 10, "title": "综合题三：DNS 服务器与 Serv-U FTP 高级配置（10分）", "description": "某单位使用 Windows Server 搭建企业内部网络服务。管理员在 DNS 控制台中新建了一个正向查找区域 `tech.com`，并在该区域下为内网 Web 服务器创建了名为 `www` 的主机记录，对应 IP 为 `202.113.64.10`；同时管理员创建了一个 Serv-U FTP 站点，要求监听在默认端口，并将最大并发连接数限制为 100。\n\n请阅读说明并回答下列配置参数填空：", "subquestions": [{"id": "p2_c3_1", "score": 2, "prompt": "【空 1】在 DNS 正向查找区域中，为 www.tech.com 映射 IPv4 地址所创建的记录类型名称为：", "placeholder": "填 A 记录 或 PTR 或 CNAME", "answer": ["A记录", "A", "A 记录"], "hint": "正向地址记录为 A 记录"}, {"id": "p2_c3_2", "score": 2, "prompt": "【空 2】若为该网站设置别名 ftp.tech.com 指向同一台主机，应创建的记录类型是：", "placeholder": "例如: CNAME", "answer": ["CNAME", "CNAME记录", "别名"], "hint": "别名记录为 CNAME（Canonical Name）"}, {"id": "p2_c3_3", "score": 2, "prompt": "【空 3】Serv-U FTP 服务的默认命令控制端口号是（填数字）：", "placeholder": "例如: 21", "answer": ["21"], "hint": "FTP 控制连接标准端口为 TCP 21"}, {"id": "p2_c3_4", "score": 2, "prompt": "【空 4】在 Serv-U 域限制与设置中，限制该站点最多允许同时在线的用户连接数为（填题干要求数字）：", "placeholder": "例如: 100", "answer": ["100"], "hint": "题干明确要求最大并发连接数限制为 100"}, {"id": "p2_c3_5", "score": 2, "prompt": "【空 5】在被动模式（PASV）下，向 FTP 服务器主动发起数据连接建立请求的一端是（填客户端或服务器）：", "placeholder": "填 客户端 或 服务器", "answer": ["客户端", "Client"], "hint": "被动模式 PASV 下由客户端向服务器开放的动态端口主动发起数据连接"}], "explanation": "【官方考点与速通解析】\n1. 空 1：DNS 正向解析建立域名到 IPv4 的映射是 A 记录；\n2. 空 2：给已有的正向主机记录赋予别名是 CNAME（规范名称记录）；\n3. 空 3：FTP 控制端口为 TCP 21（数据端口主动模式为 20）；\n4. 空 4：最大用户并发连接数配置为 100；\n5. 空 5：FTP 模式区分：\n   - 主动模式（PORT）：客户端从 1024 以上端口连接服务器 21 端口，服务器从 20 端口主动连接客户端的数据端口；\n   - 被动模式（PASV）：客户端连接服务器 21 端口发送 PASV 命令，服务器开启一个临时高位端口，由【客户端】向服务器临时端口主动发起数据连接（这对穿透客户端防火墙极其有利）。"}, {"id": "p2_c4", "number": 4, "score": 10, "title": "综合题四：Wireshark 抓取 TCP 三次握手过程报文分析（10分）", "description": "某网管在主机（IP：192.168.1.100）上使用 Wireshark 抓取访问 Web 服务器（IP：202.112.96.3:80）的数据包。下图是捕获到的 TCP 三次握手第一步数据包的解码信息：", "code_snippet": "Frame 1: 66 bytes on wire\nInternet Protocol Version 4, Src: 192.168.1.100, Dst: 202.112.96.3\nTransmission Control Protocol, Src Port: 51234, Dst Port: 80, Seq: 0, Len: 0\n    Source Port: 51234\n    Destination Port: 80\n    Sequence Number: 0 (relative sequence number)\n    Acknowledgment Number: 0\n    Header Length: 32 bytes\n    Flags: 0x002 (SYN)\n        000. .... .... = Reserved: Set\n        .... ..0. .... = Acknowledgment: Not set\n        .... ...0 .... = Push: Not set\n        .... .... 0... = Reset: Not set\n        .... .... .0.. = Syn: Set (1)\n        .... .... ..0. = Fin: Not set\n    Window size value: 64240", "subquestions": [{"id": "p2_c4_1", "score": 2, "prompt": "【空 1】该报文是 TCP 三次握手第 1 个报文，其激活的标志位是（填三个字母）：", "placeholder": "例如: SYN 或 ACK", "answer": ["SYN"], "hint": "Flags: 0x002 对应 SYN 置 1"}, {"id": "p2_c4_2", "score": 2, "prompt": "【空 2】客户端通信程序所使用的本地临时源端口号是（填数字）：", "placeholder": "例如: 51234", "answer": ["51234"], "hint": "看 Src Port: 51234"}, {"id": "p2_c4_3", "score": 2, "prompt": "【空 3】服务器收到该 SYN 报文后，回复的第 2 次握手报文中同时置 1 的两个标志位是（格式：XXX+XXX）：", "placeholder": "例如: SYN+ACK", "answer": ["SYN+ACK", "SYN/ACK", "SYN ACK"], "hint": "第 2 步握手由服务器响应 SYN+ACK"}, {"id": "p2_c4_4", "score": 2, "prompt": "【空 4】若第 1 次握手客户端初始序列号 Seq 为 1000，则第 2 次握手服务器返回的确认号 Ack 应为（填数字）：", "placeholder": "例如: 1001", "answer": ["1001"], "hint": "SYN 报文虽然载荷为 0，但逻辑上消耗 1 个序号，Ack = Seq + 1"}, {"id": "p2_c4_5", "score": 2, "prompt": "【空 5】客户端建立连接后随后发起的 HTTP GET 请求，其传输层协议采用的是（填 TCP 或 UDP）：", "placeholder": "填 TCP 或 UDP", "answer": ["TCP"], "hint": "HTTP/1.1 基于 TCP 传输"}], "explanation": "【官方考点与速通解析】\nTCP 三次握手过程详解：\n1. 第一次握手（Client -> Server）：客户端发送连接请求报文，标志位 SYN = 1，ACK = 0，随机选择初始序号 Seq = x（相对序号显示为 0）。源端口为客户端随机端口 51234，目的端口为 80。\n2. 第二次握手（Server -> Client）：服务器收到后同意建立连接，回复响应报文，标志位 SYN = 1 且 ACK = 1；同时确认号 Ack = x + 1（因为 SYN 占用 1 个逻辑序号），并产生服务器自身的初始序列号 Seq = y。\n3. 第三次握手（Client -> Server）：客户端回复最终确认报文，标志位 ACK = 1，Seq = x + 1，Ack = y + 1。至此 TCP 全双工连接正式建立，随后发起应用层 HTTP GET 请求。"}], "applied": {"id": "p2_app1", "number": 1, "score": 20, "title": "应用题：企业园区网络分层拓扑汇聚路由规划与 VLSM 划分（20分）", "description": "某高新技术园区网络拓扑结构如下图所示。园区核心路由器 R-Core 通过高速光纤串行链路 S0/0 和 S0/1 分别连接第一分部汇聚路由器 R-Agg1 和第二分部汇聚路由器 R-Agg2。\n\n【拓扑参数与网段规划】\n1. R-Core 到 R-Agg1 的直连点对点链路包含 IP：10.10.1.1 和 10.10.1.2（掩码 /30）；\n2. R-Core 到 R-Agg2 的直连点对点链路包含 IP：10.10.1.5 和 10.10.1.6（掩码 /30）；\n3. R-Agg1 下辖三个连续研发子网：10.10.16.0/24、10.10.17.0/24、10.10.18.0/24、10.10.19.0/24；\n4. R-Agg2 下辖四个连续生产子网：10.10.32.0/24、10.10.33.0/24、10.10.34.0/24、10.10.35.0/24；\n5. R-Agg1 上联端口为 S0/0，R-Agg2 上联端口为 S0/1。", "svg_diagram": "<svg viewBox=\"0 0 760 360\" width=\"100%\" height=\"300\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"gRouter2\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n      <stop offset=\"0%\" stop-color=\"#0284c7\"/>\n      <stop offset=\"100%\" stop-color=\"#0369a1\"/>\n    </linearGradient>\n    <linearGradient id=\"gSwitch2\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n      <stop offset=\"0%\" stop-color=\"#6366f1\"/>\n      <stop offset=\"100%\" stop-color=\"#4f46e5\"/>\n    </linearGradient>\n  </defs>\n  <rect width=\"100%\" height=\"100%\" fill=\"#f1f5f9\" rx=\"12\"/>\n  <text x=\"380\" y=\"30\" font-size=\"16\" font-weight=\"bold\" fill=\"#0f172a\" text-anchor=\"middle\">企业园区汇聚与核心分层拓扑图</text>\n  \n  <!-- Core Router -->\n  <circle cx=\"380\" cy=\"75\" r=\"28\" fill=\"url(#gRouter2)\" stroke=\"#0c4a6e\" stroke-width=\"2\"/>\n  <text x=\"380\" y=\"80\" font-size=\"13\" font-weight=\"bold\" fill=\"#ffffff\" text-anchor=\"middle\">R-Core</text>\n  <text x=\"380\" y=\"118\" font-size=\"11\" fill=\"#475569\" text-anchor=\"middle\">园区核心 (R-Core)</text>\n\n  <!-- Serial Links -->\n  <line x1=\"355\" y1=\"90\" x2=\"210\" y2=\"160\" stroke=\"#475569\" stroke-width=\"2.5\" stroke-dasharray=\"5\"/>\n  <text x=\"250\" y=\"115\" font-size=\"11\" fill=\"#0369a1\" font-weight=\"bold\">S0/0 (10.10.1.0/30)</text>\n\n  <line x1=\"405\" y1=\"90\" x2=\"550\" y2=\"160\" stroke=\"#475569\" stroke-width=\"2.5\" stroke-dasharray=\"5\"/>\n  <text x=\"490\" y=\"115\" font-size=\"11\" fill=\"#0369a1\" font-weight=\"bold\">S0/1 (10.10.1.4/30)</text>\n\n  <!-- Aggregation Routers -->\n  <circle cx=\"210\" cy=\"175\" r=\"26\" fill=\"url(#gRouter2)\" stroke=\"#0c4a6e\" stroke-width=\"2\"/>\n  <text x=\"210\" y=\"180\" font-size=\"12\" font-weight=\"bold\" fill=\"#ffffff\" text-anchor=\"middle\">R-Agg1</text>\n\n  <circle cx=\"550\" cy=\"175\" r=\"26\" fill=\"url(#gRouter2)\" stroke=\"#0c4a6e\" stroke-width=\"2\"/>\n  <text x=\"550\" y=\"180\" font-size=\"12\" font-weight=\"bold\" fill=\"#ffffff\" text-anchor=\"middle\">R-Agg2</text>\n\n  <!-- Links to Buildings -->\n  <line x1=\"190\" y1=\"195\" x2=\"130\" y2=\"255\" stroke=\"#94a3b8\" stroke-width=\"2\"/>\n  <line x1=\"230\" y1=\"195\" x2=\"290\" y2=\"255\" stroke=\"#94a3b8\" stroke-width=\"2\"/>\n  <line x1=\"530\" y1=\"195\" x2=\"470\" y2=\"255\" stroke=\"#94a3b8\" stroke-width=\"2\"/>\n  <line x1=\"570\" y1=\"195\" x2=\"630\" y2=\"255\" stroke=\"#94a3b8\" stroke-width=\"2\"/>\n\n  <!-- Subnet Boxes -->\n  <rect x=\"100\" y=\"255\" width=\"80\" height=\"32\" rx=\"6\" fill=\"url(#gSwitch2)\"/>\n  <text x=\"140\" y=\"275\" font-size=\"11\" fill=\"#ffffff\" text-anchor=\"middle\">10.10.16.0/24</text>\n\n  <rect x=\"250\" y=\"255\" width=\"80\" height=\"32\" rx=\"6\" fill=\"url(#gSwitch2)\"/>\n  <text x=\"290\" y=\"275\" font-size=\"11\" fill=\"#ffffff\" text-anchor=\"middle\">10.10.17.0/24</text>\n\n  <rect x=\"430\" y=\"255\" width=\"80\" height=\"32\" rx=\"6\" fill=\"url(#gSwitch2)\"/>\n  <text x=\"470\" y=\"275\" font-size=\"11\" fill=\"#ffffff\" text-anchor=\"middle\">10.10.32.0/24</text>\n\n  <rect x=\"590\" y=\"255\" width=\"80\" height=\"32\" rx=\"6\" fill=\"url(#gSwitch2)\"/>\n  <text x=\"630\" y=\"275\" font-size=\"11\" fill=\"#ffffff\" text-anchor=\"middle\">10.10.33.0/24</text>\n\n  <text x=\"210\" y=\"325\" font-size=\"12\" fill=\"#1e293b\" text-anchor=\"middle\">分部一汇聚超网: 10.10.16.0/22</text>\n  <text x=\"550\" y=\"325\" font-size=\"12\" fill=\"#1e293b\" text-anchor=\"middle\">分部二汇聚超网: 10.10.32.0/22</text>\n</svg>", "subquestions": [{"id": "p2_app1_1", "score": 3, "prompt": "【空 1】R-Core 到 R-Agg1 的直连链路（IP为10.10.1.1和10.10.1.2）的网络地址及掩码长度为：", "placeholder": "例如: 10.10.1.0/30", "answer": ["10.10.1.0/30"], "hint": "1 和 2 属于 10.10.1.0/30 网段"}, {"id": "p2_app1_2", "score": 3, "prompt": "【空 2】R-Core 到 R-Agg2 的直连链路（IP为10.10.1.5和10.10.1.6）的网络地址及掩码长度为：", "placeholder": "例如: 10.10.1.4/30", "answer": ["10.10.1.4/30"], "hint": "5 和 6 属于 10.10.1.4/30 网段"}, {"id": "p2_app1_3", "score": 3, "prompt": "【空 3】R-Agg1 下辖四个研发子网（10.10.16.0/24 ~ 10.10.19.0/24）汇聚后的超网路由条目为：", "placeholder": "例如: 10.10.16.0/22", "answer": ["10.10.16.0/22"], "hint": "16~19 连续 4 个 /24 汇聚为 /22"}, {"id": "p2_app1_4", "score": 3, "prompt": "【空 4】R-Agg2 下辖四个生产子网（10.10.32.0/24 ~ 10.10.35.0/24）汇聚后的超网路由条目为：", "placeholder": "例如: 10.10.32.0/22", "answer": ["10.10.32.0/22"], "hint": "32~35 连续 4 个 /24 汇聚为 /22"}, {"id": "p2_app1_5", "score": 2, "prompt": "【空 5】为实现内网主机的双网关冗余热备，在汇聚层交换机之间最常启用的网关冗余国际标准协议是（填大写英文）：", "placeholder": "填 VRRP 或 HSRP", "answer": ["VRRP"], "hint": "VRRP（虚拟路由器冗余协议）为开放国际标准协议"}, {"id": "p2_app1_6", "score": 6, "prompt": "【空 6】现将地址块 172.16.1.0/24 分配给三个部门：研发部（需 100 台主机）、市场部（需 50 台主机）、财务部（需 25 台主机）。请写出【研发部】和【市场部】划分后的子网掩码：", "placeholder": "格式: 研发部:255.255.255.128; 市场部:255.255.255.192", "answer": ["研发部:255.255.255.128; 市场部:255.255.255.192", "255.255.255.128 255.255.255.192", "255.255.255.128, 255.255.255.192"], "hint": "100 台主机需 2^7=128（/25，掩码 255.255.255.128）；50 台主机需 2^6=64（/26，掩码 255.255.255.192）"}], "explanation": "【官方考点与解析】\n1. 点对点链路计算：\n   - 10.10.1.1 和 10.10.1.2 占用块大小为 4（0~3），网络地址为 10.10.1.0/30；\n   - 10.10.1.5 和 10.10.1.6 占用块大小为 4（4~7），网络地址为 10.10.1.4/30；\n2. 路由汇聚计算：\n   - 研发部 16、17、18、19：第三字节分别为 00010000、00010001、00010010、00010011，前 6 位相同，汇聚后掩码长度由 24 变为 22 位，网络地址为 10.10.16.0/22；\n   - 生产部 32、33、34、35：第三字节分别为 00100000 ~ 00100011，汇聚后为 10.10.32.0/22；\n3. 网关冗余协议：VRRP（虚拟路由器冗余协议，RFC 标准；HSRP 为 Cisco 私有）；\n4. VLSM 划分计算：\n   - 研发部（100 台主机）：主机位需 7 位（2^7 - 2 = 126 > 100），前缀为 32 - 7 = 25 位。子网掩码：255.255.255.128。网段：172.16.1.0/25，可用范围 172.16.1.1 ~ 172.16.1.126；\n   - 市场部（50 台主机）：主机位需 6 位（2^6 - 2 = 62 > 50），前缀为 32 - 6 = 26 位。子网掩码：255.255.255.192。网段：172.16.1.128/26，可用范围 172.16.1.129 ~ 172.16.1.190。"}}, {"id": "paper3", "title": "全国计算机等级考试三级网络技术·全真模拟试卷（三）", "subtitle": "前沿演进与冲刺密押卷 · 聚焦 IPv6、云安全与现代网络技术", "duration": 120, "total_score": 100, "mcq_score": 40, "comp_score": 40, "app_score": 20, "mcqs": [{"id": "p3_m1", "number": 1, "title": "光纤分布式数据接口（FDDI）采用双环拓扑结构。下列关于 FDDI 技术的描述中，错误的是（ ）。", "options": ["A. FDDI 采用光纤作为物理传输介质，标准传输速率为 100 Mbps", "B. FDDI 采用与 IEEE 802.5 令牌环类似的令牌传递（Token Ring）介质访问控制协议", "C. FDDI 主环和副环在正常工作状态下同时反向并发传输用户业务数据", "D. 当主环发生断裂时，主环与副环可在故障两端自动环回（Wrap），重构为单环"], "answer": "C", "hint": "FDDI 正常情况下只有主环传输数据，副环作为热备份；只有故障环回时才闭合使用", "explanation": "【官方考点与速通解析】\nFDDI（光纤分布式数据接口）核心特性：\n- 传输介质为光纤，速率为 100 Mbps，最大环路长度为 100 km；\n- 采用双环结构（主环与副环），【正常工作时只有主环负责传输数据】，副环处于完全空闲的待命备用状态（与 RPR 两环均传数据不同！）；\n- 当主环出现单点断纤故障时，邻近断点的两台站点会自动将主环与副环短接，形成一个闭合的大单环自愈运行。故 C 选项描述错误。"}, {"id": "p3_m2", "number": 2, "title": "某企业核心交换机拥有 32 个 1000 Mbps 千兆全双工光端口和 4 个 10 Gbps 万兆全双工光端口。若要实现所有端口无阻塞线速交换，该交换机的背板交换容量至少应达到（ ）。", "options": ["A. 72 Gbps", "B. 144 Gbps", "C. 36 Gbps", "D. 288 Gbps"], "answer": "B", "hint": "总带宽 = 2 × (32 × 1Gbps + 4 × 10Gbps) = 2 × (32 + 40) = 144 Gbps", "explanation": "【官方考点与速通解析】\n背板带宽（交换容量）全双工线速计算公式：\n背板交换容量 ≥ 2 × ∑(端口数 × 端口额定速率)\n- 32 个千兆（1 Gbps）端口：32 × 1 Gbps = 32 Gbps\n- 4 个万兆（10 Gbps）端口：4 × 10 Gbps = 40 Gbps\n- 单向速率之和 = 32 + 40 = 72 Gbps\n- 全双工要求背板带宽 ≥ 72 Gbps × 2 = 144 Gbps。故选 B。"}, {"id": "p3_m3", "number": 3, "title": "某中小型数据中心网络系统的年度系统可用性设计目标为 99.9%。这意味着该数据中心一整年允许的非计划停机维护时间上限为（ ）。", "options": ["A. 5 分钟", "B. 53 分钟", "C. 8.8 小时", "D. 24 小时"], "answer": "C", "hint": "3个9（99.9%）对应 8.8 小时；4个9对应 53 分钟；5个9对应 5 分钟", "explanation": "【官方考点与速通解析】\n一年总时间 = 365 × 24 = 8760 小时。\n99.9% 的可用性意味着故障停机率不超过 0.1%：\n停机时间 ≤ 8760 小时 × 0.001 = 8.76 小时 ≈ 8.8 小时。选 C。"}, {"id": "p3_m4", "number": 4, "title": "某网络分配到的 IP 地址块为 192.168.64.0/21。该地址块的子网掩码用点分十进制表示为（ ）。", "options": ["A. 255.255.240.0", "B. 255.255.248.0", "C. 255.255.252.0", "D. 255.255.224.0"], "answer": "B", "hint": "/21 即前 21 位为 1，第 3 字节高 5 位为 1（11111000 = 248）", "explanation": "【官方考点与速通解析】\n/21 表示子网掩码有连续 21 个 1：\n- 第 1、2 字节：全 1，对应 255.255\n- 第 3 字节：高 5 位为 1，低 3 位为 0 -> 11111000 = 128 + 64 + 32 + 16 + 8 = 248\n- 第 4 字节：全 0，对应 0\n因此子网掩码为 255.255.248.0，选 B。"}, {"id": "p3_m5", "number": 5, "title": "在 Cisco 路由器上配置动态 NAPT（网络地址与端口多路复用）时，将内部私网 ACL 访问列表与外部公网出接口（如 FastEthernet 0/0）进行关联绑定的核心关键字是（ ）。", "options": ["A. overload", "B. pool", "C. static", "D. dynamic"], "answer": "A", "hint": "Cisco PAT/NAPT 命令末尾必加关键字 overload（过载）", "explanation": "【官方考点与速通解析】\nCisco 路由器配置端口多路复用 NAPT 的经典命令格式：\n`ip nat inside source list 1 interface fastethernet 0/0 overload`\n关键字 `overload`（过载）指示路由器使用出接口的单个公网 IP 地址，并通过分配不同的 TCP/UDP 源端口号来区分内部各主机的并发会话。故选 A。"}, {"id": "p3_m6", "number": 6, "title": "IPv6 规定了若干具有特定用途的专用保留地址。下列关于 IPv6 特殊地址的描述中，错误的是（ ）。", "options": ["A. ::1/128 表示本机环回地址（相当于 IPv4 的 127.0.0.1）", "B. ::/128 表示未指定地址（相当于 IPv4 的 0.0.0.0）", "C. fe80::/10 是链路本地单播地址（Link-Local Address）的前缀", "D. 2001::/16 是唯一的私有本地网络单播地址前缀"], "answer": "D", "hint": "私有本地地址（Unique Local Address，相当于私网IP）的前缀是 fc00::/7（或 fd00::/8），2001:: 是全球单播公网地址", "explanation": "【官方考点与速通解析】\nIPv6 经典地址分类：\n- `::1/128`：环回地址（Loopback）；\n- `::/128`：未指定地址（Unspecified）；\n- `fe80::/10`：链路本地地址（Link-Local），无需路由器在单个二层链路上自动生成并通信；\n- `fc00::/7`（特别是 `fd00::/8`）：唯一本地单播地址（ULA，相当于 IPv4 私网私有地址）；\n- `2000::/3`（包含 `2001::/16`）：全球单播地址（GUA，公网可路由地址）。故 D 错误。"}, {"id": "p3_m7", "number": 7, "title": "IEEE 802.11ac（Wi-Fi 5）是现代无线网络的主力规范。下列关于 802.11ac 的描述中，错误的是（ ）。", "options": ["A. 802.11ac 仅工作在 5 GHz 纯净频段，完全不占用拥挤的 2.4 GHz 频段", "B. 802.11ac 引入了下行多用户多输入多输出（DL MU-MIMO）技术", "C. 802.11ac 最大信道频宽可绑定达到 80 MHz 甚至 160 MHz", "D. 802.11ac 最高理论传输速率受限于 54 Mbps"], "answer": "D", "hint": "802.11ac 理论最高速率可达数 Gbps，54 Mbps 是老旧的 802.11a/g 速率", "explanation": "【官方考点与速通解析】\nIEEE 802.11ac（Wi-Fi 5）特性：\n- 只工作在 5 GHz 频段（2.4 GHz 由 802.11n 继续承担）；\n- 采用 256-QAM 调制，信道频宽扩至 80/160 MHz，支持 8 空间流；\n- 支持下行 MU-MIMO；\n- 最高理论物理层协商速率超过 1 Gbps（最高可达 3.47~6.9 Gbps），绝不是 54 Mbps。故选 D。"}, {"id": "p3_m8", "number": 8, "title": "在无源光网络（PON）技术标准中，吉比特无源光网络（GPON）是由 ITU-T 制定的大带宽标准。GPON 系统的标准下行和上行非对称速率分别为（ ）。", "options": ["A. 下行 2.488 Gbps，上行 1.244 Gbps", "B. 下行 1.25 Gbps，上行 1.25 Gbps", "C. 下行 10 Gbps，上行 10 Gbps", "D. 下行 100 Mbps，上行 100 Mbps"], "answer": "A", "hint": "GPON 下行 2.5G（2.488Gbps），上行 1.25G（1.244Gbps）；EPON 上下行对称 1.25Gbps", "explanation": "【官方考点与速通解析】\nPON 标准速率对比：\n- EPON（IEEE 802.3ah）：基于千兆以太网，上下行对称速率为 1.25 Gbps；\n- GPON（ITU-T G.984）：采用 GEM 封装协议，标准速率为下行 2.488 Gbps、上行 1.244 Gbps（也可以支持对称 2.488 Gbps），传输效率与分光比均优于 EPON。选 A。"}, {"id": "p3_m9", "number": 9, "title": "在服务器独立磁盘冗余阵列（RAID）技术中，RAID 5 兼顾了存储性能、数据安全与成本。关于 RAID 5 的描述中，正确的是（ ）。", "options": ["A. RAID 5 组建阵列至少需要 2 块物理硬盘", "B. RAID 5 将奇偶校验信息集中保存在一块专用的独立校验盘上", "C. RAID 5 采用分布式奇偶校验，允许阵列中最多同时损坏 1 块硬盘而数据不丢失", "D. RAID 5 阵列的实际有效存储容量等于所有物理硬盘容量的直接累加"], "answer": "C", "hint": "RAID 5 至少需 3 块盘，奇偶校验循环均匀分布在各盘，只允许坏 1 块盘，容量为 (N-1)×单盘容量", "explanation": "【官方考点与速通解析】\nRAID 5 核心机制：\n- 最少磁盘数：至少需要 3 块物理硬盘；\n- 校验机制：采用分布式奇偶校验（Parity 分布在所有磁盘上，没有专用校验盘，避免了写瓶颈，专用校验盘是 RAID 3/4）；\n- 容错能力：允许任意损坏 1 块磁盘，更换后可利用其余盘数据重构；若同时坏 2 块则数据损毁（允许坏 2 块的是 RAID 6）；\n- 有效可用容量：(N - 1) × 磁盘单盘容量（损失 1 块盘的空间作为校验）。故选 C。"}, {"id": "p3_m10", "number": 10, "title": "边界网关协议（BGP-4）在运行过程中定义了 4 种报文类型。其中用于在发生协议差错或需要关闭 BGP 会话时通知对等体的报文是（ ）。", "options": ["A. Open 报文", "B. Update 报文", "C. Keepalive 报文", "D. Notification 报文"], "answer": "D", "hint": "Notification 报文专用于报告差错并断开 BGP 连接", "explanation": "【官方考点与速通解析】\nBGP-4 的 4 种报文类型及职责：\n1. Open 报文：在 TCP 连接建立后，用于建立 BGP 对等体连接并协商参数（如 AS 号、BGP 版本、Hold time）；\n2. Update 报文：通告可达路由更新或撤销不可达路由；\n3. Keepalive 报文：周期性（通常 60 秒）发送，用于维持 BGP 连接有效性；\n4. Notification 报文：检测到错误或异常时发送，通知对方错误原因并立即断开 BGP 会话。选 D。"}, {"id": "p3_m11", "number": 11, "title": "在大型 OSPF 网络中，为了减小非骨干区域内路由器的路由表规模和 LSDB 内存占用，通常将边缘区域配置为末梢区域（Stub Area）。在 Stub 区域内部绝不允许泛洪的 LSA 类型是（ ）。", "options": ["A. Type 1 LSA（Router LSA）", "B. Type 2 LSA（Network LSA）", "C. Type 3 LSA（Summary LSA）", "D. Type 5 LSA（AS External LSA）"], "answer": "D", "hint": "Stub 区域彻底阻断 5 类外部 LSA，由 ABR 注入一条默认 3 类路由代替", "explanation": "【官方考点与速通解析】\nOSPF 特殊区域规则：\n- Stub（末梢）区域：阻断由 ASBR 产生的 Type 4（ASBR Summary）和 Type 5（AS External）外部 LSA，由区域边界路由器（ABR）自动生成一条指向自身的 Type 3 默认路由（0.0.0.0/0）发布给区域内路由器，极大缩减了路由表；\n- Totally Stub（完全末梢）区域：不仅阻断 Type 4 和 Type 5，还阻断除默认路由外的所有 Type 3 LSA。故选 D。"}, {"id": "p3_m12", "number": 12, "title": "三层交换机（Layer 3 Switch）在局域网内部实现了线速的路由转发。其赖以实现线速吞吐的核心硬件机制通常被称为（ ）。", "options": ["A. 软件慢速转发", "B. 一次路由，多次交换（基于硬件 ASIC/CEF 转发）", "C. 纯 CPU 逐包解封装计算", "D. 周期性广播泛洪"], "answer": "B", "hint": "经典考点：“一次路由，多次交换”（或基于硬件 FIB / 邻接表的 CEF 快速转发）", "explanation": "【官方考点与速通解析】\n传统路由器依赖 CPU 操作系统对每个数据包逐包解封装、查路由表计算下一跳并重新封帧，速度受限。\n三层交换机结合了二层交换的高速与三层路由的灵活，其核心机制是“一次路由，多次交换”：首个数据包触发路由引擎计算，随即将路由和 ARP 结果固化下载到专用的硬件 ASIC 芯片转发信息库（FIB）中；后续同一数据流的报文全部由专用硬件 ASIC 芯片在物理端口间直接线速线速线速转发。选 B。"}, {"id": "p3_m13", "number": 13, "title": "在 IEEE 802.1Q 标准以太网数据帧中，用于唯一标识该数据帧所属 VLAN 的 VLAN ID（VID）字段占用的二进制位数为（ ）。", "options": ["A. 8 位", "B. 12 位", "C. 16 位", "D. 32 位"], "answer": "B", "hint": "802.1Q 标签总共 4 字节（32位），其中 VID 占 12 位，支持 2^12 = 4096 个 VLAN", "explanation": "【官方考点与速通解析】\n802.1Q 标记（Tag）内部结构（总共 4 字节 = 32 位）：\n- TPID（标记协议标识符）：16 位，固定为十六进制 0x8100；\n- PRI（优先级）：3 位，用于 802.1p 服务质量；\n- CFI / DEI（规范格式指示符）：1 位；\n- VID（VLAN 标识符）：12 位，取值范围为 0 ~ 4095（其中 0 和 4095 保留，有效 VLAN ID 范围为 1 ~ 4094）。故选 B。"}, {"id": "p3_m14", "number": 14, "title": "在生成树协议（STP）的拓扑收敛过程中，一台非根交换机上有且仅有一个端口负责向根网桥方向转发数据，该端口的角色被称为（ ）。", "options": ["A. 根端口（Root Port）", "B. 指定端口（Designated Port）", "C. 阻塞端口（Blocking Port）", "D. 备份端口（Backup Port）"], "answer": "A", "hint": "非根交换机上去往根桥路径开销最小的端口称为根端口（RP）", "explanation": "【官方考点与速通解析】\nSTP 端口角色划分：\n1. 根网桥（Root Bridge）：BID 最小的交换机，所有工作端口都是指定端口（DP）；\n2. 根端口（Root Port，RP）：在每个【非根交换机】上有且仅有一个，是到达根网桥路径开销（Cost）最小的端口；\n3. 指定端口（Designated Port，DP）：在每个【网段/链路】上有且仅有一个，负责向该网段转发数据；\n4. 阻塞端口（Blocking/Alternate Port）：既不是 RP 也不是 DP 的端口，进入阻塞状态阻断环路。选 A。"}, {"id": "p3_m15", "number": 15, "title": "互联网域名系统（DNS）由分布在全球的层次化域名服务器组成。全球互联网共有（ ）个根域名服务器标识（由英文字母 A 到 M 命名）。", "options": ["A. 7 个", "B. 10 个", "C. 13 个", "D. 24 个"], "answer": "C", "hint": "经典网络常识：全球 IPv4 根域名服务器标识共有 13 个（A.ROOT-SERVERS.NET ~ M）", "explanation": "【官方考点与速通解析】\n由于传统 DNS 报文在 UDP 数据报中受限于 512 字节的最大长度限制，在早期协议规范中，全球根域名服务器的逻辑 IP 数量被严格限制为 13 个，分别以 A 到 M 命名（A.ROOT-SERVERS.NET ~ M.ROOT-SERVERS.NET）。现代通过 BGP Anycast（任播）技术，这 13 个逻辑根域名节点在全球实际部署了超过上千台镜像物理服务器。故选 C。"}, {"id": "p3_m16", "number": 16, "title": "在 Windows 客户端命令行执行（ ）命令，可以主动向 DHCP 服务器交还并显式释放当前网卡已租用的 IPv4 地址。", "options": ["A. ipconfig /renew", "B. ipconfig /release", "C. ipconfig /flushdns", "D. ipconfig /all"], "answer": "B", "hint": "release 为释放租约，renew 为重新申请租约，flushdns 为刷新 DNS 缓存", "explanation": "【官方考点与速通解析】\n- `ipconfig /release`：向 DHCP 服务器发送 DHCP Release 报文，主动归还并释放当前已分配的 IP 租约；\n- `ipconfig /renew`：向 DHCP 服务器重新发起请求获取或续签 IP 租约；\n- `ipconfig /flushdns`：清空本地 DNS 客户端解析缓存；\n- `ipconfig /all`：显示网卡完整详细配置（包含 MAC、DNS、租约时间等）。故选 B。"}, {"id": "p3_m17", "number": 17, "title": "在 Windows Server IIS Web 服务器的身份验证配置中，若需要将用户名和密码以明文（仅经过极易逆向的 Base64 编码）在网络上传输，该身份验证方式是（ ）。", "options": ["A. 匿名身份验证", "B. 基本身份验证（Basic Authentication）", "C. Windows 集成身份验证", "D. 摘要身份验证（Digest Authentication）"], "answer": "B", "hint": "基本身份验证（Basic）以 Base64 明文传输密码，若无 SSL 加密极易被嗅探窃取", "explanation": "【官方考点与速通解析】\nIIS 常见身份验证方式：\n- 匿名身份验证：允许任何未知用户无需输入凭据即可访问公共内容；\n- 基本身份验证（Basic）：浏览器弹出登录框，用户名与密码使用 Base64 算法编码传输。Base64 仅是编码而非加密，嗅探者拿到即可秒级解码出原始明文，因此安全性极低，通常必须配合 HTTPS/SSL 使用；\n- 摘要身份验证（Digest）：通过 MD5 哈希散列传递认证挑战；\n- Windows 集成认证（NTLM/Kerberos）：安全性最高，利用 Windows 域协议交互，不传输明文密码。选 B。"}, {"id": "p3_m18", "number": 18, "title": "现代状态检测防火墙（Stateful Inspection Firewall）相对于早期简单包过滤防火墙的核心技术创新在于（ ）。", "options": ["A. 仅检查数据链路层 MAC 地址", "B. 维护动态会话连接状态表（State Table），对正向会话建立的后续双向报文实施智能放行", "C. 彻底关闭所有出入方向的 UDP 数据流", "D. 完全不需要配置任何访问控制策略"], "answer": "B", "hint": "状态检测防火墙核心在“状态表（State Table）”，自动记录会话上下文", "explanation": "【官方考点与速通解析】\n传统包过滤防火墙逐包孤立检查五元组，无法识别数据包之间的会话逻辑。\n状态检测防火墙工作在网络层与传输层，维护一张动态的【连接状态表（State Table）】。当内网主机主动发起向外的 TCP/UDP 连接时，防火墙动态记录该会话信息；当外网服务器返回属于该已有会话的反向响应报文时，防火墙查询状态表直接快速放行，无需管理员在反方向手工配置冗余开放端口，大幅提升了安全性和性能。选 B。"}, {"id": "p3_m19", "number": 19, "title": "云计算底层广泛应用了服务器虚拟化技术。其中 Hypervisor（虚拟机监视器）直接运行在物理硬件裸机之上、不依赖任何底层宿主操作系统的虚拟化架构被称为（ ）。", "options": ["A. Type 1（裸金属型 / Bare-Metal）虚拟化", "B. Type 2（宿主型 / Hosted）虚拟化", "C. 容器（Container）虚拟化", "D. 桌面进程仿真"], "answer": "A", "hint": "Type 1 为裸金属（如 ESXi），直接装在硬件上；Type 2 为宿主型（如 VMware Workstation）装在现有系统上", "explanation": "【官方考点与速通解析】\n虚拟化 Hypervisor 分类：\n- Type 1（裸金属架构 / Bare-Metal）：Hypervisor 自身就是一个精简底层的操作系统内核，直接安装在物理裸机硬件上，虚拟机直接受其管理调度，性能高、开销极小。代表产品：VMware ESXi、Citrix XenServer、KVM；\n- Type 2（宿主型架构 / Hosted）：Hypervisor 作为普通应用程序安装在已有的 Windows 或 Linux 宿主操作系统上。代表产品：VMware Workstation、VirtualBox。故选 A。"}, {"id": "p3_m20", "number": 20, "title": "在低功耗广域物联网（LPWAN）通信技术中，由 3GPP 主导标准化并可直接部署在蜂窝移动通信网络上的技术是（ ）。", "options": ["A. NB-IoT（窄带物联网）", "B. LoRa", "C. ZigBee", "D. 经典蓝牙"], "answer": "A", "hint": "NB-IoT 是电信运营商授权蜂窝频段技术；LoRa 工作在非授权频段", "explanation": "【官方考点与速通解析】\nLPWAN（低功耗广域网）两大主流阵营：\n1. NB-IoT（Narrowband IoT，窄带物联网）：由 3GPP 组织制定，工作在运营商授权的蜂窝频段，直接利旧或升级现有 LTE 移动基站即可实现超广覆盖、海量连接与极低功耗；\n2. LoRa / Sigfox：工作在非授权免许可频段（Sub-1GHz ISM 频段），通常由企业自建私有网关与基站。故选 A。"}, {"id": "p3_m21", "number": 21, "title": "在 IPv6 协议体系中，用于取代 IPv4 中的 ARP（地址解析协议）并实现邻居节点 MAC 地址动态解析的核心协议是（ ）。", "options": ["A. ICMPv6 邻居发现协议（NDP）", "B. IGMP 组播管理协议", "C. RARP 反向地址转换协议", "D. RIPng 动态路由协议"], "answer": "A", "hint": "IPv6 用 ICMPv6 NDP（邻居发现协议）取代了 IPv4 中的 ARP", "explanation": "【官方考点与速通解析】\nIPv6 彻底移除了 IPv4 的 ARP 协议，取而代之的是集成在 ICMPv6 中的 NDP（Neighbor Discovery Protocol，邻居发现协议）。\nNDP 通过组播发送【邻居请求（NS，Type 135）】报文和【邻居通告（NA，Type 136）】报文来解析邻居链路层 MAC 地址，同时还负责路由器发现、无状态地址自动配置（SLAAC）以及重复地址检测（DAD）。选 A。"}, {"id": "p3_m22", "number": 22, "title": "宽带网络中家庭用户通过光纤宽带上网时，终端设备向运营商宽带接入服务器（BRAS）发起身份认证并获取公网 IP 所使用的标准接入协议是（ ）。", "options": ["A. PPPoE", "B. HDLC", "C. SLIP", "D. Frame Relay"], "answer": "A", "hint": "家庭宽带拨号上网协议为 PPPoE（以太网上的点对点协议）", "explanation": "【官方考点与速通解析】\nPPPoE（Point-to-Point Protocol over Ethernet，以太网上的点对点协议）将传统的 PPP 链路协议封装在以太网帧中传输。\n运营商通过 PPPoE 能够在广播式的以太网/光纤局域网接入架构下，实现单用户的独立身份认证（PAP/CHAP 账号密码校验）、计费控制、动态分配 IP 地址以及带宽限速。选 A。"}, {"id": "p3_m23", "number": 23, "title": "在安全网络运维中，远程登录管理交换机和路由器时，能够提供强加密保密、完整性校验及公私钥身份认证的网络协议是（ ）。", "options": ["A. SSH（端口 22）", "B. Telnet（端口 23）", "C. TFTP（端口 69）", "D. HTTP（端口 80）"], "answer": "A", "hint": "SSH 运行在 TCP 22 端口，全流程密文传输；Telnet 运行在 TCP 23 端口，明文传输已被淘汰", "explanation": "【官方考点与速通解析】\n- Telnet（TCP 23 端口）：早期的远程终端管理协议，所有传输数据（包括管理员登录口令）全部采用未加密的明文传输，极易被局域网嗅探抓包窃取，现代网络已被严格禁用；\n- SSH（Secure Shell，TCP 22 端口）：建立在应用层基础上的安全传输协议，利用非对称公钥和对称密钥对所有会话指令和密码进行强加密，全面取代 Telnet。选 A。"}, {"id": "p3_m24", "number": 24, "title": "以太网链路聚合技术（IEEE 802.3ad / LACP）能够将交换机之间的多个物理以太网端口捆绑为一个逻辑聚合端口。关于链路聚合的作用，描述错误的是（ ）。", "options": ["A. 成倍提升交换机级联骨干链路的总可用带宽", "B. 当聚合组内某一条物理物理光纤断裂时，流量在毫秒级内自动切换到其余健康链路", "C. 彻底改变底层以太网的标准帧结构，不再遵循 IEEE 802.3 帧格式", "D. 避免了由于多个物理连接产生环路而被 STP 生成树协议阻塞端口的问题"], "answer": "C", "hint": "链路聚合保持标准以太网帧结构不变，只是在逻辑层进行流量负荷分担", "explanation": "【官方考点与速通解析】\n链路聚合（Link Aggregation / EtherChannel / LACP）的三大核心优势：\n1. 增加链路带宽：将 2~8 个物理端口捆绑为一个逻辑 Port-Channel，带宽成倍累加；\n2. 提高网络可靠性：组内物理链路互为热备，单条链路断开自动故障转移；\n3. 优化生成树计算：在 STP 眼中，整个聚合组被视为单个逻辑接口，不会因多物理连线被 STP 识别为环路而阻断。\n链路聚合完全兼容标准的以太网帧结构，并未改变帧格式。故 C 描述错误。"}, {"id": "p3_m25", "number": 25, "title": "当前全球网络空间安全领域倡导的“零信任”（Zero Trust）安全架构，其核心设计理念与根本原则是（ ）。", "options": ["A. 默认信任企业内网的一切访问，只严格防御外网流量", "B. 持续验证，永不信任（Never Trust, Always Verify）", "C. 只要用户通过了单点登录密码校验，后续操作无需再受监控", "D. 彻底关闭所有内部服务器的防火墙"], "answer": "B", "hint": "零信任三大哲学：持续验证永不信任、基于最小特权原则、假定发生安全漏洞", "explanation": "【官方考点与速通解析】\n传统网络安全基于“边界防御”理念（内网即可信，外网即危险），一旦黑客攻破边界即在内网横向横行。\n“零信任”（Zero Trust）打破了网络位置的信任假定，其核心格言是“持续验证，永不信任”：无论请求来自于互联网公网还是企业核心内网，系统都一视同仁地将其视为不可信，针对每一次访问请求均要求进行动态的身份认证、设备健康检测、上下文评估及最小权限授权。选 B。"}, {"id": "p3_m26", "number": 26, "title": "在光纤通信系统中，SC 型和 LC 型是常见的光纤连接器接口类型。关于这两种接口的描述，正确的是（ ）。", "options": ["A. SC 接头是小方口插拔式，LC 接头是大方口插拔式", "B. LC 接头是小方口插拔式（高密度 SFP 光模块常用），SC 接头是大方口插拔式", "C. ST 接头是卡扣旋入式圆头，SC 接头是圆头螺口", "D. 光纤接头颜色与光纤单模/多模物理特性完全无关"], "answer": "B", "hint": "LC 是小方头（小型化高密模块 SFP 常用）；SC 是大方头（GBIC 模块常用）；ST 是圆形卡扣式", "explanation": "【官方考点与速通解析】\n光纤跳线接头常考类型：\n- SC 型连接器：外壳呈矩形的大方头，插拔销闩式固定，常用于早期路由器光纤接口或机房光纤终端盒；\n- LC 型连接器：外壳呈小方头（尺寸仅为 SC 的一半），采用模块化插孔（RJ）闩锁机构，常用于高密度交换机 SFP / SFP+ 光模块；\n- ST 型连接器：卡扣式圆形接头，旋入拧紧。选 B。"}, {"id": "p3_m27", "number": 27, "title": "在 Windows 操作系统中，若要彻底清除本地计算机上解析过的所有 DNS 域名解析客户端缓存，应执行的命令是（ ）。", "options": ["A. ipconfig /flushdns", "B. ipconfig /displaydns", "C. arp -d *", "D. netstat -r"], "answer": "A", "hint": "flush 即冲刷、清空，/flushdns 清空本地 DNS 解析缓存", "explanation": "【官方考点与速通解析】\n- `ipconfig /flushdns`：刷新并清空 Windows 本地解析程序缓存（解决网站改 IP 后本地依然解析到旧 IP 的问题）；\n- `ipconfig /displaydns`：打印显示当前本地缓存的所有 DNS 条目；\n- `arp -d *`：清空 ARP 映射缓存；\n- `netstat -r`：显示内核 IP 路由表。故选 A。"}, {"id": "p3_m28", "number": 28, "title": "在 Linux 操作系统中，用于配置网络接口 IP 地址、子网掩码以及激活/停用网卡的经典网络配置工具是（ ）。", "options": ["A. ifconfig", "B. iptables", "C. named", "D. traceroute"], "answer": "A", "hint": "Linux 下查看和配置接口参数的命令是 ifconfig（或 ip addr）", "explanation": "【官方考点与速通解析】\n- ifconfig（Interface Configuration）：Linux 经典网卡管理命令，用于查看 IP、MAC，配置静态 IP 与掩码（如 `ifconfig eth0 192.168.1.10 netmask 255.255.255.0 up`）；\n- iptables：Linux 内核网络包过滤与防火墙配置工具；\n- named：BIND DNS 服务的守护进程；\n- traceroute：路由追踪工具。选 A。"}, {"id": "p3_m29", "number": 29, "title": "在园区网络中配置 DHCP 服务时，网络管理员为了防止某些重要服务器或打印机的 IP 地址发生变更，应在 DHCP 服务器上配置的特性是（ ）。", "options": ["A. 动态地址池（Pool）", "B. 地址保留（Reservation，绑定特定 MAC 地址）", "C. 缩短租约有效期限", "D. 开启 DHCP Snooping 监听"], "answer": "B", "hint": "固定设备使用 DHCP 地址保留（Reservation），将 IP 与硬件 MAC 地址绑定", "explanation": "【官方考点与速通解析】\nDHCP 地址保留（Reservation）：\n管理员在 DHCP 作用域中，将特定的 IP 地址与目标网络设备（如网络打印机、内网文件服务器）的网卡物理 MAC 地址进行静态绑定。\n这样既保持了设备参数全部由 DHCP 集中下发管理的便利性，又确保了该设备每次开机租用到的始终是同一个固定不变的 IP 地址。选 B。"}, {"id": "p3_m30", "number": 30, "title": "在计算机网络体系结构中，OSI 参考模型与 TCP/IP 体系模型存在对应映射关系。下列协议中，工作在 TCP/IP 模型“网络互联层”（对应 OSI 网络层）的是（ ）。", "options": ["A. ICMP", "B. TCP", "C. HTTP", "D. Ethernet"], "answer": "A", "hint": "网络层四大核心协议：IP、ICMP、IGMP、ARP（或介于链路层与网络层之间）", "explanation": "【官方考点与速通解析】\nTCP/IP 层次模型与协议映射：\n- 应用层：HTTP、FTP、DNS、SMTP、DHCP、Telnet；\n- 传输层：TCP、UDP；\n- 网络层（网络互联层）：IP、ICMP（网际控制报文协议）、IGMP（网际组管理协议）；\n- 网络接口层：Ethernet、Wi-Fi、PPP。故选 A。"}, {"id": "p3_m31", "number": 31, "title": "在光纤通信波分复用（WDM）技术中，密集波分复用（DWDM）相比粗波分复用（CWDM）的核心技术优势在于（ ）。", "options": ["A. 波长信道间隔更窄（≤1.6nm），在单根光纤上能够复用数十乃至上百个光波信道", "B. 制造成本远低于 CWDM", "C. 只能使用无冷却激光器工作", "D. 传输距离通常局限在 100 米以内"], "answer": "A", "hint": "DWDM 密集波分复用波长间隔极窄，单纤容量极大，用于国家级骨干网", "explanation": "【官方考点与速通解析】\n- CWDM（稀疏/粗波分复用）：波长间隔较大（一般为 20 nm），复用信道数通常为 8~16 个，无需精密温控，成本低，适合城域接入网；\n- DWDM（密集波分复用）：波长间隔极小（0.8 nm 或 0.4 nm），单纤可并发传输 80~160 个波长通道，结合光纤放大器（EDFA）传输容量超大、距离超远，是长途骨干光纤通信的基石。选 A。"}, {"id": "p3_m32", "number": 32, "title": "在网络存储技术中，iSCSI（互联网小型计算机系统接口）之所以能够大幅降低集中存储网络部署成本，主要原因在于（ ）。", "options": ["A. 将 SCSI 块存储命令封装在标准的 TCP/IP 协议包中，可在通用以太网上运行", "B. 彻底放弃了所有硬盘介质，完全运行在内存中", "C. 仅支持单机本地存储，无法跨网络访问", "D. 不需要任何网卡与网线"], "answer": "A", "hint": "iSCSI 把 SCSI 存储指令放进普通 TCP/IP 传输，直接利用现有廉价以太网搭建 SAN", "explanation": "【官方考点与速通解析】\n传统的 FC-SAN（光纤通道存储区域网络）需要专门昂贵的光纤通道交换机、FC-HBA 专用光纤卡和光纤线缆。\niSCSI 协议打破了硬件专网限制，直接在应用层将 SCSI 块级指令封装成 TCP 报文，借由现有的廉价千兆/万兆以太网基础设施实现远距离高速块存储通信，大幅节约了企业建网成本。选 A。"}, {"id": "p3_m33", "number": 33, "title": "在配置 Cisco 交换机时，若希望清除交换机当前 Flash 中保存的 VLAN 数据库信息，应执行的操作是（ ）。", "options": ["A. delete flash:vlan.dat", "B. erase nvram", "C. clear vlan all", "D. shutdown vlan"], "answer": "A", "hint": "Cisco 交换机的 VLAN 配置独立保存在 Flash 介质中的 vlan.dat 文件中", "explanation": "【官方考点与速通解析】\nCisco Catalyst 交换机的特殊设计：\n普通的交换机接口与配置保存在 NVRAM 的 `startup-config` 中，执行 `erase startup-config` 即可清除；\n但是，交换机创建的所有 VLAN 数据库信息独立存放在 Flash 存储器根目录下的 `vlan.dat` 二进制文件中。因此要彻底恢复出厂交换机配置，必须同时执行 `delete flash:vlan.dat` 删除该文件。故选 A。"}, {"id": "p3_m34", "number": 34, "title": "在 Windows 邮件服务中，用户撰写的电子邮件在投递过程中经历的路由传递，在应用层完全依赖（ ）协议完成主机到主机的中转。", "options": ["A. SMTP", "B. POP3", "C. IMAP4", "D. HTTP"], "answer": "A", "hint": "邮件服务器之间的跨域邮件路由投递协议是 SMTP（端口 25）", "explanation": "【官方考点与速通解析】\n电子邮件全流程协议分工：\n1. 发件人客户端编写邮件 -> 发送给本域发信服务器：使用 SMTP 协议（端口 25）；\n2. 发信邮件服务器 -> 跨互联网路由查询对方 DNS MX 记录 -> 投递给接收方邮件服务器：仍然使用 SMTP 协议；\n3. 收件人客户端登录接收方邮件服务器查收下载邮件：使用 POP3（端口 110）或 IMAP4（端口 143）协议。故选 A。"}, {"id": "p3_m35", "number": 35, "title": "在构建容灾备份系统时，通常采用“两地三中心”工程架构。其中“两地三中心”是指（ ）。", "options": ["A. 同城生产中心、同城灾备中心、异地灾备中心", "B. 内网中心、外网中心、DMZ 中心", "C. 研发中心、测试中心、发布中心", "D. 华北中心、华东中心、华南中心"], "answer": "A", "hint": "两地三中心标准定义：同城双中心（生产+同城实时热备） + 异地灾备中心（防范区域性特大自然灾害）", "explanation": "【官方考点与速通解析】\n金融与电信行业顶级容灾“两地三中心”模型：\n- 第一地（本地）：包含“本地生产中心”和“同城灾备中心”（距离通常在几十公里内，通过高速光纤直连实现数据毫秒级同步镜像，保障设备故障快速接管）；\n- 第二地（异地）：设立“异地灾备中心”（距离数百公里以上，通过异步复制防范地震、洪涝等特大区域性毁灭灾害）。选 A。"}, {"id": "p3_m36", "number": 36, "title": "在网络协议分析中，ICMP 协议的数据报被直接封装在（ ）中进行传输。", "options": ["A. IP 数据报", "B. TCP 报文段", "C. UDP 用户数据报", "D. 物理层光脉冲"], "answer": "A", "hint": "ICMP 直接封装在 IP 报文里（IP 协议号为 1）", "explanation": "【官方考点与速通解析】\nICMP（网际控制报文协议）虽然在功能上协助网络层处理差错报告与探测，但从封装结构来看，ICMP 报文并不经过 TCP 或 UDP，而是直接装入 IP 数据报的有效数据载荷中，IP 报头的“协议（Protocol）”字段数值为十六进制 0x01（十进制 1）。选 A。"}, {"id": "p3_m37", "number": 37, "title": "在局域网综合布线系统中，连接两个不同建筑物之间计算机网络的大楼间外部光缆干线系统属于（ ）。", "options": ["A. 建筑群子系统", "B. 设备间子系统", "C. 干线（垂直）子系统", "D. 管理子系统"], "answer": "A", "hint": "跨越建筑物、大楼之间敷设的室外布线属于建筑群子系统", "explanation": "【官方考点与速通解析】\n综合布线子系统分类准则：\n- 同一栋大楼内连接楼层与机房的是“垂直干线子系统”；\n- 跨越不同建筑物之间、在园区室外管道或地下直埋敷设的通信光缆与保护装置属于“建筑群子系统（Campus Subsystem）”。故选 A。"}, {"id": "p3_m38", "number": 38, "title": "在计算机网络安全防范中，通过在内部核心服务器前部署 WAF（Web 应用防护系统），最擅长防御的攻击类型是（ ）。", "options": ["A. SQL 注入与 XSS 跨站脚本攻击", "B. 物理层光纤偷剪断线", "C. 交换机电源线松脱断电", "D. 客户端液晶显示器静电干扰"], "answer": "A", "hint": "WAF（Web Application Firewall）专注于应用层（HTTP/HTTPS）防护，专克 SQL 注入与 XSS", "explanation": "【官方考点与速通解析】\nWAF（Web 应用防火墙）工作在第七层应用层：\n它深度解析 HTTP 请求的 URL 参数、Cookie、POST Body，专门用于精准检测并阻断常见的 Web 应用漏洞攻击，例如 SQL 注入、跨站脚本（XSS）、命令注入、文件包含以及 Webshell 上传等。选 A。"}, {"id": "p3_m39", "number": 39, "title": "下列网络工具命令中，能够显示本地计算机当前活动的网络连接、监听的 TCP/UDP 端口号以及对应进程状态的是（ ）。", "options": ["A. netstat", "B. nslookup", "C. ping", "D. tracert"], "answer": "A", "hint": "netstat（Network Statistics）专门用于查看端口监听与 TCP 连接状态", "explanation": "【官方考点与速通解析】\n- netstat：显示网络连接、路由表、接口统计信息及监听端口（如 `netstat -ano`）；\n- nslookup：查询 DNS 域名解析记录；\n- ping：基于 ICMP 连通性测试；\n- tracert：路由路径跟踪。选 A。"}, {"id": "p3_m40", "number": 40, "title": "在 IPv6 协议中，每个标准 IPv6 全局单播地址的长度为（ ）。", "options": ["A. 32 位（4 字节）", "B. 64 位（8 字节）", "C. 128 位（16 字节）", "D. 256 位（32 字节）"], "answer": "C", "hint": "送分必拿题：IPv4 是 32 位，IPv6 是 128 位（16 字节）", "explanation": "【官方考点与速通解析】\nIPv4 地址长度为 32 位（4 字节）；IPv6 地址长度扩充到了 128 位（16 字节），被设计用来为地球上的每一粒沙子都分配一个独立的 IP 地址，彻底解决了地址耗尽问题。选 C。"}], "comprehensives": [{"id": "p3_c1", "number": 1, "score": 10, "title": "综合题一：IP 地址规划与 CIDR 掩码划分计算（10分）", "description": "某单位分配到的 IPv4 网络地址块为 192.168.100.200/22。请根据网络技术基础原理，完成下列各小题的数值计算：", "subquestions": [{"id": "p3_c1_1", "score": 2, "prompt": "【空 1】该地址块对应的子网掩码（点分十进制格式）为：", "placeholder": "例如: 255.255.xxx.xxx", "answer": ["255.255.252.0"], "hint": "/22 即第 3 字节高 6 位为 1（11111100 = 252）"}, {"id": "p3_c1_2", "score": 2, "prompt": "【空 2】该主机所在子网的网络地址为：", "placeholder": "例如: 192.168.xxx.0", "answer": ["192.168.100.0"], "hint": "100 与 252 按位与运算得 100"}, {"id": "p3_c1_3", "score": 2, "prompt": "【空 3】该子网的直接广播地址为：", "placeholder": "例如: 192.168.xxx.255", "answer": ["192.168.103.255"], "hint": "主机位共 10 位，第 3 字节块大小为 4，100 + 3 = 103"}, {"id": "p3_c1_4", "score": 2, "prompt": "【空 4】该子网可分配给主机的有效可用 IP 地址范围为（格式：起始IP~结束IP）：", "placeholder": "格式: 192.168.100.1~192.168.103.254", "answer": ["192.168.100.1~192.168.103.254", "192.168.100.1-192.168.103.254"], "hint": "网络地址 + 1 开始，广播地址 - 1 结束"}, {"id": "p3_c1_5", "score": 2, "prompt": "【空 5】该子网理论上最多允许容纳的有效可用主机数量为（填整数）：", "placeholder": "例如: 1022", "answer": ["1022"], "hint": "主机位数 n = 32 - 22 = 10，2^10 - 2 = 1024 - 2"}], "explanation": "【官方考点与解析】\n1. 子网掩码：/22 对应掩码中高 22 位为 1，第 3 字节为 11111100 = 252，点分十进制为 255.255.252.0；\n2. 网络地址：第 3 字节 100（01100100）与掩码 252（11111100）按位与得 01100100（100），网络地址为 192.168.100.0；\n3. 广播地址：块大小为 2^(32-22) = 1024 个 IP，第 3 字节跨越 4 个网段（100、101、102、103），广播地址为 192.168.103.255；\n4. 有效主机范围：192.168.100.1 ~ 192.168.103.254；\n5. 可用主机数：2^10 - 2 = 1024 - 2 = 1022 台。"}, {"id": "p3_c2", "number": 2, "score": 10, "title": "综合题二：路由器作为 DHCP 服务器配置命令分析（10分）", "description": "某企业出口路由器 Router-GW 同时担任局域网的 DHCP 服务器，负责为内网部门动态分配 IP 地址。内网网段为 192.168.1.0/24，默认网关为 192.168.1.1，DNS 服务器地址为 202.106.0.20，IP 租用期限设置为 8 天。同时需排除网关地址 192.168.1.1，防止 IP 地址冲突。\n\n请补全下列 Cisco 路由器的配置命令：", "code_snippet": "Router-GW# configure terminal\nRouter-GW(config)# ip dhcp 【空 1】 192.168.1.1\nRouter-GW(config)# ip dhcp pool OfficePool\nRouter-GW(dhcp-config)# network 192.168.1.0 【空 2】\nRouter-GW(dhcp-config)# default-router 【空 3】\nRouter-GW(dhcp-config)# dns-server 【空 4】\nRouter-GW(dhcp-config)# lease 【空 5】\nRouter-GW(dhcp-config)# exit", "subquestions": [{"id": "p3_c2_1", "score": 2, "prompt": "【空 1】配置排除保留 IP 地址（不参与动态分配）的命令关键字：", "placeholder": "例如: excluded-address", "answer": ["excluded-address"], "hint": "排除 IP 地址命令为 ip dhcp excluded-address"}, {"id": "p3_c2_2", "score": 2, "prompt": "【空 2】宣告动态分配网段对应的子网掩码（点分十进制）：", "placeholder": "例如: 255.255.255.0", "answer": ["255.255.255.0"], "hint": "/24 对应掩码 255.255.255.0"}, {"id": "p3_c2_3", "score": 2, "prompt": "【空 3】设置客户端默认网关 IP 地址：", "placeholder": "例如: 192.168.1.1", "answer": ["192.168.1.1"], "hint": "题干指定默认网关为 192.168.1.1"}, {"id": "p3_c2_4", "score": 2, "prompt": "【空 4】设置客户端首选 DNS 服务器 IP 地址：", "placeholder": "例如: 202.106.0.20", "answer": ["202.106.0.20"], "hint": "题干指定 DNS 为 202.106.0.20"}, {"id": "p3_c2_5", "score": 2, "prompt": "【空 5】设置租约期限（天数）：", "placeholder": "填数字", "answer": ["8"], "hint": "题干指定租期为 8 天"}], "explanation": "【官方考点与速通解析】\nCisco 路由器配置 DHCP 服务器的核心命令集：\n1. 排除地址：`ip dhcp excluded-address 192.168.1.1`（排除掉网关自身占用的 IP，防止被其他 PC 抢占冲突）；\n2. 创建地址池：`ip dhcp pool OfficePool`；\n3. 绑定网段与掩码：`network 192.168.1.0 255.255.255.0`；\n4. 分配默认网关：`default-router 192.168.1.1`；\n5. 分配 DNS 服务器：`dns-server 202.106.0.20`；\n6. 设置租期天数：`lease 8`（默认即为 8 天）。"}, {"id": "p3_c3", "number": 3, "score": 10, "title": "综合题三：IIS 网站发布与 DNS 解析配置（10分）", "description": "某大学计算中心在一台物理服务器上配置 IIS 搭建新闻发布网站（域名：news.univ.edu.cn）。服务器绑定的单网卡 IP 为 202.113.64.100，Web 默认端口为 80。网站代码存放在服务器 `D:\\WebRoot\\News` 目录下，网站默认起始文档为 `index.html`。\n\n请阅读并回答下列配置参数填空：", "subquestions": [{"id": "p3_c3_1", "score": 2, "prompt": "【空 1】在 IIS 站点基本设置中，该网站的“物理路径”应配置为：", "placeholder": "例如: D:\\WebRoot\\News", "answer": ["D:\\WebRoot\\News", "D:/WebRoot/News"], "hint": "题干给出的目录为 D:\\WebRoot\\News"}, {"id": "p3_c3_2", "score": 2, "prompt": "【空 2】在 IIS 绑定设置中，为使单 IP 运行多个站点，配置该站点的“主机名”（Host Name）应填写：", "placeholder": "例如: news.univ.edu.cn", "answer": ["news.univ.edu.cn"], "hint": "主机名即题干指定的完整域名 news.univ.edu.cn"}, {"id": "p3_c3_3", "score": 2, "prompt": "【空 3】在 IIS“默认文档”列表中，排在首位作为网站入口文件的文件名是：", "placeholder": "例如: index.html", "answer": ["index.html"], "hint": "题干说明默认起始文档为 index.html"}, {"id": "p3_c3_4", "score": 2, "prompt": "【空 4】在校内 DNS 服务器正向区域 univ.edu.cn 中，为 news 映射 202.113.64.100 所需创建的记录类型为：", "placeholder": "填 A记录 或 PTR", "answer": ["A记录", "A", "A 记录"], "hint": "正向域名解析映射 IPv4 地址使用 A 记录"}, {"id": "p3_c3_5", "score": 2, "prompt": "【空 5】若允许全网外来访客无需输入任何账号密码即可直接浏览该新闻网站，IIS 应启用的身份验证方式是：", "placeholder": "例如: 匿名身份验证", "answer": ["匿名身份验证", "匿名认证", "匿名"], "hint": "无需凭据公开访问对应匿名身份验证"}], "explanation": "【官方考点与速通解析】\n1. 空 1：物理路径指向网站文件的实际本地存储磁盘路径：`D:\\WebRoot\\News`；\n2. 空 2：单 IP、单 80 端口运行多个网站时，必须在站点绑定中指定“主机名”（主机头），此处填 `news.univ.edu.cn`；\n3. 空 3：默认文档指定网站首页文件，此处填 `index.html`；\n4. 空 4：DNS 正向区域将域名解析为主机 IPv4 地址的是 A 记录；\n5. 空 5：公开发布的新闻类网站通常启用“匿名身份验证”，系统自动使用内置的 IUSR 访客账户进行底层访问。"}, {"id": "p3_c4", "number": 4, "score": 10, "title": "综合题四：Wireshark 抓取 DNS 查询与 UDP 数据报分析（10分）", "description": "下图是通过 Wireshark 抓包工具捕获到的主机向本地 DNS 服务器发起域名解析请求的数据包解码信息：", "code_snippet": "Frame 1: 74 bytes on wire\nInternet Protocol Version 4, Src: 192.168.1.100, Dst: 202.113.64.3\nUser Datagram Protocol, Src Port: 54321, Dst Port: 53, Len: 40\n    Source Port: 54321\n    Destination Port: 53\n    Length: 40\n    Checksum: 0x7a3f [correct]\nDomain Name System (query)\n    Transaction ID: 0x1a2b\n    Flags: 0x0100 Standard query\n        0... .... .... .... = Response: Message is a query (0)\n        .000 0... .... .... = Opcode: Standard query (0)\n        .... ..1. .... .... = Recursion desired: Do query recursively (1)\n    Questions: 1\n    Answer RRs: 0\n    Queries\n        www.test.edu.cn: type A, class IN", "subquestions": [{"id": "p3_c4_1", "score": 2, "prompt": "【空 1】该 DNS 查询数据报在传输层所采用的传输层协议是（填 TCP 或 UDP）：", "placeholder": "填 TCP 或 UDP", "answer": ["UDP"], "hint": "看 User Datagram Protocol，DNS 日常查询基于 UDP"}, {"id": "p3_c4_2", "score": 2, "prompt": "【空 2】DNS 服务器提供解析服务的公认标准目标端口号为（填数字）：", "placeholder": "例如: 53", "answer": ["53"], "hint": "Dst Port: 53"}, {"id": "p3_c4_3", "score": 2, "prompt": "【空 3】该数据报目的 IP 地址 202.113.64.3 对应的网络设备角色是（填 DNS服务器 或 Web服务器）：", "placeholder": "填 DNS服务器 或 Web服务器", "answer": ["DNS服务器", "域名服务器", "DNS"], "hint": "接收 53 端口查询请求的服务器为 DNS 服务器"}, {"id": "p3_c4_4", "score": 2, "prompt": "【空 4】客户端当前正在请求查询的目标主机域名是：", "placeholder": "例如: www.test.edu.cn", "answer": ["www.test.edu.cn"], "hint": "看 Queries 下查询的域名 www.test.edu.cn"}, {"id": "p3_c4_5", "score": 2, "prompt": "【空 5】Flags 中 Recursion desired 置 1，表明客户端要求 DNS 服务器进行何种查询（填 递归查询 或 迭代查询）：", "placeholder": "填 递归查询 或 迭代查询", "answer": ["递归查询"], "hint": "Recursion desired 表示期望递归查询"}], "explanation": "【官方考点与速通解析】\n1. 空 1：DNS 解析查询默认采用 UDP 协议进行传输（只有当区域传送或报文长度超过 512 字节时才启用 TCP）；\n2. 空 2：DNS 服务标准周知端口号为 53；\n3. 空 3：目的 IP 202.113.64.3 监听在 53 端口，是客户端配置的本地 DNS 服务器；\n4. 空 4：根据 Queries 字段，解析请求域名为 `www.test.edu.cn`；\n5. 空 5：DNS 查询模式：\n   - 递归查询（Recursive Query）：客户端要求本地 DNS 服务器“负责到底”，若本地没有缓存，由 DNS 服务器代替客户端向根域、顶级域递归询问并最终直接返回 IP；\n   - 迭代查询（Iterative Query）：DNS 服务器只返回下一级权威服务器的地址，由询问者自行去下一级服务器询问。"}], "applied": {"id": "p3_app1", "number": 1, "score": 20, "title": "应用题：多分支机构广域网互联拓扑路由汇聚与可变长子网划分（20分）", "description": "某集团全国广域网骨干拓扑结构如下图所示。总部核心路由器 R-HQ 通过两条高速串行线路 S0 和 S1 分别连接华北区分中心路由器 R-NC 和华东区分中心路由器 R-EC。\n\n【拓扑参数与网段规划】\n1. R-HQ 到 R-NC 点对点直连链路包含 IP：172.16.0.1 和 172.16.0.2（掩码 /30）；\n2. R-HQ 到 R-EC 点对点直连链路包含 IP：172.16.0.5 和 172.16.0.6（掩码 /30）；\n3. R-NC 下辖 4 个连续部门网段：172.16.4.0/24、172.16.5.0/24、172.16.6.0/24、172.16.7.0/24；\n4. R-EC 下辖 4 个连续部门网段：172.16.8.0/24、172.16.9.0/24、172.16.10.0/24、172.16.11.0/24；\n5. R-NC 经 S0 接口汇聚通告至 R-HQ；R-EC 经 S1 接口汇聚通告至 R-HQ。", "svg_diagram": "<svg viewBox=\"0 0 760 360\" width=\"100%\" height=\"300\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <linearGradient id=\"gRouter3\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n      <stop offset=\"0%\" stop-color=\"#059669\"/>\n      <stop offset=\"100%\" stop-color=\"#047857\"/>\n    </linearGradient>\n    <linearGradient id=\"gSwitch3\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n      <stop offset=\"0%\" stop-color=\"#d97706\"/>\n      <stop offset=\"100%\" stop-color=\"#b45309\"/>\n    </linearGradient>\n  </defs>\n  <rect width=\"100%\" height=\"100%\" fill=\"#fcfcfc\" rx=\"12\"/>\n  <text x=\"380\" y=\"30\" font-size=\"16\" font-weight=\"bold\" fill=\"#1e293b\" text-anchor=\"middle\">集团总部与区域分中心骨干路由拓扑</text>\n  \n  <!-- Core Router R-HQ -->\n  <circle cx=\"380\" cy=\"75\" r=\"28\" fill=\"url(#gRouter3)\" stroke=\"#065f46\" stroke-width=\"2\"/>\n  <text x=\"380\" y=\"80\" font-size=\"13\" font-weight=\"bold\" fill=\"#ffffff\" text-anchor=\"middle\">R-HQ</text>\n  <text x=\"380\" y=\"118\" font-size=\"11\" fill=\"#475569\" text-anchor=\"middle\">总部核心 (R-HQ)</text>\n\n  <!-- Links -->\n  <line x1=\"355\" y1=\"90\" x2=\"210\" y2=\"160\" stroke=\"#475569\" stroke-width=\"2.5\" stroke-dasharray=\"4\"/>\n  <text x=\"250\" y=\"115\" font-size=\"11\" fill=\"#047857\" font-weight=\"bold\">S0 (172.16.0.0/30)</text>\n\n  <line x1=\"405\" y1=\"90\" x2=\"550\" y2=\"160\" stroke=\"#475569\" stroke-width=\"2.5\" stroke-dasharray=\"4\"/>\n  <text x=\"490\" y=\"115\" font-size=\"11\" fill=\"#047857\" font-weight=\"bold\">S1 (172.16.0.4/30)</text>\n\n  <!-- Regional Routers -->\n  <circle cx=\"210\" cy=\"175\" r=\"26\" fill=\"url(#gRouter3)\" stroke=\"#065f46\" stroke-width=\"2\"/>\n  <text x=\"210\" y=\"180\" font-size=\"12\" font-weight=\"bold\" fill=\"#ffffff\" text-anchor=\"middle\">R-NC</text>\n\n  <circle cx=\"550\" cy=\"175\" r=\"26\" fill=\"url(#gRouter3)\" stroke=\"#065f46\" stroke-width=\"2\"/>\n  <text x=\"550\" y=\"180\" font-size=\"12\" font-weight=\"bold\" fill=\"#ffffff\" text-anchor=\"middle\">R-EC</text>\n\n  <!-- Downlink Boxes -->\n  <rect x=\"100\" y=\"255\" width=\"80\" height=\"32\" rx=\"6\" fill=\"url(#gSwitch3)\"/>\n  <text x=\"140\" y=\"275\" font-size=\"11\" fill=\"#ffffff\" text-anchor=\"middle\">172.16.4.0/24</text>\n\n  <rect x=\"250\" y=\"255\" width=\"80\" height=\"32\" rx=\"6\" fill=\"url(#gSwitch3)\"/>\n  <text x=\"290\" y=\"275\" font-size=\"11\" fill=\"#ffffff\" text-anchor=\"middle\">172.16.5.0/24</text>\n\n  <rect x=\"430\" y=\"255\" width=\"80\" height=\"32\" rx=\"6\" fill=\"url(#gSwitch3)\"/>\n  <text x=\"470\" y=\"275\" font-size=\"11\" fill=\"#ffffff\" text-anchor=\"middle\">172.16.8.0/24</text>\n\n  <rect x=\"590\" y=\"255\" width=\"80\" height=\"32\" rx=\"6\" fill=\"url(#gSwitch3)\"/>\n  <text x=\"630\" y=\"275\" font-size=\"11\" fill=\"#ffffff\" text-anchor=\"middle\">172.16.9.0/24</text>\n\n  <text x=\"210\" y=\"325\" font-size=\"12\" fill=\"#1e293b\" text-anchor=\"middle\">华北汇总路由: 172.16.4.0/22</text>\n  <text x=\"550\" y=\"325\" font-size=\"12\" fill=\"#1e293b\" text-anchor=\"middle\">华东汇总路由: 172.16.8.0/22</text>\n</svg>", "subquestions": [{"id": "p3_app1_1", "score": 3, "prompt": "【空 1】R-HQ 到 R-NC 的直连点对点链路（172.16.0.1 和 172.16.0.2）聚合后的网络地址及掩码长度为：", "placeholder": "例如: 172.16.0.0/30", "answer": ["172.16.0.0/30"], "hint": "块大小为 4，网络地址 172.16.0.0/30"}, {"id": "p3_app1_2", "score": 3, "prompt": "【空 2】R-HQ 到 R-EC 的直连点对点链路（172.16.0.5 和 172.16.0.6）聚合后的网络地址及掩码长度为：", "placeholder": "例如: 172.16.0.4/30", "answer": ["172.16.0.4/30"], "hint": "块大小为 4，网络地址 172.16.0.4/30"}, {"id": "p3_app1_3", "score": 3, "prompt": "【空 3】华北区分中心 4 个网段（172.16.4.0/24 ~ 172.16.7.0/24）汇聚后的超网路由条目为：", "placeholder": "例如: 172.16.4.0/22", "answer": ["172.16.4.0/22"], "hint": "4、5、6、7 连续 4 个 /24 聚合为 /22"}, {"id": "p3_app1_4", "score": 3, "prompt": "【空 4】华东区分中心 4 个网段（172.16.8.0/24 ~ 172.16.11.0/24）汇聚后的超网路由条目为：", "placeholder": "例如: 172.16.8.0/22", "answer": ["172.16.8.0/22"], "hint": "8、9、10、11 连续 4 个 /24 聚合为 /22"}, {"id": "p3_app1_5", "score": 2, "prompt": "【空 5】若在 R-HQ 出口部署一台能够对员工外发邮件及文件传输进行合规审计与防泄密的网络安全设备，该设备统称为（填 DLP 或 WAF）：", "placeholder": "填 DLP 或 WAF", "answer": ["DLP"], "hint": "数据防泄露系统 DLP（Data Loss Prevention）"}, {"id": "p3_app1_6", "score": 6, "prompt": "【空 6】现将地址块 10.1.1.0/24 划分子网供三个分支机构使用：分支 A（需 60 台主机）、分支 B（需 28 台主机）、分支 C（需 12 台主机）。请写出【分支 A】和【分支 B】划分后的子网掩码：", "placeholder": "格式: 分支A:255.255.255.192; 分支B:255.255.255.224", "answer": ["分支A:255.255.255.192; 分支B:255.255.255.224", "255.255.255.192 255.255.255.224", "255.255.255.192, 255.255.255.224"], "hint": "60 台需 2^6=64（/26，掩码 255.255.255.192）；28 台需 2^5=32（/27，掩码 255.255.255.224）"}], "explanation": "【官方考点与解析】\n1. 点对点链路计算：\n   - .1 和 .2 属于 172.16.0.0/30（可用 .1~.2，广播 .3）；\n   - .5 和 .6 属于 172.16.0.4/30（可用 .5~.6，广播 .7）；\n2. 路由汇聚聚合：\n   - 华北 4、5、6、7：第 3 字节前 6 位均为 000001，掩码缩短 2 位变为 /22，聚合为 172.16.4.0/22；\n   - 华东 8、9、10、11：第 3 字节前 6 位均为 000010，聚合为 172.16.8.0/22；\n3. 安全设备：DLP（数据泄露防护系统，负责敏感内容识别与外发阻断审计）；\n4. VLSM 划分计算：\n   - 分支 A（60 台主机）：主机位需 6 位（2^6 - 2 = 62 > 60），掩码前缀 = 32 - 6 = 26 位。掩码：255.255.255.192，网段：10.1.1.0/26，可用 IP：10.1.1.1 ~ 10.1.1.62；\n   - 分支 B（28 台主机）：主机位需 5 位（2^5 - 2 = 30 > 28），掩码前缀 = 32 - 5 = 27 位。掩码：255.255.255.224，网段：10.1.1.64/27，可用 IP：10.1.1.65 ~ 10.1.1.94。"}}];
+
+    let currentPaperIndex = 0;
+    let isStudyMode = false; // false = 模考模式, true = 即时刷题模式
+    let userAnswers = {}; // { paperId: { qId: val } }
+    let markedQuestions = new Set();
+    let timerInterval = null;
+    let timeRemaining = 120 * 60; // 120 minutes in seconds
+    let isSubmitted = false;
+
+    // Initialize System
+    function init() {
+      loadTheme();
+      renderPaperTabs();
+      switchPaper(0);
+      startTimer();
+    }
+
+    // Theme Toggle
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const target = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', target);
+      localStorage.setItem('ncre_theme', target);
+    }
+
+    function loadTheme() {
+      const saved = localStorage.getItem('ncre_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+
+    // Mode Toggle
+    function toggleMode() {
+      isStudyMode = !isStudyMode;
+      const badge = document.getElementById('modeBadge');
+      if (isStudyMode) {
+        badge.textContent = '💡 逐题刷题模式';
+        badge.style.backgroundColor = 'var(--success-light)';
+        badge.style.color = 'var(--success)';
+      } else {
+        badge.textContent = '📝 全真模考模式';
+        badge.style.backgroundColor = 'var(--primary-light)';
+        badge.style.color = 'var(--primary)';
+      }
+      renderQuestions();
+    }
+
+    // Paper Switcher
+    function renderPaperTabs() {
+      const tabs = document.getElementById('paperTabs');
+      tabs.innerHTML = '';
+      papersData.forEach((paper, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `paper-tab ${idx === currentPaperIndex ? 'active' : ''}`;
+        btn.textContent = `试卷 ${idx + 1}：${paper.title.split('·')[1] || paper.title}`;
+        btn.onclick = () => switchPaper(idx);
+        tabs.appendChild(btn);
+      });
+    }
+
+    function switchPaper(index) {
+      currentPaperIndex = index;
+      isSubmitted = false;
+      renderPaperTabs();
+      renderPaperIntro();
+      renderQuestions();
+      renderPalette();
+    }
+
+    function renderPaperIntro() {
+      const paper = papersData[currentPaperIndex];
+      const intro = document.getElementById('paperIntro');
+      intro.innerHTML = `
+        <h1>${paper.title}</h1>
+        <p>${paper.subtitle}</p>
+        <div class="stats-bar">
+          <div class="stat-pill">⏱️ 考试时长: <strong>120 分钟</strong></div>
+          <div class="stat-pill">💯 试卷总分: <strong>${paper.total_score} 分</strong></div>
+          <div class="stat-pill">🎯 合格线: <strong>60 分</strong></div>
+          <div class="stat-pill">📚 单选题 40分 | 综合题 40分 | 应用题 20分</div>
+        </div>
+      `;
+    }
+
+    // Render Questions
+    function renderQuestions() {
+      const paper = papersData[currentPaperIndex];
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+
+      // Section 1: MCQs
+      const sec1Title = document.createElement('div');
+      sec1Title.className = 'section-title';
+      sec1Title.textContent = `第一部分：单项选择题（共 40 题，每题 1 分，共 40 分）`;
+      container.appendChild(sec1Title);
+
+      paper.mcqs.forEach((q) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card_${q.id}`;
+
+        const isMarked = markedQuestions.has(q.id);
+        const userAns = getUserAnswer(q.id);
+
+        let optionsHtml = '<div class="options-list">';
+        q.options.forEach((opt) => {
+          const letter = opt.trim().charAt(0);
+          let cls = 'option-item';
+          if (userAns === letter) cls += ' selected';
+
+          if (isSubmitted || isStudyMode) {
+            if (userAns) {
+              if (letter === q.answer) cls += ' correct';
+              else if (userAns === letter) cls += ' wrong';
+            }
+          }
+
+          optionsHtml += `
+            <div class="${cls}" onclick="selectOption('${q.id}', '${letter}')">
+              ${opt}
+            </div>
+          `;
+        });
+        optionsHtml += '</div>';
+
+        card.innerHTML = `
+          <div class="question-header">
+            <span class="q-number">第 ${q.number} 题</span>
+            <div class="q-title">${q.title}</div>
+            <button class="mark-btn ${isMarked ? 'marked' : ''}" onclick="toggleMark('${q.id}')">
+              ${isMarked ? '★ 已标记' : '☆ 标记'}
+            </button>
+          </div>
+          ${optionsHtml}
+          <div class="explanation-box ${isSubmitted || isStudyMode ? 'show' : ''}" id="exp_${q.id}">
+            <div class="exp-title">💡 官方考点与速通解析 【标准答案: ${q.answer}】</div>
+            <div class="exp-content">${q.explanation}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Section 2: Comprehensives
+      const sec2Title = document.createElement('div');
+      sec2Title.className = 'section-title';
+      sec2Title.textContent = `第二部分：综合题（共 4 大题，每题 10 分，共 40 分）`;
+      container.appendChild(sec2Title);
+
+      paper.comprehensives.forEach((comp) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card_${comp.id}`;
+
+        let codeHtml = comp.code_snippet ? `<div class="code-box">${escapeHtml(comp.code_snippet)}</div>` : '';
+
+        let subqsHtml = '';
+        comp.subquestions.forEach((sq) => {
+          const userVal = getUserAnswer(sq.id) || '';
+          let inputClass = 'blank-input';
+          if (isSubmitted || isStudyMode) {
+            if (userVal.trim()) {
+              if (checkBlankAnswer(userVal, sq.answer)) inputClass += ' correct';
+              else inputClass += ' wrong';
+            }
+          }
+
+          subqsHtml += `
+            <div class="blank-group">
+              <div class="blank-label">${sq.prompt} <span style="color:var(--primary); font-size:0.8rem;">(${sq.score}分)</span></div>
+              <div class="blank-input-row">
+                <input type="text" class="${inputClass}" id="input_${sq.id}" 
+                  placeholder="${sq.placeholder}" value="${escapeHtml(userVal)}"
+                  onchange="saveBlankAnswer('${sq.id}', this.value)"
+                  onblur="saveBlankAnswer('${sq.id}', this.value)">
+                ${isStudyMode ? `<button class="btn btn-outline" style="padding:4px 8px;font-size:0.75rem;" onclick="showBlankHint('${sq.id}', '${sq.hint}')">提示</button>` : ''}
+              </div>
+              ${(isSubmitted || isStudyMode) ? `<div style="margin-top:6px; font-size:0.8rem; color:var(--text-muted);">【标准参考】${sq.answer.join(' 或 ')} | 提示: ${sq.hint}</div>` : ''}
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="question-header">
+            <span class="q-number">综合题 ${comp.number}</span>
+            <div class="q-title">${comp.title}</div>
+          </div>
+          <p style="font-size:0.95rem; color:var(--text); margin-bottom:10px;">${comp.description}</p>
+          ${codeHtml}
+          ${subqsHtml}
+          <div class="explanation-box ${isSubmitted || isStudyMode ? 'show' : ''}" id="exp_${comp.id}">
+            <div class="exp-title">💡 综合题精讲与解题推导</div>
+            <div class="exp-content">${comp.explanation}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Section 3: Applied Question
+      const sec3Title = document.createElement('div');
+      sec3Title.className = 'section-title';
+      sec3Title.textContent = `第三部分：应用题（共 1 大题，共 20 分）`;
+      container.appendChild(sec3Title);
+
+      const app = paper.applied;
+      const appCard = document.createElement('div');
+      appCard.className = 'question-card';
+      appCard.id = `card_${app.id}`;
+
+      let svgHtml = app.svg_diagram ? `<div style="margin:16px 0; border-radius:8px; overflow:hidden; border:1px solid var(--border);">${app.svg_diagram}</div>` : '';
+
+      let appSubsHtml = '';
+      app.subquestions.forEach((sq) => {
+        const userVal = getUserAnswer(sq.id) || '';
+        let inputClass = 'blank-input';
+        if (isSubmitted || isStudyMode) {
+          if (userVal.trim()) {
+            if (checkBlankAnswer(userVal, sq.answer)) inputClass += ' correct';
+            else inputClass += ' wrong';
+          }
+        }
+
+        appSubsHtml += `
+          <div class="blank-group">
+            <div class="blank-label">${sq.prompt} <span style="color:var(--primary); font-size:0.8rem;">(${sq.score}分)</span></div>
+            <div class="blank-input-row">
+              <input type="text" class="${inputClass}" id="input_${sq.id}" 
+                placeholder="${sq.placeholder}" value="${escapeHtml(userVal)}"
+                onchange="saveBlankAnswer('${sq.id}', this.value)"
+                onblur="saveBlankAnswer('${sq.id}', this.value)">
+              ${isStudyMode ? `<button class="btn btn-outline" style="padding:4px 8px;font-size:0.75rem;" onclick="showBlankHint('${sq.id}', '${sq.hint}')">提示</button>` : ''}
+            </div>
+            ${(isSubmitted || isStudyMode) ? `<div style="margin-top:6px; font-size:0.8rem; color:var(--text-muted);">【标准参考】${sq.answer.join(' 或 ')} | 提示: ${sq.hint}</div>` : ''}
+          </div>
+        `;
+      });
+
+      appCard.innerHTML = `
+        <div class="question-header">
+          <span class="q-number">应用题</span>
+          <div class="q-title">${app.title}</div>
+        </div>
+        <p style="font-size:0.95rem; color:var(--text);">${app.description}</p>
+        ${svgHtml}
+        ${appSubsHtml}
+        <div class="explanation-box ${isSubmitted || isStudyMode ? 'show' : ''}" id="exp_${app.id}">
+          <div class="exp-title">💡 拓扑规划与综合应用大题解析</div>
+          <div class="exp-content">${app.explanation}</div>
+        </div>
+      `;
+      container.appendChild(appCard);
+    }
+
+    // Palette Render
+    function renderPalette() {
+      const paper = papersData[currentPaperIndex];
+      const grid = document.getElementById('paletteGrid');
+      grid.innerHTML = '';
+
+      let totalCount = 0;
+      let answeredCount = 0;
+
+      // 40 MCQs
+      paper.mcqs.forEach((q) => {
+        totalCount++;
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = q.number;
+        btn.id = `pal_${q.id}`;
+
+        const ans = getUserAnswer(q.id);
+        if (ans) {
+          answeredCount++;
+          btn.classList.add('done');
+        }
+        if (markedQuestions.has(q.id)) {
+          btn.classList.add('marked');
+        }
+
+        if (isSubmitted) {
+          if (ans === q.answer) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+          }
+        }
+
+        btn.onclick = () => scrollToCard(`card_${q.id}`);
+        grid.appendChild(btn);
+      });
+
+      // 4 Comprehensive Big Questions
+      paper.comprehensives.forEach((c) => {
+        totalCount++;
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = `综${c.number}`;
+        btn.id = `pal_${c.id}`;
+
+        let done = c.subquestions.every(sq => !!getUserAnswer(sq.id));
+        if (done) {
+          answeredCount++;
+          btn.classList.add('done');
+        }
+        btn.onclick = () => scrollToCard(`card_${c.id}`);
+        grid.appendChild(btn);
+      });
+
+      // 1 Applied Big Question
+      totalCount++;
+      const appBtn = document.createElement('button');
+      appBtn.className = 'palette-btn';
+      appBtn.textContent = '应';
+      appBtn.id = `pal_${paper.applied.id}`;
+      if (paper.applied.subquestions.every(sq => !!getUserAnswer(sq.id))) {
+        answeredCount++;
+        appBtn.classList.add('done');
+      }
+      appBtn.onclick = () => scrollToCard(`card_${paper.applied.id}`);
+      grid.appendChild(appBtn);
+
+      document.getElementById('progressText').textContent = `${answeredCount} / ${totalCount}`;
+    }
+
+    // State Management
+    function getUserAnswer(qId) {
+      const paperId = papersData[currentPaperIndex].id;
+      if (!userAnswers[paperId]) userAnswers[paperId] = {};
+      return userAnswers[paperId][qId];
+    }
+
+    function selectOption(qId, letter) {
+      const paperId = papersData[currentPaperIndex].id;
+      if (!userAnswers[paperId]) userAnswers[paperId] = {};
+      userAnswers[paperId][qId] = letter;
+      renderQuestions();
+      renderPalette();
+    }
+
+    function saveBlankAnswer(qId, val) {
+      const paperId = papersData[currentPaperIndex].id;
+      if (!userAnswers[paperId]) userAnswers[paperId] = {};
+      userAnswers[paperId][qId] = val.trim();
+      renderPalette();
+    }
+
+    function toggleMark(qId) {
+      if (markedQuestions.has(qId)) markedQuestions.delete(qId);
+      else markedQuestions.add(qId);
+      renderQuestions();
+      renderPalette();
+    }
+
+    function showBlankHint(qId, hint) {
+      alert(`💡 考点提示：${hint}`);
+    }
+
+    function scrollToCard(cardId) {
+      const el = document.getElementById(cardId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Fuzzy matching for blank text questions
+    function checkBlankAnswer(userInput, correctList) {
+      if (!userInput) return false;
+      const cleanUser = userInput.trim().toLowerCase().replace(/\s+/g, '');
+      return correctList.some(target => {
+        const cleanTarget = target.trim().toLowerCase().replace(/\s+/g, '');
+        return cleanUser === cleanTarget;
+      });
+    }
+
+    // Submit Exam
+    function submitExam() {
+      isSubmitted = true;
+      const paper = papersData[currentPaperIndex];
+
+      let mcqScore = 0;
+      let compScore = 0;
+      let appScore = 0;
+      const wrongList = [];
+
+      // 1. Calculate MCQs
+      paper.mcqs.forEach((q) => {
+        const ans = getUserAnswer(q.id);
+        if (ans === q.answer) {
+          mcqScore += 1;
+        } else {
+          wrongList.push(`第 ${q.number} 题（单选题）：考生选 ${ans || '未作答'}，标准答案 ${q.answer}`);
+        }
+      });
+
+      // 2. Calculate Comprehensive Questions
+      paper.comprehensives.forEach((c) => {
+        c.subquestions.forEach((sq) => {
+          const ans = getUserAnswer(sq.id);
+          if (checkBlankAnswer(ans, sq.answer)) {
+            compScore += sq.score;
+          } else {
+            wrongList.push(`综合题 ${c.number} - ${sq.prompt}：考生填“${ans || '未填'}”，参考：“${sq.answer[0]}”`);
+          }
+        });
+      });
+
+      // 3. Calculate Applied Questions
+      paper.applied.subquestions.forEach((sq) => {
+        const ans = getUserAnswer(sq.id);
+        if (checkBlankAnswer(ans, sq.answer)) {
+          appScore += sq.score;
+        } else {
+          wrongList.push(`应用题 - ${sq.prompt}：考生填“${ans || '未填'}”，参考：“${sq.answer[0]}”`);
+        }
+      });
+
+      const totalScore = mcqScore + compScore + appScore;
+
+      // Update Modal
+      document.getElementById('modalScore').textContent = totalScore;
+      document.getElementById('mcqScoreReport').textContent = `${mcqScore} / 40`;
+      document.getElementById('compScoreReport').textContent = `${compScore} / 40`;
+      document.getElementById('appScoreReport').textContent = `${appScore} / 20`;
+
+      const title = document.getElementById('modalResultTitle');
+      const subtitle = document.getElementById('modalResultSubtitle');
+      if (totalScore >= 60) {
+        title.innerHTML = '🎉 恭喜！您已顺利通过本科目模拟考试！';
+        title.style.color = 'var(--success)';
+        subtitle.textContent = `全国计算机等级考试及格线为 60 分，您的表现非常优秀！`;
+      } else {
+        title.innerHTML = '⚠️ 暂未及格，仍需巩固知识点！';
+        title.style.color = 'var(--danger)';
+        subtitle.textContent = `距离 60 分合格线还差 ${60 - totalScore} 分，请仔细研读每题解析！`;
+      }
+
+      const wrongDiv = document.getElementById('wrongQuestionsList');
+      if (wrongList.length === 0) {
+        wrongDiv.innerHTML = '<div style="color:var(--success); font-weight:bold;">🔥 太厉害了！全卷满分零失误！</div>';
+      } else {
+        wrongDiv.innerHTML = wrongList.map(item => `<div style="padding:4px 0; border-bottom:1px dashed var(--border);">${item}</div>`).join('');
+      }
+
+      document.getElementById('scoreModal').classList.add('show');
+      renderQuestions();
+      renderPalette();
+    }
+
+    function closeModal() {
+      document.getElementById('scoreModal').classList.remove('show');
+    }
+
+    function restartExam() {
+      closeModal();
+      resetCurrentPaper();
+    }
+
+    function resetCurrentPaper() {
+      if (confirm('确认清空本套试卷的所有作答记录并重新作答吗？')) {
+        const paperId = papersData[currentPaperIndex].id;
+        userAnswers[paperId] = {};
+        isSubmitted = false;
+        renderQuestions();
+        renderPalette();
+        timeRemaining = 120 * 60;
+      }
+    }
+
+    function toggleAllExplanations() {
+      const boxes = document.querySelectorAll('.explanation-box');
+      const anyHidden = Array.from(boxes).some(b => !b.classList.contains('show'));
+      boxes.forEach(b => {
+        if (anyHidden) b.classList.add('show');
+        else b.classList.remove('show');
+      });
+    }
+
+    // Timer
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (!isSubmitted && !isStudyMode) {
+          timeRemaining--;
+          if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert('⏰ 考试时间到！系统已为您自动交卷评分。');
+            submitExam();
+          }
+          updateTimerDisplay();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timeRemaining / 60);
+      const s = timeRemaining % 60;
+      document.getElementById('timerDisplay').textContent = `⏱️ ${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // Run on startup
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

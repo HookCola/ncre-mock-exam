@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全国计算机等级考试（NCRE）三级数据库技术 全真模拟与交互式实训系统</title>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --primary-light: #e0f2fe;
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --code-bg: #0f172a;
+      --code-text: #38bdf8;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --card-bg: #1e293b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --code-bg: #020617;
+      --code-text: #7dd3fc;
+      --primary-light: #0c4a6e;
+      --success-light: #064e3b;
+      --danger-light: #7f1d1d;
+      --warning-light: #78350f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Layout */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: white;
+    }
+    .btn-success:hover {
+      opacity: 0.9;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      background-color: var(--border);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Paper Tabs */
+    .paper-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .paper-tab {
+      padding: 10px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .paper-tab.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 4px 10px rgba(2,132,199,0.25);
+    }
+
+    /* Paper Intro Card */
+    .intro-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .intro-card h1 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .intro-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* Section Styles */
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 30px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-left: 10px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .question-card:hover {
+      border-color: #cbd5e1;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+
+    .q-number {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.05rem;
+    }
+
+    .q-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      flex-grow: 1;
+    }
+
+    .mark-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .mark-btn.marked {
+      background-color: var(--warning-light);
+      border-color: var(--warning);
+      color: var(--warning);
+      font-weight: bold;
+    }
+
+    /* Options */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      background: var(--card-bg);
+    }
+
+    .option-item:hover {
+      background-color: var(--bg);
+      border-color: var(--primary);
+    }
+
+    .option-item.selected {
+      background-color: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .option-item.correct {
+      background-color: var(--success-light) !important;
+      border-color: var(--success) !important;
+      color: var(--success) !important;
+      font-weight: bold;
+    }
+
+    .option-item.wrong {
+      background-color: var(--danger-light) !important;
+      border-color: var(--danger) !important;
+      color: var(--danger) !important;
+      font-weight: bold;
+    }
+
+    /* Blanks */
+    .blank-group {
+      background: var(--bg);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-top: 14px;
+    }
+
+    .blank-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .blank-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .blank-input {
+      flex-grow: 1;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+      background: var(--card-bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .blank-input:focus {
+      border-color: var(--primary);
+    }
+
+    .blank-input.correct {
+      border-color: var(--success);
+      background-color: var(--success-light);
+    }
+
+    .blank-input.wrong {
+      border-color: var(--danger);
+      background-color: var(--danger-light);
+    }
+
+    /* Code Snippet */
+    .code-box {
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      margin: 14px 0;
+      line-height: 1.5;
+    }
+
+    /* Analysis / Explanation */
+    .explanation-box {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 8px;
+      background-color: var(--bg);
+      border-left: 4px solid var(--primary);
+      display: none;
+    }
+
+    .explanation-box.show {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+
+    .exp-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .exp-content {
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    /* Sidebar / Palette */
+    .sidebar {
+      position: sticky;
+      top: 80px;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .palette-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .palette-header {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .palette-btn {
+      aspect-ratio: 1;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .palette-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .palette-btn.done {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .palette-btn.marked {
+      background: var(--warning-light);
+      color: var(--warning);
+      border-color: var(--warning);
+    }
+
+    .palette-btn.correct {
+      background: var(--success-light);
+      color: var(--success);
+      border-color: var(--success);
+    }
+
+    .palette-btn.wrong {
+      background: var(--danger-light);
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .timer-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      padding: 10px;
+      background: var(--primary-light);
+      border-radius: 8px;
+      margin-bottom: 14px;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+      animation: fadeIn 0.2s;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .score-banner {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .score-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+      font-weight: 800;
+    }
+
+    .score-num {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .score-total {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="brand-title">
+        <span>🗄️</span> NCRE 三级数据库技术 · 全真拟真题库系统
+      </div>
+      <div class="header-actions">
+        <span class="badge" id="modeBadge">📝 全真模考模式</span>
+        <button class="btn btn-outline" id="modeToggleBtn" onclick="toggleMode()">
+          ⚡ 切换模式
+        </button>
+        <button class="btn btn-outline" id="themeToggleBtn" onclick="toggleTheme()">
+          🌓 主题
+        </button>
+        <button class="btn btn-success" onclick="submitExam()">
+          📊 交卷评分
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    
+    <!-- Left Column: Questions & Papers -->
+    <main>
+      <!-- Paper Selector Tabs -->
+      <div class="paper-tabs" id="paperTabs"></div>
+
+      <!-- Current Paper Info Banner -->
+      <div class="intro-card" id="paperIntro"></div>
+
+      <!-- Question List Container -->
+      <div id="questionsContainer"></div>
+    </main>
+
+    <!-- Right Column: Sidebar & Question Palette -->
+    <aside class="sidebar">
+      <div class="palette-card">
+        <!-- Timer in Exam Mode -->
+        <div class="timer-box" id="timerDisplay">
+          ⏱️ 120:00
+        </div>
+
+        <div class="palette-header">
+          <span>答题卡导航</span>
+          <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);" id="progressText">0/57</span>
+        </div>
+
+        <!-- Legend -->
+        <div style="display: flex; gap: 10px; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; flex-wrap: wrap;">
+          <span style="display: flex; align-items: center; gap: 4px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--primary-light);border:1px solid var(--primary);display:inline-block;"></span>已答</span>
+          <span style="display: flex; align-items: center; gap: 4px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--bg);border:1px solid var(--border);display:inline-block;"></span>未答</span>
+          <span style="display: flex; align-items: center; gap: 4px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--warning-light);border:1px solid var(--warning);display:inline-block;"></span>标记</span>
+        </div>
+
+        <!-- Palette Grid -->
+        <div class="palette-grid" id="paletteGrid"></div>
+
+        <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 8px;">
+          <button class="btn btn-outline" style="width: 100%; justify-content: center;" onclick="toggleAllExplanations()">
+            👁️ 展开/折叠全部解析
+          </button>
+          <button class="btn btn-outline" style="width: 100%; justify-content: center; color: var(--danger);" onclick="resetCurrentPaper()">
+            🔄 重置本套试卷
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Score Modal -->
+  <div class="modal-backdrop" id="scoreModal">
+    <div class="modal-content">
+      <div class="score-banner">
+        <div class="score-circle">
+          <span class="score-num" id="modalScore">0</span>
+          <span class="score-total">/ 100 分</span>
+        </div>
+        <h2 id="modalResultTitle" style="margin-bottom: 6px;">成绩评估</h2>
+        <p id="modalResultSubtitle" style="color: var(--text-muted); font-size: 0.9rem;">及格线为 60 分</p>
+      </div>
+
+      <div style="background: var(--bg); border-radius: 8px; padding: 16px; margin: 16px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+        <div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">单选题得分</div>
+          <div style="font-size: 1.2rem; font-weight: 700; color: var(--primary);" id="mcqScoreReport">0 / 40</div>
+        </div>
+        <div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">填空题得分</div>
+          <div style="font-size: 1.2rem; font-weight: 700; color: var(--primary);" id="blankScoreReport">0 / 30</div>
+        </div>
+        <div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">设计应用题得分</div>
+          <div style="font-size: 1.2rem; font-weight: 700; color: var(--primary);" id="appScoreReport">0 / 30</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px;">
+        <h3 style="font-size: 1rem; margin-bottom: 8px;">错题诊断与回顾</h3>
+        <div id="wrongQuestionsList" style="max-height: 200px; overflow-y: auto; font-size: 0.85rem; color: var(--text-muted);"></div>
+      </div>
+
+      <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn btn-outline" onclick="closeModal()">返回查看解析</button>
+        <button class="btn btn-primary" onclick="restartExam()">重新作答</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Embedded Exam Data
+    const papersData = [{"id": "db_paper1", "title": "全国计算机等级考试三级数据库技术·全真模拟试卷（一）", "subtitle": "核心基础与概念逻辑设计卷 · 对标教育部考试院最新考试大纲规范", "duration": 120, "total_score": 100, "mcq_score": 40, "blank_score": 30, "app_score": 30, "mcqs": [{"id": "p1_m1", "number": 1, "title": "在数据库系统的三级模式体系结构中，用于描述数据库中全体数据的逻辑结构和特征的是（ ）。", "options": ["A. 外模式（子模式 / 用户模式）", "B. 模式（逻辑模式）", "C. 内模式（存储模式）", "D. 概念模式与物理模式的组合"], "answer": "B", "hint": "三级模式中：模式（逻辑模式）是全局逻辑结构；外模式是用户视图；内模式是物理存储", "explanation": "【官方考点与速通解析】\n数据库系统三级模式结构：\n1. 模式（Schema，逻辑模式）：数据库中全体数据的逻辑结构和特征的描述，是所有用户的公共数据视图，一个数据库只有一个模式；\n2. 外模式（External Schema，子模式）：用户能够看见和使用的局部数据的逻辑结构和特征，一个模式可以有多个外模式；\n3. 内模式（Internal Schema，存储模式）：数据物理结构和存储方式的描述，一个数据库只有一个内模式。\n故全体数据的逻辑结构描述是模式，选 B。"}, {"id": "p1_m2", "number": 2, "title": "数据库管理系统通过二级映像机制保证了数据的独立性。其中，保证数据“逻辑独立性”的是（ ）。", "options": ["A. 模式 / 内模式映像", "B. 外模式 / 模式映像", "C. 外模式 / 内模式映像", "D. 用户 / 外模式映像"], "answer": "B", "hint": "外模式/模式映像保证逻辑独立性；模式/内模式映像保证物理独立性", "explanation": "【官方考点与速通解析】\n二级映像与数据独立性：\n- 外模式 / 模式映像：当模式改变时（如增加新列、新关系），只需修改外模式/模式映像，使外模式保持不变，应用程序无需修改，从而保证了数据的【逻辑独立性】；\n- 模式 / 内模式映像：当存储结构改变时（如修改索引、更换存储介质），只需修改模式/内模式映像，使全局模式保持不变，从而保证了数据的【物理独立性】。故选 B。"}, {"id": "p1_m3", "number": 3, "title": "实体-联系模型（E-R 模型）是概念结构设计的强有力工具。在标准 E-R 图中，用来表示“实体集”的图形符号是（ ）。", "options": ["A. 矩形框", "B. 椭圆框", "C. 菱形框", "D. 三角形框"], "answer": "A", "hint": "矩形表示实体集，椭圆表示属性，菱形表示联系", "explanation": "【官方考点与速通解析】\nE-R 图三种经典图符：\n- 矩形框（Rectangle）：表示实体集（Entity Set）；\n- 椭圆形框（Ellipse）：表示实体的属性（Attribute）；\n- 菱形框（Diamond）：表示实体之间的联系（Relationship）。选 A。"}, {"id": "p1_m4", "number": 4, "title": "关系数据模型必须满足完整性约束条件。根据“实体完整性”规则，关系模式中的主键（主属性）（ ）。", "options": ["A. 可以取空值（NULL）但必须唯一", "B. 不能取空值（NULL）且必须唯一标识每个元组", "C. 可以与同一元组中的外键取值相同", "D. 其取值范围必须受到 CHECK 约束限定"], "answer": "B", "hint": "实体完整性口诀：主键唯一且非空", "explanation": "【官方考点与速通解析】\n关系数据库三大完整性规则：\n1. 实体完整性：若属性 A 是基本关系 R 的主属性，则 A 不能取空值（NULL），且主键的值必须唯一标识一个元组；\n2. 参照完整性：外键的取值要么为空值（NULL），要么必须等于被参照关系中某个元组的主键值；\n3. 用户定义完整性：针对某一具体关系数据库的约束条件（如 NOT NULL、CHECK 等）。故选 B。"}, {"id": "p1_m5", "number": 5, "title": "设关系 R 和 S 分别有 4 个元组和 3 个元组，且元数（属性个数）分别为 3 和 2。则 R 与 S 进行笛卡尔积运算（R × S）后，结果关系的元数和元组数分别为（ ）。", "options": ["A. 元数为 5，元组数为 12", "B. 元数为 6，元组数为 7", "C. 元数为 5，元组数为 7", "D. 元数为 6，元组数为 12"], "answer": "A", "hint": "笛卡尔积：属性相加（3+2=5），元组相乘（4×3=12）", "explanation": "【官方考点与速通解析】\n笛卡尔积（Cartesian Product）的计算规则：\n- 结果关系的属性个数（元数 / 属性度 Degree）= R 的属性数 + S 的属性数 = 3 + 2 = 5；\n- 结果关系的元组个数（基数 Cardinality）= R 的元组数 × S 的元组数 = 4 × 3 = 12。故选 A。"}, {"id": "p1_m6", "number": 6, "title": "关系代数中的“自然连接”（Natural Join）是一种特殊的等值连接。关于自然连接的描述中，正确的是（ ）。", "options": ["A. 要求两个关系具有相同名称和域的公共属性，且在结果中保留重复的公共属性列", "B. 基于两个关系中所有公共属性进行等值比较，并在结果关系中去除重复的公共属性列", "C. 自然连接不需要两个关系具有公共属性", "D. 自然连接的结果元组数必定大于等于两个关系的笛卡尔积元组数"], "answer": "B", "hint": "自然连接自动在同名属性上做等值匹配，并去重公共列", "explanation": "【官方考点与速通解析】\n自然连接（⋈）的特点：\n1. 必须在两个关系的【同名公共属性】上进行等值连接比较；\n2. 连接后，在生成的结果关系中自动【去除重复的属性列】，只保留一份公共列。因此自然连接是特殊的、带有投影去重的等值连接。选 B。"}, {"id": "p1_m7", "number": 7, "title": "设有关系模式 R(A, B, C, D)，其函数依赖集 F = {A -> B, B -> C, C -> D}。则函数依赖 A -> D 属于（ ）。", "options": ["A. 完全函数依赖", "B. 部分函数依赖", "C. 传递函数依赖", "D. 相互函数依赖"], "answer": "C", "hint": "A -> B -> C -> D，中间有传递推导，属于传递函数依赖", "explanation": "【官方考点与速通解析】\n传递函数依赖定义：\n在关系模式 R 中，若 X -> Y（Y 不包含于 X），Y 不能反向决定 X（Y -/-> X），且 Y -> Z（Z 不包含于 Y），则称 Z 传递函数依赖于 X。\n本题中 A -> B，B -> C，C -> D，且 B 和 C 不能反向推导 A，因此 A -> D 是典型的传递函数依赖。选 C。"}, {"id": "p1_m8", "number": 8, "title": "关系模式规范化理论中，第一范式（1NF）的基本要求是（ ）。", "options": ["A. 关系中每一个属性都不可再分，即必须是原子项", "B. 消除了非主属性对主码的部分函数依赖", "C. 消除了非主属性对主码的传递函数依赖", "D. 所有决定因素都必须包含候选码"], "answer": "A", "hint": "1NF 核心：属性原子性，不可再分", "explanation": "【官方考点与速通解析】\n各级范式核心要求口诀：\n- 1NF（第一范式）：关系中的每一个分量都必须是不可再分的原子数据项（表中无表）；\n- 2NF（第二范式）：满足 1NF，且每个非主属性完全函数依赖于码（消除部分依赖）；\n- 3NF（第三范式）：满足 2NF，且消除了非主属性对码的传递依赖；\n- BCNF：消除主属性对码的传递依赖（所有决定因素包含候选码）。故选 A。"}, {"id": "p1_m9", "number": 9, "title": "设有关系模式 R(学号, 课程号, 成绩, 教师姓名, 教师所在系)，主键为 (学号, 课程号)。已知函数依赖：(学号, 课程号) -> 成绩，课程号 -> 教师姓名，教师姓名 -> 教师所在系。该关系模式最高满足（ ）。", "options": ["A. 1NF", "B. 2NF", "C. 3NF", "D. BCNF"], "answer": "A", "hint": "主键是复合主键 (学号, 课程号)，而课程号单独就能决定教师姓名，存在部分函数依赖，不满足 2NF！", "explanation": "【官方考点与速通解析】\n分析关系模式：\n- 主键为复合码：(学号, 课程号)；\n- 非主属性有：成绩、教师姓名、教师所在系；\n- 函数依赖中存在：课程号 -> 教师姓名。由于“课程号”只是主键真子集，这意味着非主属性“教师姓名”仅依赖于主键的一部分，存在【部分函数依赖】！\n- 存在部分函数依赖便违背了 2NF 的要求，因此该模式最高只能达到 1NF。故选 A。"}, {"id": "p1_m10", "number": 10, "title": "若要求关系模式分解具有“无损连接性”（Lossless Join）且“保持函数依赖”，则该模式一定可以分解规范化达到（ ）。", "options": ["A. 1NF", "B. 2NF", "C. 3NF", "D. BCNF"], "answer": "C", "hint": "经典定理：保持函数依赖且无损连接分解一定能达到 3NF，但不一定能达到 BCNF", "explanation": "【官方考点与速通解析】\n关系规范化理论的重要结论：\n1. 任何一个关系模式一定可以分解为一组满足 3NF 的关系模式，并且同时保证【无损连接性】和【保持函数依赖】；\n2. 任何一个关系模式一定可以无损分解到 BCNF，但此时【不一定能保持函数依赖】。\n题目明确指明既保持函数依赖又具有无损连接，因此必定可以达到 3NF。选 C。"}, {"id": "p1_m11", "number": 11, "title": "在 Microsoft SQL Server 中，存储数据库数据和系统管理信息的底层物理文件有且仅有一个的是（ ）。", "options": ["A. 主数据文件（Primary Data File，.mdf）", "B. 次数据文件（Secondary Data File，.ndf）", "C. 事务日志文件（Transaction Log File，.ldf）", "D. 临时快照文件（Snapshot File，.bak）"], "answer": "A", "hint": "主数据文件 .mdf 有且仅有一个；次数据文件 .ndf 可以有 0 到多个；日志文件 .ldf 至少有 1 个", "explanation": "【官方考点与速通解析】\nSQL Server 数据库物理文件组成：\n- 主数据文件（扩展名 .mdf）：存放数据库的启动信息和部分或全部数据，每个数据库【必须有且只能有 1 个】主数据文件；\n- 次数据文件（扩展名 .ndf）：当数据库容量庞大需跨硬盘分布时使用，可以有 0 个、1 个或多个；\n- 事务日志文件（扩展名 .ldf）：存放用于数据库恢复的日志信息，每个数据库【至少有 1 个】，可以有多个。选 A。"}, {"id": "p1_m12", "number": 12, "title": "关于数据库中的聚集索引（Clustered Index）与非聚集索引（Nonclustered Index），下列说法中错误的是（ ）。", "options": ["A. 一个数据表中最多只能创建一个聚集索引", "B. 聚集索引的叶子节点就是实际存储数据记录的物理数据页", "C. 非聚集索引改变了数据表中物理记录的存储存放顺序", "D. 非聚集索引的叶子节点存储的是索引键值以及指向数据行的数据指针"], "answer": "C", "hint": "非聚集索引不改变物理行的存储顺序，聚集索引才决定物理存放顺序", "explanation": "【官方考点与速通解析】\n聚集索引 vs 非聚集索引：\n- 聚集索引（Clustered Index）：如同字典的正文按汉语拼音排列，表中的物理数据行完全按照聚集索引键的逻辑顺序存放。因此一张表【只能有 1 个】聚集索引，其叶子节点就是实际数据页；\n- 非聚集索引（Nonclustered Index）：如同字典后面的偏旁部首检字表，索引结构独立于数据页，【不改变实际数据行的物理存储顺序】。叶节点存储的是键值和行定位符（RID 或聚集键）。故 C 选项错误。"}, {"id": "p1_m13", "number": 13, "title": "在 SQL 查询语句中，WHERE 子句和 HAVING 子句都具有条件过滤功能。下列关于二者区别的描述中，正确的是（ ）。", "options": ["A. WHERE 子句在数据分组（GROUP BY）之前过滤原始单行记录，且不能直接使用聚合函数", "B. HAVING 子句在数据分组之前过滤记录，可以使用聚合函数", "C. WHERE 子句可以直接使用 SUM()、AVG() 等聚合函数过滤数据", "D. HAVING 子句与 WHERE 子句在 SQL 执行引擎中完全等价且可互换"], "answer": "A", "hint": "WHERE 先于 GROUP BY 过滤行，不可含聚合函数；HAVING 后于 GROUP BY 过滤分组，可用聚合函数", "explanation": "【官方考点与速通解析】\nWHERE 与 HAVING 的区别：\n1. 执行时机：WHERE 子句作用于表或视图，在分组聚合之前逐行过滤数据；HAVING 子句作用于 GROUP BY 之后产生的分组结果集；\n2. 聚合函数支持：WHERE 子句中严禁直接使用聚合函数（如 `WHERE COUNT(*) > 5` 报错）；HAVING 子句专门用于根据聚合函数计算结果筛选分组（如 `HAVING COUNT(*) > 5`）。选 A。"}, {"id": "p1_m14", "number": 14, "title": "在 SQL 关系集合运算中，若希望合并两个 SELECT 查询的结果集，并自动去除其中的所有重复元组，应使用的集合运算符是（ ）。", "options": ["A. UNION ALL", "B. UNION", "C. INTERSECT", "D. EXCEPT"], "answer": "B", "hint": "UNION 自动去重合并；UNION ALL 不去重直接合并", "explanation": "【官方考点与速通解析】\nSQL 集合运算符：\n- UNION：并集运算，合并两个结果集并【消除重复记录】；\n- UNION ALL：并集运算，直接合并所有记录，【保留重复项】，性能比 UNION 更好；\n- INTERSECT：交集运算，返回同时存在于两个结果集中的记录；\n- EXCEPT：差集运算，返回第一个结果集中存在但第二个结果集中不存在的记录。选 B。"}, {"id": "p1_m15", "number": 15, "title": "在 SQL Server 中创建视图时，若希望防止用户通过该视图插入或修改数据时破坏视图定义中的 WHERE 过滤条件，应在视图定义语句末尾添加的子句是（ ）。", "options": ["A. WITH ENCRYPTION", "B. WITH SCHEMABINDING", "C. WITH CHECK OPTION", "D. WITH TIES"], "answer": "C", "hint": "防止破坏视图过滤条件的经典子句是 WITH CHECK OPTION", "explanation": "【官方考点与速通解析】\n视图 WITH CHECK OPTION 子句的作用：\n当对视图执行 INSERT 或 UPDATE 操作时，DBMS 会强制检验修改后的行是否依然满足视图 `WHERE` 子句所指定的条件。如果不满足（例如视图定义要求部门为'财务部'，但用户尝试将其修改为'销售部'），系统将拒绝更新并抛出错误，从而确保通过视图维护数据的一致性。选 C。"}, {"id": "p1_m16", "number": 16, "title": "关于数据库存储过程（Stored Procedure）的特点与优势，下列描述中错误的是（ ）。", "options": ["A. 存储过程保存在数据库服务器端，首次执行后经过编译生成执行计划缓存在内存中", "B. 客户端只需传递存储过程名称和参数，大幅降低了网络通信数据流量", "C. 存储过程无法接受输入参数，也无法向调用者返回任何输出参数", "D. 数据库管理员可以授予用户执行存储过程的权限，而无需授予底层基表的访问权限"], "answer": "C", "hint": "存储过程完全支持输入参数与带有 OUTPUT 关键字的输出参数", "explanation": "【官方考点与速通解析】\n存储过程的核心优势：\n1. 预编译高性能：首次编译后驻留过程缓存，后续调用直接执行执行计划；\n2. 减少网络负载：客户端只需发送 `EXEC proc_name params` 几行调用文本；\n3. 增强安全防护：实现列级和行级访问控制，防止 SQL 注入；\n4. 支持丰富的参数交互：不仅支持普通输入参数，还支持带有 `OUTPUT` 关键字的输出参数传出计算结果，并支持 RETURN 返回状态码。C 选项表述错误。"}, {"id": "p1_m17", "number": 17, "title": "在 SQL Server 的 DML 触发器中，关于 AFTER 触发器与 INSTEAD OF 触发器的对比，正确的是（ ）。", "options": ["A. AFTER 触发器只能定义在视图上，不能定义在基表上", "B. INSTEAD OF 触发器在引发它的操作执行之后才被激活执行", "C. AFTER 触发器在触发它的 INSERT、UPDATE 或 DELETE 语句执行成功后才被触发执行", "D. 一个数据表上最多只能创建一个 AFTER 触发器"], "answer": "C", "hint": "AFTER 触发器在操作完成后执行；INSTEAD OF 触发器替代原操作执行", "explanation": "【官方考点与速通解析】\nDML 触发器分类：\n- AFTER 触发器（后触发 / FOR 触发器）：在触发语句（INSERT/UPDATE/DELETE）的所有操作及约束检查成功执行之后才激活。只能定义在【基表】上，一张表可建多个 AFTER 触发器；\n- INSTEAD OF 触发器（替代触发器）：【替代】原触发语句执行，原 INSERT/UPDATE/DELETE 根本不会直接操作基表，而是转由触发器内部逻辑处理。既可定义在基表上，也可定义在【视图】上，每种操作（增/删/改）在同一表/视图上最多只能建 1 个。故 C 正确。"}, {"id": "p1_m18", "number": 18, "title": "在 SQL Server 触发器执行期间，系统在内存中自动创建并维护了两个名为 inserted 和 deleted 的逻辑临时表。当向表中执行一条 UPDATE 更新语句时，这两个临时表的状态是（ ）。", "options": ["A. inserted 表存放更新后的新数据行，deleted 表存放更新前的旧数据行", "B. inserted 表存放更新前的数据行，deleted 表存放更新后的数据行", "C. 只有 inserted 表有数据，deleted 表为空", "D. 只有 deleted 表有数据，inserted 表为空"], "answer": "A", "hint": "UPDATE 本质是“先删旧行、再插新行”：deleted 放旧值，inserted 放新值", "explanation": "【官方考点与速通解析】\n触发器临时表核心机制：\n- INSERT 语句：新行被写入 `inserted` 表，`deleted` 表为空；\n- DELETE 语句：被删除的旧行被移入 `deleted` 表，`inserted` 表为空；\n- UPDATE 语句：相当于先删除旧数据，再插入新数据。因此被修改之前的【旧记录】存放在 `deleted` 表中，修改之后的【新记录】存放在 `inserted` 表中。选 A。"}, {"id": "p1_m19", "number": 19, "title": "游标（Cursor）提供了一种对 SQL 查询结果集进行逐行遍历处理的编程机制。使用游标提取下一行数据并存入局部变量的 T-SQL 语法关键字是（ ）。", "options": ["A. OPEN", "B. FETCH", "C. DEALLOCATE", "D. SELECT INTO"], "answer": "B", "hint": "游标提取数据关键字为 FETCH NEXT FROM ... INTO ...", "explanation": "【官方考点与速通解析】\n游标标准生命周期五步法：\n1. `DECLARE cursor_name CURSOR FOR ...`（声明游标）；\n2. `OPEN cursor_name`（打开游标）；\n3. `FETCH NEXT FROM cursor_name INTO @var1, @var2...`（提取下一行数据至局部变量）；\n4. `CLOSE cursor_name`（关闭游标，释放当前结果集游标位置）；\n5. `DEALLOCATE cursor_name`（彻底释放游标数据结构和引用）。\n提取数据使用 FETCH，选 B。"}, {"id": "p1_m20", "number": 20, "title": "数据库事务具有 ACID 四大基本特性。其中保证“事务中包含的所有数据库操作要么全做、要么全不做”的特性是（ ）。", "options": ["A. 原子性（Atomicity）", "B. 一致性（Consistency）", "C. 隔离性（Isolation）", "D. 持久性（Durability）"], "answer": "A", "hint": "要么全做要么全不做 = 原子性（Atomicity）", "explanation": "【官方考点与速通解析】\n事务 ACID 特性速记：\n- 原子性（Atomicity）：事务是不可分割的最小逻辑工作单元，事务中的操作要么全都成功执行，要么一旦失败全部回滚（ROLLBACK）撤销；\n- 一致性（Consistency）：事务执行前后，数据库必须保持一致性状态，满足所有完整性约束；\n- 隔离性（Isolation）：多个并发事务之间互不干扰；\n- 持久性（Durability）：事务一旦提交（COMMIT），其对数据的修改永久保存。选 A。"}, {"id": "p1_m21", "number": 21, "title": "在并发事务执行过程中，事务 T1 正在对数据项 A 进行修改但尚未提交。此时事务 T2 读取了 A 的当前值。随后 T1 因故发生异常被回滚（ROLLBACK）。T2 读到的实际上是一个从未生效的虚假数据。这种并发异常被称为（ ）。", "options": ["A. 丢失更新（Lost Update）", "B. 脏读（Dirty Read）", "C. 不可重复读（Non-repeatable Read）", "D. 幻读（Phantom Read）"], "answer": "B", "hint": "读到了别人未提交、后续可能回滚的数据 = 脏读", "explanation": "【官方考点与速通解析】\n并发三大经典异常现象辨析：\n1. 脏读（Dirty Read）：事务读到了另一个并发事务【未提交】的数据，随后该事务回滚，导致读入的数据是无效的；\n2. 不可重复读（Non-repeatable Read）：事务 T1 先后两次读取同一数据项，在两次读取之间事务 T2 对该数据进行了【UPDATE 修改并提交】，导致 T1 两次读取的值不一致；\n3. 幻读（Phantom Read）：事务 T1 按某一条件范围查询，事务 T2 在该范围内【INSERT 插入了新元组并提交】，导致 T1 再次按同条件查询时发现了凭空出现的“幻影行”。故选 B。"}, {"id": "p1_m22", "number": 22, "title": "在数据库封锁机制中，排他锁（X 锁，又称写锁）与共享锁（S 锁，又称读锁）之间的相容矩阵规则是（ ）。", "options": ["A. 任何数据项一旦加了 X 锁，其他事务既不能再对该数据加 X 锁，也不能加 S 锁", "B. 任何数据项一旦加了 S 锁，其他事务可以继续对其加 X 锁", "C. X 锁与任何锁都相容", "D. S 锁与 S 锁互斥不相容"], "answer": "A", "hint": "写锁（X锁）排斥一切，读锁（S锁）与其他读锁相容", "explanation": "【官方考点与速通解析】\n封锁相容性矩阵：\n- 共享锁（S 锁）：若事务 T 对数据对象 A 加了 S 锁，其他事务只能对 A 加 S 锁（可并发共享读取），但【不能加 X 锁】，直到 T 释放 S 锁；\n- 排他锁（X 锁）：若事务 T 对数据对象 A 加了 X 锁，其他事务【既不能加 S 锁，也不能加 X 锁】（独占排他），直到 T 释放 X 锁。选 A。"}, {"id": "p1_m23", "number": 23, "title": "两阶段封锁协议（2PL）是保证并发调度可串行化的经典协议。下列关于 2PL 的描述中，正确的是（ ）。", "options": ["A. 事务分为加锁阶段和解锁阶段，在释放任何一个封锁之后，该事务不能再申请任何新封锁", "B. 遵循两阶段封锁协议的事务调度一定能够杜绝死锁的发生", "C. 只有不产生任何死锁的事务才满足两阶段封锁协议", "D. 2PL 要求所有事务在开始执行时必须一次性申请完全部所需的锁"], "answer": "A", "hint": "2PL 规则：先只加锁不解锁（增长期），一旦开始解锁就绝不能再加锁（缩减期）。2PL 保证可串行化但不能防死锁！", "explanation": "【官方考点与速通解析】\n两阶段封锁协议（Two-Phase Locking，2PL）核心考点：\n1. 阶段划分：第一阶段是扩展阶段（只能申请加锁，不能释放锁）；第二阶段是收缩阶段（只能释放锁，不能再申请新锁）；\n2. 核心结论：若所有事务均遵守 2PL 协议，则该并发事务的任何合法调度一定是【可串行化的】（正确性的充分条件）；\n3. 易错注意：遵守 2PL 协议【依然可能会产生死锁】！防死锁需要一次封锁法或顺序封锁法。故选 A。"}, {"id": "p1_m24", "number": 24, "title": "在 ANSI / ISO SQL 规范定义的 4 种事务隔离级别中，隔离程度最高、能够彻底杜绝脏读、不可重复读和幻读的级别是（ ）。", "options": ["A. READ UNCOMMITTED（读未提交）", "B. READ COMMITTED（读已提交）", "C. REPEATABLE READ（可重复读）", "D. SERIALIZABLE（可串行化）"], "answer": "D", "hint": "最高隔离级别是 SERIALIZABLE（可串行化）", "explanation": "【官方考点与速通解析】\n事务隔离级别与并发异常对应矩阵：\n- 读未提交（Read Uncommitted）：最低，脏读、不可重复读、幻读均可能发生；\n- 读已提交（Read Committed，SQL Server 默认）：杜绝脏读，但不可重复读、幻读仍可能发生；\n- 可重复读（Repeatable Read）：杜绝脏读和不可重复读，但幻读可能发生；\n- 可串行化（Serializable）：最高级别，通过范围锁彻底杜绝脏读、不可重复读与幻读，但并发性能最低。选 D。"}, {"id": "p1_m25", "number": 25, "title": "数据库在运行过程中可能发生多种故障。其中由于操作系统崩溃、CPU 故障或机房意外断电导致的内存数据丢失、但外存磁盘完好无损的故障属于（ ）。", "options": ["A. 事务内部故障", "B. 系统故障（软故障）", "C. 介质故障（硬故障）", "D. 计算机病毒故障"], "answer": "B", "hint": "断电/系统死机导致内存丢失但磁盘未坏 = 系统故障（软故障）", "explanation": "【官方考点与速通解析】\n数据库常见故障分类：\n1. 事务内部故障：由程序运算溢出、死锁回滚或用户主动撤销引起，只需撤销（UNDO）该单事务；\n2. 系统故障（软故障）：操作系统死机、断电、DBMS 崩溃，导致主存（RAM）缓冲区内容丢失，但磁盘数据文件完好。恢复依靠日志重做已提交事务、撤销未提交事务；\n3. 介质故障（硬故障）：磁盘磁头损坏、磁盘阵列崩溃，数据物理损毁，必须依靠备份磁带/磁盘及日志文件重构。故选 B。"}, {"id": "p1_m26", "number": 26, "title": "数据库日志文件遵循“登记日志必须遵守的原则”是保证系统可恢复性的铁律。该原则是（ ）。", "options": ["A. 必须先写数据页，后写日志文件", "B. 必须先写日志（WAL，Write-Ahead Logging），后写数据文件", "C. 日志文件与数据文件必须同一微秒并发刷盘", "D. 仅在事务正式提交后才一次性将所有日志写入磁盘"], "answer": "B", "hint": "预写日志原则（WAL，Write-Ahead Logging）：先写日志，后写数据库", "explanation": "【官方考点与速通解析】\n预写日志原则（Write-Ahead Logging，WAL）：\n在将内存缓冲区中的被修改数据页写入磁盘上的数据文件之前，必须先将对应修改记录的事务日志刷盘写入磁盘上的日志文件。\n如果先写数据再写日志，一旦在两者之间断电，磁盘数据已被篡改但没有任何日志记录，系统将无法回滚该脏数据，破坏原子性和一致性。选 B。"}, {"id": "p1_m27", "number": 27, "title": "为了减少系统故障恢复时扫描整个日志文件的时间开销，现代 DBMS 普遍引入了（ ）技术。", "options": ["A. 检查点（Checkpoint）", "B. 影子分页（Shadow Paging）", "C. 索引碎片整理", "D. 读写分离"], "answer": "A", "hint": "检查点（Checkpoint）周期性将脏页刷盘，恢复时无需扫描检查点之前的远古日志", "explanation": "【官方考点与速通解析】\n检查点（Checkpoint）机制核心作用：\nDBMS 定期触发检查点，将内存脏缓冲块强制刷入磁盘，并将当前活动的事务列表和检查点记录写入日志文件。\n当系统崩溃重启时，恢复程序只需从最近的检查点开始向前扫描日志，凡在检查点之前已经成功提交的事务，其数据必然已持久化在磁盘上，无需再进行 REDO 重做，极大加快了系统故障恢复速度。选 A。"}, {"id": "p1_m28", "number": 28, "title": "在制定数据库备份策略时，通常结合完全备份、差异备份和日志备份。关于“差异备份”（Differential Backup）的描述中，正确的是（ ）。", "options": ["A. 仅备份自上次日志备份以来发生更改的数据", "B. 备份自上次“完全备份”以来发生改变的所有数据页", "C. 备份自上次任何备份以来改变的数据", "D. 差异备份执行后会自动截断事务日志"], "answer": "B", "hint": "差异备份的基准点始终是最后一次“完全备份”", "explanation": "【官方考点与速通解析】\n三大备份类型基准对比：\n- 完全备份：备份整个数据库的所有数据文件和部分必要日志；\n- 差异备份：只备份自上次【完全备份】以来发生改变的所有数据页。恢复时只需恢复：最后一次完全备份 + 最后一次差异备份；\n- 事务日志备份：备份自上次日志备份以来的所有事务日志记录，且默认截断不活动日志。故选 B。"}, {"id": "p1_m29", "number": 29, "title": "在 SQL Server 中，数据库管理员（DBA）希望收回用户 UserA 针对 Students 表的 INSERT 权限，应执行的 SQL 语句是（ ）。", "options": ["A. REVOKE INSERT ON Students FROM UserA", "B. DENY INSERT TO UserA ON Students", "C. DROP PERMISSION INSERT ON Students FROM UserA", "D. DELETE GRANT INSERT ON Students TO UserA"], "answer": "A", "hint": "授予权限用 GRANT，收回权限用 REVOKE，拒绝权限用 DENY", "explanation": "【官方考点与速通解析】\nSQL 权限控制命令语法：\n- 授权：`GRANT <权限列表> ON <对象> TO <用户/角色> [WITH GRANT OPTION]`；\n- 撤销权限：`REVOKE <权限列表> ON <对象> FROM <用户/角色>`；\n- 显式拒绝权限：`DENY <权限列表> ON <对象> TO <用户/角色>`。\n题目要求收回权限，因此标准语句为 `REVOKE INSERT ON Students FROM UserA`。选 A。"}, {"id": "p1_m30", "number": 30, "title": "在 SQL Server 的安全权限体系中，DENY（显式拒绝）语句具有极高的优先级。当一个用户所属的数据库角色被 GRANT 授予某表权限，但该用户个人被执行了针对该表的 DENY 时，该用户的实际权限是（ ）。", "options": ["A. 拥有访问权限，因为 GRANT 优先于 DENY", "B. 被拒绝访问，因为 DENY 的优先级高于 GRANT", "C. 系统随机抛出死锁异常", "D. 只能以只读权限访问"], "answer": "B", "hint": "权限冲突铁律：DENY 压倒一切，显式拒绝必定生效", "explanation": "【官方考点与速通解析】\nSQL Server 权限解析优先级机制：\n1. 显式 DENY（拒绝）具有最高优先级；\n2. 即使某个用户通过属于多个数据库角色获得了强大的 GRANT 权限，只要在用户个体或其所在任一角色上存在针对该资源的 DENY 声明，系统一律最终判定为【拒绝访问】。选 B。"}, {"id": "p1_m31", "number": 31, "title": "在 SQL Server 中，系统预定义的具有数据库内部最高完全控制权、相当于该数据库“超级管理员”的固定数据库角色是（ ）。", "options": ["A. db_owner", "B. db_datareader", "C. db_datawriter", "D. db_securityadmin"], "answer": "A", "hint": "db_owner 即数据库所有者角色，拥有库内所有权限", "explanation": "【官方考点与速通解析】\nSQL Server 常用固定数据库角色：\n- `db_owner`：在数据库中拥有进行所有配置和维护活动的完全权限；\n- `db_datareader`：能够读取该数据库中所有用户表中的任何数据；\n- `db_datawriter`：能够添加、删除或修改所有用户表中的数据；\n- `db_securityadmin`：管理角色和权限。选 A。"}, {"id": "p1_m32", "number": 32, "title": "分布式数据库系统（DDBS）提供了高层次的数据独立性。其中“分片透明性”（Fragmentation Transparency）是指（ ）。", "options": ["A. 用户和应用程序编写 SQL 查询时无需了解数据是否被分片以及如何分片", "B. 用户无需知道数据分片存放在网络中哪台具体物理服务器节点上", "C. 用户无需知道各个场地上局部 DBMS 采用何种数据模型", "D. 系统的网络通信协议对用户是透明的"], "answer": "A", "hint": "分片透明性是最高级别的分布透明性，用户只面对全局逻辑关系模式", "explanation": "【官方考点与速通解析】\n分布式数据库的三大分布透明性层次（由高到低）：\n1. 分片透明性（最高级）：用户只需面向全局关系进行操作，根本感知不到数据是否分片、如何分片；\n2. 位置透明性：用户知道数据被分片，但无需了解各分片实际存放在网络的哪个场地节点；\n3. 局部映射透明性（最低级）：用户只需知道分片在哪个场地，无需知道在场地内部是如何物理映射存储的。选 A。"}, {"id": "p1_m33", "number": 33, "title": "关系模式的分片操作必须满足三条基本准则。其中保证每个全局数据项都必须至少出现在一个分片中的准则是（ ）。", "options": ["A. 完备性条件（Completeness）", "B. 可重构条件（Reconstructibility）", "C. 不相交条件（Disjointness）", "D. 独立性条件（Independence）"], "answer": "A", "hint": "数据不能丢失 = 完备性；能拼装还原 = 可重构性；分片无冗余重复 = 不相交性", "explanation": "【官方考点与速通解析】\n分布式数据分片三大准则：\n1. 完备性条件：全局关系中的任何一个数据元素（元组或属性），必须能够映射到至少一个片段中（不允许丢数据）；\n2. 可重构条件：所有分片必须能够通过关系代数运算（如并或连接）重新装配、无损还原为原始全局关系；\n3. 不相交条件：水平分片中各片段之间不允许包含相同的元组（垂直分片除主键外属性不重复）。选 A。"}, {"id": "p1_m34", "number": 34, "title": "数据仓库（Data Warehouse）之父 W.H.Inmon 将数据仓库定义为：面向主题的、集成的、非易失的、随时间变化的数据集合。其中“非易失性”（Non-volatile）是指（ ）。", "options": ["A. 数据仓库中的数据一旦写入加载后，通常只进行查询分析，极少发生实时的在线 UPDATE 或 DELETE 修改", "B. 数据仓库中的数据永远不会因为断电而丢失", "C. 数据仓库必须部署在不间断电源（UPS）环境下", "D. 数据仓库的数据结构固定不变，不允许添加新主题"], "answer": "A", "hint": "非易失性即稳定性：只做批量加载与海量分析查询，不做日常单条频繁增删改", "explanation": "【官方考点与速通解析】\n数据仓库四大特征详解：\n- 面向主题：围绕分析主题（如销售、客户、利润）组织，而非面向事务处理（OLTP）；\n- 集成性：将来自不同异构数据源的数据清洗统一转换；\n- 非易失性（稳定）：主要是数据的批量追加与读取查询，几乎不存在像 OLTP 系统中频繁的单行 UPDATE/DELETE 修改；\n- 随时间变化：包含历史数据，记录数据在时间轴上的变化轨迹。选 A。"}, {"id": "p1_m35", "number": 35, "title": "在联机分析处理（OLAP）的多维数据模型中，将维的层次结构向更概括的高层次聚合跃迁（例如将“按天”统计转换为“按季度”统计）的操作是（ ）。", "options": ["A. 钻取（下钻 / Drill-down）", "B. 上卷（Roll-up）", "C. 切片（Slice）", "D. 旋转（Pivot）"], "answer": "B", "hint": "往上汇总概括 = 上卷（Roll-up）；往细层深入展开 = 下钻（Drill-down）", "explanation": "【官方考点与速通解析】\nOLAP 核心操作动作：\n- 上卷（Roll-up）：在维的层次结构中向上攀升，减少维数或将低层次汇总为高层次（如天 -> 月 -> 季度），数据更宏观；\n- 下钻（Drill-down）：在维层次中向下钻研，展现更细致、更低粒度的明细数据（如年 -> 季 -> 月）；\n- 切片（Slice）：在多维立方体中固定某一个维的取值；\n- 切块（Dice）：固定多个维的区间范围；\n- 旋转（Pivot）：交换坐标轴，改变查看视角。选 B。"}, {"id": "p1_m36", "number": 36, "title": "在数据仓库星型模型（Star Schema）的设计中，居于多维数据模型中心位置的表是（ ）。", "options": ["A. 维度表（Dimension Table）", "B. 事实表（Fact Table）", "C. 汇总视图表", "D. 临时分段表"], "answer": "B", "hint": "星型模型中心是包含度量值的事实表，四周环绕维度表", "explanation": "【官方考点与速通解析】\n星型模型（Star Schema）结构：\n- 核心中心：事实表（Fact Table），存放具体的业务度量数值（如销售额、订单量）以及指向各个维度表的外键；\n- 外围辐射：多个维度表（Dimension Table），围绕事实表呈放射星状展开，存放描述业务角度的属性（如时间维、地点维、产品维）。选 B。"}, {"id": "p1_m37", "number": 37, "title": "在关联规则数据挖掘中，经常使用 Apriori 算法挖掘商品之间的购买关联。若 1000 笔超市账单中有 200 笔同时购买了啤酒和尿布，则关联规则 {啤酒} -> {尿布} 的“支持度”（Support）为（ ）。", "options": ["A. 20%", "B. 80%", "C. 50%", "D. 2%"], "answer": "A", "hint": "支持度 = 同时包含 X 和 Y 的交易事务数 / 总交易事务数 = 200 / 1000 = 20%", "explanation": "【官方考点与速通解析】\n关联规则两大衡量指标：\n1. 支持度（Support）：同时包含项集 A 和 B 的事务数占总事务数的比例。\n   Support(A -> B) = Count(A ∪ B) / N = 200 / 1000 = 20%；\n2. 置信度（Confidence）：在包含 A 的事务中，同时也包含 B 的条件概率。\n   Confidence(A -> B) = Count(A ∪ B) / Count(A)。本题问的是支持度，选 A。"}, {"id": "p1_m38", "number": 38, "title": "分布式系统理论中的 CAP 定理指出，任何分布式数据系统不可能同时完满满足三个特性。在网络发生分区故障（P）时，若系统优先保证高可用性（A），则必然需要牺牲（ ）。", "options": ["A. 强一致性（Consistency）", "B. 事务原子性（Atomicity）", "C. 持久性（Durability）", "D. 隔离性（Isolation）"], "answer": "A", "hint": "CAP 定理：C（强一致性）、A（可用性）、P（分区容忍性），三者只能得其二", "explanation": "【官方考点与速通解析】\nCAP 定理三要素：\n- C（Consistency，强一致性）：所有节点在同一时刻看到完全相同的数据；\n- A（Availability，可用性）：每个非故障节点的请求都能得到成功响应；\n- P（Partition tolerance，分区容忍性）：当网络发生丢包断网切分为孤岛时，系统仍能继续运行。\n在分布式网络中网络故障分区（P）必然存在，若选择可用性（A，继续响应客户端），则网络两侧无法同步数据，必然牺牲强一致性（C）。选 A。"}, {"id": "p1_m39", "number": 39, "title": "NoSQL（非关系型数据库）突破了传统关系数据库的范式约束，广泛应用于高并发、大数据场景。下列属于典型“文档型数据库”（Document Store）的是（ ）。", "options": ["A. Redis", "B. MongoDB", "C. HBase", "D. Neo4j"], "answer": "B", "hint": "MongoDB 是最知名的 JSON/BSON 文档型数据库", "explanation": "【官方考点与速通解析】\nNoSQL 四大类型及代表产品：\n1. 键值数据库（Key-Value）：Redis、Memcached；\n2. 文档数据库（Document-oriented）：MongoDB、CouchDB（基于 JSON/BSON 格式灵活存储复杂数据）；\n3. 列族数据库（Column-family）：Apache HBase、Cassandra；\n4. 图数据库（Graph）：Neo4j（专门处理社交关系、知识图谱复杂网络）。故选 B。"}, {"id": "p1_m40", "number": 40, "title": "在 SQL Server 性能优化中，若需要实时捕获正在运行的慢 SQL 语句、分析死锁发生的详细上下文及事件跟踪，DBA 最常使用的官方图形化监控工具是（ ）。", "options": ["A. SQL Server Profiler（事件探查器）", "B. 数据库引擎优化顾问（DTA）", "C. 配置管理器（Configuration Manager）", "D. 表分区向导"], "answer": "A", "hint": "抓取实时执行 SQL 轨迹与死锁跟踪首选 SQL Server Profiler", "explanation": "【官方考点与速通解析】\nSQL Server 运维工具职责：\n- SQL Server Profiler（事件探查器）：实时监听并捕获 SQL Server 引擎内部发生的事件（如 T-SQL 语句执行耗时、死锁图 Graph、RPC 调用、登录失败），是排查性能瓶颈和死锁的首选利器；\n- 数据库引擎优化顾问（DTA）：基于工作负荷跟踪文件自动推荐创建索引和统计信息。选 A。"}], "blanks": [{"id": "p1_b1", "number": 1, "score": 2, "prompt": "【空 1】在数据库应用系统生命周期中，需求分析阶段的核心产物除了数据流图（DFD）之外，另一个用于对数据流图中各项元素进行详细补充说明的重要工具是【 1 】。", "placeholder": "例如: 数据字典", "answer": ["数据字典", "Data Dictionary"], "hint": "DFD 配合数据字典（Data Dictionary）共同构成需求分析说明书的核心"}, {"id": "p1_b2", "number": 2, "score": 2, "prompt": "【空 2】若关系 R 中的某个属性组不是 R 的候选码，但它是另一个关系 S 的主码，则该属性组被称为关系 R 的【 2 】。", "placeholder": "例如: 外码 或 外键", "answer": ["外码", "外键", "Foreign Key"], "hint": "引用另一个表主键的字段称为外码（Foreign Key）"}, {"id": "p1_b3", "number": 3, "score": 2, "prompt": "【空 3】在 SQL 语句中，用于在创建表时为某字段显式定义主键约束的关键词是【 3 】。", "placeholder": "例如: PRIMARY KEY", "answer": ["PRIMARY KEY", "primary key"], "hint": "主键约束关键字为 PRIMARY KEY"}, {"id": "p1_b4", "number": 4, "score": 2, "prompt": "【空 4】设有关系模式 R(A, B, C, D)，函数依赖集 F = {A -> B, B -> C, C -> D}。则依赖 A -> D 属于【 4 】函数依赖。", "placeholder": "例如: 传递", "answer": ["传递", "传递函数依赖"], "hint": "经过中间属性过渡推导的属于传递函数依赖"}, {"id": "p1_b5", "number": 5, "score": 2, "prompt": "【空 5】如果一个关系模式消除了非主属性对候选码的“部分函数依赖”，则该模式至少达到了第【 5 】范式。", "placeholder": "填 二 或 2 或 2NF", "answer": ["二", "2", "2NF", "第二范式"], "hint": "2NF 消除部分依赖；3NF 消除传递依赖"}, {"id": "p1_b6", "number": 6, "score": 2, "prompt": "【空 6】在 Microsoft SQL Server 中，数据库的主数据文件默认采用的文件扩展名为【 6 】。", "placeholder": "例如: .mdf", "answer": [".mdf", "mdf"], "hint": "主数据文件为 .mdf，次数据文件为 .ndf，日志文件为 .ldf"}, {"id": "p1_b7", "number": 7, "score": 2, "prompt": "【空 7】由于聚集索引决定了数据表中数据行的实际物理存储排列顺序，因此一张基表上最多只能创建【 7 】个聚集索引。", "placeholder": "填阿拉伯数字", "answer": ["1", "一"], "hint": "物理顺序只有一种，因此聚集索引只能有 1 个"}, {"id": "p1_b8", "number": 8, "score": 2, "prompt": "【空 8】在 SQL Server 触发器中，系统自动在内存中建立并维护一个用于保存新插入或修改后新数据行的临时逻辑表，该表名为【 8 】表。", "placeholder": "例如: inserted", "answer": ["inserted", "INSERTED"], "hint": "插入新行存放在 inserted 临时表中"}, {"id": "p1_b9", "number": 2, "score": 2, "prompt": "【空 9】在 T-SQL 事务控制语句中，用于正式结束事务并将事务内所做的全部数据库更新操作持久化确认保存的命令是【 9 】。", "placeholder": "例如: COMMIT", "answer": ["COMMIT", "COMMIT TRANSACTION", "commit"], "hint": "提交事务命令为 COMMIT"}, {"id": "p1_b10", "number": 10, "score": 2, "prompt": "【空 10】事务读取了另一个并发事务尚未提交的修改数据，随后该并发事务被回滚，这种读取了无效虚假数据的现象称为【 10 】。", "placeholder": "例如: 脏读", "answer": ["脏读", "Dirty Read", "脏读(Dirty Read)"], "hint": "读到了未提交的临时脏数据称为脏读"}, {"id": "p1_b11", "number": 11, "score": 2, "prompt": "【空 11】在遵循两阶段封锁协议（2PL）的事务中，事务一旦开始释放其持有的任何封锁，便绝不允许再【 11 】任何新的封锁。", "placeholder": "例如: 申请 或 获得", "answer": ["申请", "获得", "申请新", "加锁"], "hint": "缩减期只解锁不加锁"}, {"id": "p1_b12", "number": 12, "score": 2, "prompt": "【空 12】数据库系统发生系统故障重启恢复时，恢复子系统扫描日志，对故障发生前已经提交（COMMIT）的事务执行【 12 】（重做）操作。", "placeholder": "例如: REDO", "answer": ["REDO", "redo", "重做"], "hint": "已提交的事务需要 REDO，未提交的事务需要 UNDO"}, {"id": "p1_b13", "number": 13, "score": 2, "prompt": "【空 13】在 SQL 语言的 GRANT 权限转授中，若希望被授权的用户能够拥有把该权限继续授予其他用户的权利，需在 GRANT 命令末尾附加子句【 13 】。", "placeholder": "例如: WITH GRANT OPTION", "answer": ["WITH GRANT OPTION", "with grant option"], "hint": "授权转授子句为 WITH GRANT OPTION"}, {"id": "p1_b14", "number": 14, "score": 2, "prompt": "【空 14】在数据仓库的多维建模中，最核心、最典型的两种架构模式是【 14 】模型和雪花模型。", "placeholder": "例如: 星型", "answer": ["星型", "星型模型", "Star Schema"], "hint": "以事实表为中心的经典模型是星型模型"}, {"id": "p1_b15", "number": 15, "score": 2, "prompt": "【空 15】在分布式数据库中，应用程序和用户执行 SQL 语句时无需了解数据分片具体保存在网络的哪台物理节点上，该特性称为【 15 】透明性。", "placeholder": "例如: 位置", "answer": ["位置", "位置透明性", "位置透明"], "hint": "不知存放地点对应位置透明性"}], "applied_questions": [{"id": "p1_app1", "number": 1, "score": 15, "title": "设计与应用题一：关系模式规范化与函数依赖分析（15分）", "description": "设有学校教学管理的关系模式 R(Sno, Sname, Cno, Cname, Grade, Tname, Tdept)，其中各属性含义如下：\n- Sno: 学号；Sname: 学生姓名；Cno: 课程号；Cname: 课程名；\n- Grade: 考试成绩；Tname: 任课教师姓名；Tdept: 教师所在院系。\n\n根据教学业务规则，存在如下函数依赖集 F：\nF = {\n    Sno -> Sname,\n    Cno -> Cname,\n    (Sno, Cno) -> Grade,\n    Cno -> Tname,\n    Tname -> Tdept\n}\n\n请按照关系数据库规范化设计理论，回答下列各小题：", "subquestions": [{"id": "p1_app1_1", "score": 4, "prompt": "【小题 1】指出关系模式 R 的候选码，并写出根据闭包计算确定该候选码的简要依据：", "placeholder": "例如: 候选码为 (Sno, Cno)", "answer": ["(Sno, Cno)", "Sno, Cno", "(Sno,Cno)"], "hint": "Sno 和 Cno 仅在左部出现，其属性闭包 (Sno, Cno)+ 包含全部 7 个属性"}, {"id": "p1_app1_2", "score": 4, "prompt": "【小题 2】分析关系模式 R 中存在的部分函数依赖，并指出关系模式 R 当前最高满足第几范式：", "placeholder": "例如: 存在 Sno->Sname 等部分依赖，最高满足 1NF", "answer": ["1NF", "第一范式", "最高满足 1NF", "最高达到 1NF"], "hint": "候选码为 (Sno, Cno)，但存在 Sno -> Sname 和 Cno -> Cname 等部分依赖，违背 2NF"}, {"id": "p1_app1_3", "score": 7, "prompt": "【小题 3】将关系模式 R 分解为一组满足 3NF 且保持函数依赖和无损连接性的关系模式集合（请按规范写出分解后的各个关系模式名及包含的属性列表，如：R1(Sno, Sname)...）：", "placeholder": "格式: R1(Sno, Sname), R2(Cno, Cname, Tname), R3(Tname, Tdept), R4(Sno, Cno, Grade)", "answer": ["R1(Sno, Sname), R2(Cno, Cname, Tname), R3(Tname, Tdept), R4(Sno, Cno, Grade)", "R1(Sno, Sname), R2(Cno, Cname, Tname), R3(Sno, Cno, Grade), R4(Tname, Tdept)", "Student(Sno, Sname), Course(Cno, Cname, Tname), Teacher(Tname, Tdept), SC(Sno, Cno, Grade)"], "hint": "消除部分依赖与传递依赖，分解为学生、课程教师、教师院系、选课成绩 4 个表"}], "explanation": "【官方考点与标准解答】\n1. 求解候选码：\n   - 属性分类分析：Sno 和 Cno 在所有函数依赖的右侧从未单独出现过（L 类属性），因此它们必然属于任何候选码；\n   - 计算闭包：(Sno, Cno)+ = {Sno, Cno, Sname(由Sno->Sname), Cname(由Cno->Cname), Grade(由(Sno,Cno)->Grade), Tname(由Cno->Tname), Tdept(由Tname->Tdept)} = 全部属性；\n   - 因此，关系模式 R 的候选码（主码）为：`(Sno, Cno)`。\n2. 范式级别判定：\n   - R 的候选码为复合码 `(Sno, Cno)`；\n   - 但是在依赖集 F 中存在：`Sno -> Sname`（非主属性 Sname 部分依赖于码的一部分 Sno），以及 `Cno -> Cname`、`Cno -> Tname`（非主属性部分依赖于 Cno）；\n   - 因为存在非主属性对候选码的部分函数依赖，严重违背第二范式（2NF）的要求；\n   - 因此关系模式 R 最高只能达到【第一范式（1NF）】。\n3. 3NF 规范化分解：\n   - 第一步（消除部分函数依赖）：\n     * 将 Sno -> Sname 独立出来：R1(Sno, Sname)，候选码 Sno；\n     * 将 (Sno, Cno) -> Grade 独立出来：R4(Sno, Cno, Grade)，候选码 (Sno, Cno)；\n     * 提取课程相关：R_temp(Cno, Cname, Tname, Tdept)，候选码 Cno；\n   - 第二步（消除传递函数依赖）：\n     * 在 R_temp 中存在传递依赖：Cno -> Tname, Tname -> Tdept；\n     * 将其分解为：R2(Cno, Cname, Tname) 和 R3(Tname, Tdept)；\n   - 最终分解为 4 个关系模式：\n     * R1(Sno, Sname) —— 满足 3NF（乃至 BCNF）\n     * R2(Cno, Cname, Tname) —— 满足 3NF\n     * R3(Tname, Tdept) —— 满足 3NF\n     * R4(Sno, Cno, Grade) —— 满足 3NF\n   - 该分解保持了所有函数依赖，并且具有无损连接性。"}, {"id": "p1_app2", "number": 2, "score": 15, "title": "设计与应用题二：业务规则约束与 T-SQL 触发器编程设计（15分）", "description": "某电商数据库包含两张核心数据表：\n1. 商品库存表 `Goods`：包含商品编号 `GoodsID`（主键，char(10)）、商品名称 `GoodsName`（varchar(50)）、库存数量 `StockQty`（int）；\n2. 订单明细表 `Orders`：包含订单编号 `OrderID`（主键，char(10)）、商品编号 `GoodsID`（外键，char(10)）、订购数量 `OrderQty`（int）、下单日期 `OrderDate`（datetime）。\n\n【业务规则要求】\n当向 `Orders` 表插入一条新订单记录时，数据库必须自动执行以下完整性逻辑校验：\n1. 查询对应商品的当前库存数量 `StockQty`；\n2. 若该商品当前库存量小于订单所订购的数量（`OrderQty > StockQty`），说明库存不足，触发器应弹出错误提示：“库存不足，无法完成下单！”，并通过事务回滚（`ROLLBACK TRANSACTION`）取消当前的插入操作；\n3. 若库存充足，则自动从 `Goods` 表的 `StockQty` 中扣减本次订购的数量。\n\n请阅读并补全下列 T-SQL 触发器定义代码：", "code_snippet": "CREATE TRIGGER trig_CheckStock\nON Orders\nAFTER 【空 1】\nAS\nBEGIN\n    SET NOCOUNT ON;\n    DECLARE @gid CHAR(10), @qty INT, @currentStock INT;\n    \n    -- 从临时表中提取新插入的商品编号与订购数量\n    SELECT @gid = GoodsID, @qty = OrderQty FROM 【空 2】;\n    \n    -- 查询该商品的现有库存量\n    SELECT @currentStock = StockQty FROM Goods WHERE GoodsID = @gid;\n    \n    -- 业务库存判断\n    IF (@currentStock < @qty)\n    BEGIN\n        RAISERROR('库存不足，无法完成下单！', 16, 1);\n        【空 3】; -- 回滚事务\n    END\n    ELSE\n    BEGIN\n        -- 扣减库存数量\n        UPDATE Goods\n        SET StockQty = StockQty - @qty\n        WHERE GoodsID = 【空 4】;\n    END\nEND", "subquestions": [{"id": "p1_app2_1", "score": 3, "prompt": "【空 1】定义该 AFTER 触发器所针对的触发数据操作事件（填 INSERT / UPDATE / DELETE）：", "placeholder": "填 INSERT 或 UPDATE", "answer": ["INSERT", "insert"], "hint": "向 Orders 表插入记录时触发，填 INSERT"}, {"id": "p1_app2_2", "score": 4, "prompt": "【空 2】在触发器中获取新插入行数据的系统临时表名称：", "placeholder": "例如: inserted", "answer": ["inserted", "INSERTED"], "hint": "INSERT 操作的新行存放在 inserted 虚拟表中"}, {"id": "p1_app2_3", "score": 4, "prompt": "【空 3】库存不足时执行事务撤销回滚的 T-SQL 命令语句：", "placeholder": "例如: ROLLBACK TRANSACTION", "answer": ["ROLLBACK TRANSACTION", "ROLLBACK", "rollback transaction", "rollback"], "hint": "回滚事务使用 ROLLBACK TRANSACTION"}, {"id": "p1_app2_4", "score": 4, "prompt": "【空 4】UPDATE 语句 WHERE 条件中与变量匹配更新对应商品的表达式：", "placeholder": "例如: @gid", "answer": ["@gid", "@gid;"], "hint": "变量名即前面声明的 @gid"}], "explanation": "【官方考点与代码解析】\n1. 空 1：题干明确指出“当向 Orders 表插入一条新订单记录时”，属于插入操作事件，因此触发器事件为 `AFTER INSERT`。\n2. 空 2：在 SQL Server 的 INSERT 触发器激活时，新插入的行被系统自动保存进虚拟表 `inserted` 中。因此通过 `FROM inserted` 读取新订单的 GoodsID 和 OrderQty。\n3. 空 3：当库存量小于订单量时，业务逻辑要求取消并回滚该条插入操作，T-SQL 中用于回滚当前未完成事务的标准命令是 `ROLLBACK TRANSACTION`（或简写 `ROLLBACK`）。\n4. 空 4：更新库存表时，通过 `WHERE GoodsID = @gid` 精确扣减该商品编号对应的库存数量。"}]}, {"id": "db_paper2", "title": "全国计算机等级考试三级数据库技术·全真模拟试卷（二）", "subtitle": "高级编程与运维事务控制卷 · 强化 SQL 编程、并发控制与系统恢复", "duration": 120, "total_score": 100, "mcq_score": 40, "blank_score": 30, "app_score": 30, "mcqs": [{"id": "p2_m1", "number": 1, "title": "在数据库需求分析阶段，数据字典是对数据流图（DFD）中各个元素的详细补充说明。数据字典通常包含的五类基本条目是（ ）。", "options": ["A. 数据项、数据结构、数据流、数据存储、处理过程", "B. 表、视图、索引、存储过程、触发器", "C. 实体、属性、联系、键、约束", "D. 概念模式、外模式、内模式、存储文件、数据字典"], "answer": "A", "hint": "数据字典五大基本条目：项、结构、流、存、处理过程", "explanation": "【官方考点与速通解析】\n数据字典（Data Dictionary）是结构化分析方法的核心工具，主要包含五类基本条目：\n1. 数据项（数据的最小逻辑单位）；\n2. 数据结构（描述某些数据项之间的组合关系）；\n3. 数据流（数据在系统内部流动的路径和数据结构）；\n4. 数据存储（静态保存的数据集合）；\n5. 处理过程（对数据流进行变换的逻辑规则）。选 A。"}, {"id": "p2_m2", "number": 2, "title": "在将 E-R 图转换为关系模式时，对于实体集之间的多对多联系（M:N），标准转换规则是（ ）。", "options": ["A. 必须将联系转换为一个独立的关系模式，其主码由参与联系的两端实体的主码组合而成", "B. 可以任意归并在某一个实体对应的关系模式中", "C. 将联系的属性分别加入到两个实体对应的关系模式中", "D. 只能转换为一个带有外键的虚表视图"], "answer": "A", "hint": "1:1 联系可合并，1:N 联系并入 N 端，M:N 联系必须独立成表！", "explanation": "【官方考点与速通解析】\nE-R 模型向关系模型转换的黄金三大规则：\n1. 1:1 联系：既可以转换为一个独立的关系模式，也可以与任意一端对应的关系模式合并（将另一端的主码及联系属性并入）；\n2. 1:N 联系：可以转换为独立关系模式，但最常用的是【直接合并到 N 端实体】中（在 N 端关系模式中增加 1 端的主码作为外键）；\n3. M:N 联系：【必须转换为一个独立的关系模式】，其关系模式的主码由参与联系的双方实体主码组合而成（形成复合主键）。选 A。"}, {"id": "p2_m3", "number": 3, "title": "关系代数运算中，“除运算”（Division，记为 R ÷ S）在实际业务查询中最适合表达的语义是（ ）。", "options": ["A. “查询选修了全部课程的学生姓名”（包含“全部/所有”全称量词）", "B. “查询没有选修任何课程的学生学号”", "C. “查询两个部门员工的平均工资差额”", "D. “查询选修了至少一门课程的学生”"], "answer": "A", "hint": "除法运算专克“查询选修了所有/全部课程”此类全称量词题", "explanation": "【官方考点与速通解析】\n关系代数除运算（R ÷ S）：\n给定关系 R(X, Y) 和 S(Y, Z)，R ÷ S 的结果包含所有在 X 上的分量，这些分量在 R 中的像集 Y 包含了 S 在 Y 上的投影集合。\n因此，除运算在 SQL 和关系代数中最典型的应用场景就是解决带有【“至少选修了全部/所有...”】这类全称量词的复杂检索。选 A。"}, {"id": "p2_m4", "number": 4, "title": "设有关系模式 R(A, B, C)，其函数依赖集为 F = {A -> B, B -> C}。已知 R 属于 2NF，但 R 不属于 3NF，其根本原因是（ ）。", "options": ["A. 存在非主属性 C 对候选码 A 的传递函数依赖", "B. 存在非主属性对候选码的部分函数依赖", "C. 决定因素 B 包含了候选码", "D. 关系中包含了多值依赖"], "answer": "A", "hint": "3NF 核心在于消除传递依赖，A -> B -> C 即为传递依赖", "explanation": "【官方考点与速通解析】\n分析关系模式：\n- 候选码为 A；非主属性为 B 和 C；\n- 函数依赖 A -> B，B -> C，因此非主属性 C 传递函数依赖于主码 A；\n- 3NF 的定义要求：在满足 2NF 的基础上，任何非主属性都不能传递函数依赖于码。因为此处存在 A -> B -> C，违背了 3NF，故选 A。"}, {"id": "p2_m5", "number": 5, "title": "根据 Boyce-Codd 范式（BCNF）的严格定义，一个满足 1NF 的关系模式 R 属于 BCNF 的充要条件是（ ）。", "options": ["A. R 中每一个非平凡函数依赖 X -> Y 的决定因素 X 都必须包含一个候选码", "B. R 中消除了所有非主属性对码的传递函数依赖", "C. 关系中不存在任何复合主键", "D. 关系模式中所有属性都是主属性"], "answer": "A", "hint": "BCNF 极简定义：所有决定因素都包含码（X 必须是超码）", "explanation": "【官方考点与速通解析】\nBCNF（Boyce-Codd Normal Form）判定标准：\n设关系模式 R 属于 1NF，若对于 R 上的每一个非平凡函数依赖 X -> Y，X 都必定包含 R 的候选码（即 X 是超码），则 R 属于 BCNF。\n也就是说，在 BCNF 关系中，只有候选码（或包含候选码的超码）才有资格充当函数依赖的决定因素，彻底消除了主属性和非主属性对码的部分及传递依赖。选 A。"}, {"id": "p2_m6", "number": 6, "title": "Microsoft SQL Server 的索引底层采用平衡树（B+ 树）结构组织。下列关于 B+ 树索引特性的描述中，错误的是（ ）。", "options": ["A. B+ 树的根节点和内部中间节点只存放索引键值和子节点指针，不存放完整数据行", "B. B+ 树的所有叶子节点处于同一物理深度，保证了任何键值检索的 I/O 路径长度一致", "C. B+ 树的所有叶子节点通过双向指针链表连接，极大地加速了范围扫描（Range Scan）", "D. 聚簇索引的非叶节点存储了完整的数据行记录"], "answer": "D", "hint": "无论聚集还是非聚集索引，B+ 树的非叶节点都只存导航键和指针，绝不存完整数据行", "explanation": "【官方考点与速通解析】\nB+ 树结构核心考点：\n1. 内部节点（根与枝节点）：纯粹作为路由导航，只存储索引键值和指向下一层子节点的页指针，不存数据行；\n2. 叶子节点：在聚集索引中，叶子节点就是实际数据页；在非聚集索引中，叶子节点存储索引列和行指针；\n3. 范围查询优势：所有叶子节点之间通过双向链表相连，找到起始键后顺着链表顺序读取即可完成范围扫描。D 选项称非叶节点存完整数据行是错误的。"}, {"id": "p2_m7", "number": 7, "title": "在 SQL 查询优化中，“覆盖索引”（Covering Index）能够显著减少磁盘物理 I/O 开销。覆盖索引的核心机制是（ ）。", "options": ["A. 非聚集索引中包含了该查询 SELECT、WHERE、JOIN 所需的全部列，查询无需再访问基表数据页进行回表查找", "B. 将整个数据库的所有数据表全部加载到内存缓冲区中", "C. 强制将非聚集索引转换为聚集索引", "D. 为数据表中的每一个属性列都分别建立一个单列索引"], "answer": "A", "hint": "覆盖索引：索引本身就包含了查询所需的全部列，零次回表（No Key Lookup）", "explanation": "【官方考点与速通解析】\n覆盖索引（Covering Index）是数据库性能调优的王牌技巧：\n当一个非聚集索引的键列以及通过 `INCLUDE` 子句包含的列，涵盖了某条 SQL 语句中查询返回列（SELECT）和过滤条件列（WHERE）的全部属性时，查询引擎只需直接扫描该非聚集索引的 B+ 树即可获取全部所需数据，彻底免除了去聚集索引数据页进行昂贵的“回表”（Key Lookup / RID Lookup）随机 I/O 操作。选 A。"}, {"id": "p2_m8", "number": 8, "title": "在 T-SQL 中使用 GROUP BY 语句进行多维汇总统计时，若希望生成包含所有维度不同组合的小计以及最高层级的总计行，应使用的分组扩展运算符是（ ）。", "options": ["A. ROLLUP", "B. CUBE", "C. GROUPING SETS", "D. COMPUTE"], "answer": "B", "hint": "ROLLUP 生成层级小计（阶梯式）；CUBE 生成全维度交叉小计（笛卡尔组合全覆盖）", "explanation": "【官方考点与速通解析】\n多维分组统计三剑客：\n- `GROUP BY CUBE(A, B)`：生成 (A, B)、(A)、(B) 以及 () 全部 2^N 种交叉组合维度的小计和全表总计；\n- `GROUP BY ROLLUP(A, B)`：按照从左至右的层次生成 (A, B)、(A)、() 梯级层级汇总小计；\n- `GROUP BY GROUPING SETS(...)`：显式自定义想要生成的具体维度集合。题目要求生成所有维度的全交叉组合，选 B。"}, {"id": "p2_m9", "number": 9, "title": "在 SQL Server 中，公用表表达式（CTE，Common Table Expression）支持递归查询。编写递归 CTE 时，用于将“定位点成员”（Anchor Member）与“递归成员”（Recursive Member）合并的集合操作符必须是（ ）。", "options": ["A. UNION ALL", "B. UNION", "C. INTERSECT", "D. EXCEPT"], "answer": "A", "hint": "递归 CTE 语法强制要求使用 UNION ALL", "explanation": "【官方考点与速通解析】\n递归 CTE 规范语法：\n```sql\nWITH CTE_Name AS (\n    -- 定位点成员（基准条件）\n    SELECT ... FROM ...\n    UNION ALL\n    -- 递归成员（引用自身 CTE_Name）\n    SELECT ... FROM ... JOIN CTE_Name ...\n)\nSELECT * FROM CTE_Name;\n```\nSQL Server 语法严格规定：在递归 CTE 内部，定位点查询与递归查询之间必须使用 `UNION ALL` 进行连接（不允许使用 UNION，因为递归去重开销过大）。选 A。"}, {"id": "p2_m10", "number": 10, "title": "当一个视图由两个或多个基表进行 JOIN 连接构成时，直接对该视图执行 INSERT 语句通常会因违反更新限制而报错。解决多表连接视图支持数据插入的标准数据库技术是（ ）。", "options": ["A. 在视图上创建 INSTEAD OF INSERT 触发器", "B. 在视图上创建 AFTER INSERT 触发器", "C. 为视图创建包含列的聚集索引", "D. 在每个基表上设置外键 CASCADE 级联"], "answer": "A", "hint": "复杂视图更新神器：在视图上创建 INSTEAD OF 触发器替代执行", "explanation": "【官方考点与速通解析】\n根据 SQL 规范，基于多表连接（JOIN）创建的复杂视图默认是不允许直接执行 INSERT 的（系统无法自动判断如何将数据分拆写入不同的底层表）。\n解决方案是在该复杂视图上建立一个 `INSTEAD OF INSERT` 触发器：当用户向视图执行插入时，该触发器拦截该操作，在触发器代码内部由程序员显式将 `inserted` 临时表中的字段分别拆解并 INSERT 到对应的各个基表中。选 A。"}, {"id": "p2_m11", "number": 11, "title": "在 T-SQL 事务控制中，当一个长事务包含多个处理步骤时，为了避免在最后一步发生轻微错误时导致前面所有已完成的繁重操作全部被清空，可以使用的机制是（ ）。", "options": ["A. 事务保存点（Savepoint，使用 SAVE TRANSACTION 命令）", "B. 将隔离级别降低至 READ UNCOMMITTED", "C. 强制关闭预写日志 WAL", "D. 启用只进游标"], "answer": "A", "hint": "事务保存点（Savepoint）实现事务内部的部分回滚", "explanation": "【官方考点与速通解析】\n事务保存点机制：\n在长事务执行过程中，可以通过 `SAVE TRANSACTION savepoint_name` 设置一个检查断点。如果在后续步骤中发生特定非致命错误，执行 `ROLLBACK TRANSACTION savepoint_name` 即可仅将事务状态回滚到该保存点位置，而保留保存点之前已经成功执行的数据操作，随后可继续向下执行或安全提交。选 A。"}, {"id": "p2_m12", "number": 12, "title": "判断一个并发事务调度是否正确的公认准则是（ ）。", "options": ["A. 可串行性准则（Serializability）", "B. 最大并发吞吐量准则", "C. 零阻塞准则", "D. 优先图包含自环准则"], "answer": "A", "hint": "并发事务调度的正确性准则就是：可串行化（Serializability）", "explanation": "【官方考点与速通解析】\n并发事务调度理论：\n可串行化（Serializability）是衡量并发调度正确性的唯一公认标准。\n定义：多个事务并发执行的调度，当且仅当其执行的最终结果与这些事务在某种顺序下逐个串行执行的结果完全一致时，该并发调度被称为是可串行化的调度，此时调度是正确的。选 A。"}, {"id": "p2_m13", "number": 13, "title": "在冲突可串行化（Conflict Serializability）理论中，属于“冲突操作”（Conflict Operations）的一组操作是（ ）。", "options": ["A. 来自不同事务的、针对同一数据项的读（Read）和写（Write）操作", "B. 来自不同事务的、针对同一数据项的读（Read）和读（Read）操作", "C. 来自不同事务的、针对不同数据项的写（Write）和写（Write）操作", "D. 同一个事务内部的连续两次读操作"], "answer": "A", "hint": "冲突操作三要素：不同事务、同一数据项、至少有一个是写操作（读写或写写）", "explanation": "【官方考点与速通解析】\n冲突操作的严格数学定义：\n指并发调度中满足以下三个条件的两个操作：\n1. 属于不同的事务（Ti 和 Tj）；\n2. 操作的是同一个数据对象（如同一数据项 Q）；\n3. 两个操作中【至少有一个是 WRITE 写操作】（即读-写、写-读、写-写）。\n两个读操作（Read-Read）之间不冲突，操作不同数据项的操作之间也不冲突。选 A。"}, {"id": "p2_m14", "number": 14, "title": "在并发控制中，事务长期处于等待状态而始终无法获得所需锁资源的现象称为“活锁”（Livelock，或饥饿）。解决活锁的最通用算法策略是（ ）。", "options": ["A. 先来先服务策略（FCFS，基于等待队列排队）", "B. 随机选择事务授予锁", "C. 总是优先给事务 ID 最大的事务授予锁", "D. 强制回滚正在持锁的事务"], "answer": "A", "hint": "解决活锁排队问题：先来先服务（FCFS）排队避免饥饿", "explanation": "【官方考点与速通解析】\n活锁（Livelock / 饥饿）：\n当事务 T1 申请对数据 R 加锁等待时，系统不断地将后来的其他事务 T2, T3... 的加锁请求优先批准，导致 T1 无休止地等待下去，永远无法推进。\n解决活锁最简单有效的方法是采用【先来先服务（First-Come First-Served，FCFS）】排队策略：当数据上的锁被释放时，严格按照申请加锁的时间先后顺序唤醒队列中最先等待的事务。选 A。"}, {"id": "p2_m15", "number": 15, "title": "死锁（Deadlock）是并发系统中的严重问题。DBMS 检测死锁最常采用的图论算法是（ ）。", "options": ["A. 事务等待图（Wait-for Graph）检测是否存在有向环路", "B. 最小生成树算法", "C. 拓扑排序计算关键路径", "D. 二分图最大匹配"], "answer": "A", "hint": "死锁检测图论工具：事务等待图（Wait-for Graph）找环", "explanation": "【官方考点与速通解析】\n死锁检测机制：\n系统在内存中动态维护一张有向图——【事务等待图（Wait-for Graph，WFG）】。\n- 节点表示正在运行的并发事务；\n- 有向边 Ti -> Tj 表示事务 Ti 正在等待被事务 Tj 持有的锁释放；\n- 核心定理：并发系统中产生死锁的充要条件是事务等待图中【存在有向环路】。一旦检测到环路，系统便挑选回滚代价最小的事务作为牺牲者（Victim）强制回滚以解开死锁。选 A。"}, {"id": "p2_m16", "number": 16, "title": "在多粒度封锁机制中，为了提高加锁效率，DBMS 引入了意向锁（Intent Lock）。若一个事务打算对表中某几行数据加排他锁（X 锁），则在加行锁之前，该事务必须首先在表级加（ ）。", "options": ["A. 意向排他锁（IX 锁）", "B. 意向共享锁（IS 锁）", "C. 表级排他锁（X 锁）", "D. 共享意向排他锁（SIX 锁）"], "answer": "A", "hint": "行级加写锁（X），表级必须先打招呼加意向写锁（IX）", "explanation": "【官方考点与速通解析】\n多粒度封锁自上而下的加锁协议：\n意向锁是为了解决“对细粒度（行）加锁时，上层粗粒度（表）无需逐行遍历检查”而设计的标记：\n- 若对某行加 S 锁，必须先在表级加上【意向共享锁（IS 锁）】；\n- 若对某行加 X 锁，必须先在表级加上【意向排他锁（IX 锁）】。\n这样当另一个事务想申请对整个表加 X 锁时，只要发现表上已有 IX 锁，即可瞬间判定冲突，无需逐行检查数百万行记录。选 A。"}, {"id": "p2_m17", "number": 17, "title": "在数据库恢复技术中，当数据库发生严重磁盘介质损坏导致数据文件不可用时，DBA 在开始执行 RESTORE 还原操作之前，应尽可能首先执行的关键操作是（ ）。", "options": ["A. 备份尾部日志（Tail-Log Backup）", "B. 立即执行一次完全备份", "C. 删除当前的 master 数据库", "D. 重启 SQL Server 实例服务"], "answer": "A", "hint": "还原前的最后一道保险：备份活动尾部日志（Tail-Log Backup）以挽救最新提交的数据", "explanation": "【官方考点与速通解析】\n尾部日志备份（Tail-Log Backup）机制：\n当数据库由于数据文件损坏而脱机，但当前的事务日志文件（.ldf）在物理上仍完好无损时，DBA 应当使用 `BACKUP LOG ... WITH NORECOVERY` 命令备份尚未备份的活动日志（尾部日志）。\n这样可以捕获故障发生前最后一秒钟提交的所有事务，使系统能够恢复到灾难发生时的精确时间点，实现零数据丢失（RPO = 0）。选 A。"}, {"id": "p2_m18", "number": 18, "title": "某数据库在周日晚上 23:00 执行了一次完全备份；周一到周六每天晚上 23:00 执行一次差异备份；白天每隔 1 小时执行一次事务日志备份。周三下午 14:30 发生磁盘损毁故障。最佳的恢复步骤顺序为（ ）。", "options": ["A. 还原周日完全备份 -> 还原周二差异备份 -> 依次还原周三 00:00 至 14:00 的各日志备份 -> 还原尾部日志", "B. 还原周日完全备份 -> 依次还原周一、周二的所有差异备份 -> 还原日志备份", "C. 只还原周三上午的日志备份", "D. 还原周二差异备份 -> 还原周日完全备份"], "answer": "A", "hint": "还原经典组合：最后一次完全备份 + 故障前最后一次差异备份 + 之后的逐个日志备份", "explanation": "【官方考点与速通解析】\n完全 + 差异 + 日志备份的标准恢复链条：\n1. 差异备份包含自完全备份以来的所有变更，因此只需还原【最近的一次差异备份】（周二晚上 23:00 的差异备份），周一晚上的差异备份无需还原（被周二覆盖）；\n2. 步骤序列：\n   - 第一步：还原周日 23:00 的完全备份（NORECOVERY）；\n   - 第二步：还原周二 23:00 的差异备份（NORECOVERY）；\n   - 第三步：依次按时间顺序还原周二 23:00 之后产生的所有日志备份（周三 0:00 ~ 14:00）；\n   - 第四步：还原故障发生时抢救出的尾部日志备份（RECOVERY），系统恢复到 14:30。选 A。"}, {"id": "p2_m19", "number": 19, "title": "在 SQL Server 的身份验证模型中，“混合模式”（Mixed Mode）允许使用的认证方式是（ ）。", "options": ["A. 既支持 Windows 身份验证，又支持 SQL Server 身份验证（用户名 + 密码）", "B. 只能使用 Windows 域账号认证", "C. 只能使用指纹生物特征识别", "D. 只允许无需密码的匿名登录"], "answer": "A", "hint": "混合模式 = Windows 身份验证 + SQL Server 独立用户名密码认证", "explanation": "【官方考点与速通解析】\nSQL Server 提供两种身份验证安全模式：\n1. Windows 身份验证模式：仅允许 Windows 本地或域用户登录，利用 Windows 操作系统安全令牌验证，无须输入独立的数据库密码；\n2. 混合模式（Mixed Mode Authentication）：既支持 Windows 身份验证，又支持基于 SQL Server 实例内部创建的独立账户（如 sa 管理员及普通数据库登录名）与密码认证。选 A。"}, {"id": "p2_m20", "number": 20, "title": "动态数据掩码（Dynamic Data Masking）是现代数据库的一项重要隐私合规技术。下列关于动态数据掩码的描述中，正确的是（ ）。", "options": ["A. 仅在查询返回结果集时按掩码规则实时脱敏（如 138****1234），底层磁盘存储的真实数据并未被修改", "B. 将底层物理存储的数据永久覆盖为星号或伪造字符", "C. 是一种强非对称物理磁盘加密技术", "D. 会导致带有索引的列无法进行任何相等性查询"], "answer": "A", "hint": "动态数据掩码只在查询显示时脱敏展示，磁盘存储的仍是原始真实数据", "explanation": "【官方考点与速通解析】\n动态数据掩码（Dynamic Data Masking，DDM）：\n核心特点在于“动态”和“非破坏性”：它在数据库层面通过权限控制对非特权用户实施透明的数据遮盖（如手机号 `138****5678`、身份证号、信用卡），防止客户端开发人员或客服人员窥视敏感信息；但是，底层磁盘上的数据文件依然保存着完整的原始真实明文，授权的高权限管理员或应用程序依然能查询到完整数据。选 A。"}, {"id": "p2_m21", "number": 21, "title": "在分布式数据库系统处理跨节点的分布式事务时，保证各节点 ACID 特性的工业级标准提交协议是（ ）。", "options": ["A. 两阶段提交协议（2PC，Two-Phase Commit）", "B. 两阶段封锁协议（2PL）", "C. 令牌环协议", "D. 三层客户机/服务器协议"], "answer": "A", "hint": "两阶段提交（2PC）用于分布式事务一致性，不要与两阶段封锁（2PL）混淆！", "explanation": "【官方考点与速通解析】\n概念辨析避坑指南：\n- 2PL（两阶段封锁协议）：用于【并发事务并发控制】，分为加锁阶段和解锁阶段，保证并发调度可串行化；\n- 2PC（两阶段提交协议）：用于【分布式数据库事务原子性提交】，包含协调者与参与者，分为准备阶段（Prepare）和提交阶段（Commit），确保跨网络节点的所有子事务要么全部提交，要么全部中止。选 A。"}, {"id": "p2_m22", "number": 22, "title": "两阶段提交协议（2PC）中，若某参与者在第一阶段（表决/准备阶段）向协调者发送了“VOTE_ABORT”（拒绝提交）消息，则协调者在第二阶段必须向所有参与者广播的指令是（ ）。", "options": ["A. GLOBAL_ABORT（全局回滚）", "B. GLOBAL_COMMIT（全局提交）", "C. PREPARE（重新准备）", "D. CHECKPOINT（写检查点）"], "answer": "A", "hint": "2PC 一票否决制：只要有一个参与者说不行，全网必须全局回滚", "explanation": "【官方考点与速通解析】\n2PC（两阶段提交协议）执行逻辑：\n- 第一阶段（Prepare 阶段）：协调者向所有参与者发送准备提交请求，各参与者执行本地事务并写日志，返回 VOTE_COMMIT（同意）或 VOTE_ABORT（放弃）；\n- 第二阶段（Decision 阶段）：\n  * 只有当【所有参与者全票同意】时，协调者才广播 `GLOBAL_COMMIT`；\n  * 只要有【任何一个参与者返回拒绝或超时】，协调者立即执行一票否决，向所有节点广播 `GLOBAL_ABORT` 强制撤销回滚。选 A。"}, {"id": "p2_m23", "number": 23, "title": "在数据仓库的数据抽取、转换与加载（ETL）工程中，对于维度表中属性发生缓慢变化的情况（如客户住址变更、员工职位调整），被称为慢变维（SCD）。其中“SCD Type 2”的处理策略是（ ）。", "options": ["A. 增加一条新的维度记录，并通过生效起始日期、结束日期以及有效标志位跟踪历史版本", "B. 直接用新值覆盖修改旧记录，不保留任何历史轨迹", "C. 在原维度表中直接增加一列“前任住址”属性", "D. 彻底清空整个事实表重新全量抽取"], "answer": "A", "hint": "SCD 1 覆盖旧值；SCD 2 增加新行保留完整历史（加时间戳）；SCD 3 加历史列", "explanation": "【官方考点与速通解析】\n慢变维（Slowly Changing Dimension，SCD）三大主流处理方案：\n- SCD 1（重写覆盖）：直接用新值 UPDATE 覆盖历史旧值，不保存任何历史变更轨迹；\n- SCD 2（保留历史版本，最经典常用）：在维度表中【插入一行新记录】，每行带有 `EffectiveDate`（生效时间）、`EndDate`（失效时间）和 `IsCurrent`（当前标识），完整保留所有历史状态；\n- SCD 3（添加新列）：在原记录中添加前一历史列（如 `PreviousCity`），只能保留最近一次历史。选 A。"}, {"id": "p2_m24", "number": 24, "title": "在数据仓库多维数据模型设计中，“雪花模型”（Snowflake Schema）与“星型模型”（Star Schema）相比，其主要区别在于（ ）。", "options": ["A. 雪花模型的维度表进行了进一步的规范化分解，消除了部分依赖与传递依赖，呈现层次树状", "B. 雪花模型没有事实表", "C. 雪花模型的查询性能总是显著高于星型模型", "D. 雪花模型只能使用非关系数据库实现"], "answer": "A", "hint": "雪花模型就是对星型模型的维度表做了范式规范化拆分，形状像雪花分叉", "explanation": "【官方考点与速通解析】\n星型模型 vs 雪花模型：\n- 星型模型：事实表居中，周围维度表通常是【非规范化】的扁平大宽表（如省、市、区全部放在一个地址维表中），虽然有冗余，但查询时只需事实表与维度表进行一次 JOIN，性能最佳；\n- 雪花模型：对复杂的维度表进行了【3NF 规范化分解】（如把地址维进一步拆解为独立的国家表、省份表、城市表），消除了维度数据冗余，但多表 JOIN 复杂度增加。选 A。"}, {"id": "p2_m25", "number": 25, "title": "NoSQL 分布式数据库普遍遵循 BASE 理论。关于 BASE 理论中三大特性的表述，错误的是（ ）。", "options": ["A. 基本可用（Basically Available）：系统出现不可预知的故障时，允许损失部分可用性（如响应时间延长或功能降级）", "B. 软状态（Soft state）：允许数据存在中间状态，该中间状态不会影响系统的整体可用性", "C. 最终一致性（Eventual consistency）：所有数据副本在经过一段时间的同步后，最终必须达到一致的状态", "D. BASE 理论要求分布式系统在任何时刻必须提供与单机强一致性完全一致的严格读写保证"], "answer": "D", "hint": "BASE 是对 ACID 强一致性的妥协，追求的是弱一致性和最终一致性，D 选项彻底违背 BASE 初衷", "explanation": "【官方考点与速通解析】\nBASE 理论核心理念：\nBASE（Basically Available 基本可用，Soft state 软状态，Eventual consistency 最终一致性）是基于 CAP 定理对高并发分布式系统的实践总结。\n与传统关系数据库追求严格的 ACID 强一致性不同，BASE 理论通过放松强一致性约束，允许数据在短时间内存在数据同步延迟（弱一致性/最终一致性），换取超大规模集群的高可用性和超高吞吐量。因此 D 选项完全错误。"}, {"id": "p2_m26", "number": 26, "title": "分布式列族数据库（如 Apache HBase）底层存储数据的四维坐标模型是（ ）。", "options": ["A. 行键（RowKey）、列族（Column Family）、列限定符（Qualifier）、时间戳（Timestamp）", "B. 表名、字段名、数据类型、主键", "C. 物理磁道、柱面、扇区、偏移量", "D. IP 地址、端口号、用户名、密码"], "answer": "A", "hint": "HBase 定位一个 Cell 单元格的四要素：RowKey + ColumnFamily + Column + Timestamp", "explanation": "【官方考点与速通解析】\nHBase 属于典型的分布式稀疏列存储数据库：\n在逻辑上，HBase 每一个 Cell（单元格）的物理寻址完全依赖四维坐标体系：`{RowKey, ColumnFamily:ColumnQualifier, Timestamp} -> Value`。\n数据按 RowKey 的字典序进行分布式物理切分（Region）。选 A。"}, {"id": "p2_m27", "number": 27, "title": "在日常数据库维护过程中，针对索引碎片的治理，DBA 通常根据索引碎片率的大小采取不同的维护策略。当某索引的逻辑碎片率达到 35% 时，推荐的操作是（ ）。", "options": ["A. 重建索引（ALTER INDEX ... REBUILD）", "B. 重组索引（ALTER INDEX ... REORGANIZE）", "C. 彻底删除该索引且永不建立", "D. 将该索引修改为只读视图"], "answer": "A", "hint": "碎片率 5%~30% 建议 REORGANIZE 重组；碎片率 > 30% 强烈建议 REBUILD 重建", "explanation": "【官方考点与速通解析】\nSQL Server 索引碎片维护工业级标准：\n- 碎片率 < 5%：无需任何维护；\n- 碎片率在 5% 到 30% 之间：建议使用 `ALTER INDEX REORGANIZE`（重组叶级页，轻量级，在线执行不锁表）；\n- 碎片率 > 30%：建议使用 `ALTER INDEX REBUILD`（完全重新构建索引，彻底整理页空间并回收多余页）。本题中碎片率为 35%，应当 REBUILD 重建，选 A。"}, {"id": "p2_m28", "number": 28, "title": "在大型数据库设计中，为了提高海量历史数据表的可管理性和查询性能，通常将单张大表根据某一日期列（如订单日期）拆分存放到不同的文件组中。该技术被称为（ ）。", "options": ["A. 表分区（Table Partitioning）", "B. 索引重命名", "C. 建立动态游标", "D. 启用强制事务日志"], "answer": "A", "hint": "单大表按规则拆分存入不同物理文件组 = 表分区", "explanation": "【官方考点与速通解析】\n表分区（Table Partitioning）技术：\n在逻辑上，表仍然表现为单一的完整数据表，应用程序编写 SQL 时感知不到拆分；但在物理存储上，根据定义的分区函数（Partition Function）和分区架构（Partition Scheme），数据行按照分区键的值（如每年/每月）被分散存储到不同的物理文件组和磁盘上。这不仅加速了针对特定时间段的查询扫描，而且在归档旧数据时可以通过“切换分区（SWITCH PARTITION）”实现秒级无锁归档。选 A。"}, {"id": "p2_m29", "number": 29, "title": "在关系代数表达式优化中，查询优化器通常遵循的最基本、最重要的启发式规则是（ ）。", "options": ["A. 选择运算尽可能先做（提前执行选择投影，减少中间结果集大小）", "B. 笛卡尔积尽可能先做", "C. 投影运算必须留在最后一步执行", "D. 优先计算所有外部连接"], "answer": "A", "hint": "查询优化第一黄金法则：尽早执行选择（Pushdown Predicates）", "explanation": "【官方考点与速通解析】\n关系代数启发式优化规则：\n1. 【选择运算尽可能先做】（谓词下推）：这是最有效的一条规则，因为选择操作可以成数量级地过滤掉不符合条件的元组，从而极大减小后续连接或排序等高成本操作的输入规模；\n2. 投影运算尽可能早做：减少属性列宽度；\n3. 避免笛卡尔积，将其与等值条件合并为连接操作。选 A。"}, {"id": "p2_m30", "number": 30, "title": "在 SQL Server 中，若要查询某张数据表的物理存储空间分配情况（包括数据行数、保留空间、数据占用空间、索引占用空间及未使用空间），最方便的系统内置存储过程是（ ）。", "options": ["A. sp_spaceused", "B. sp_helpdb", "C. sp_who2", "D. sp_lock"], "answer": "A", "hint": "查询空间占用使用 sp_spaceused", "explanation": "【官方考点与速通解析】\nSQL Server 常用系统存储过程：\n- `sp_spaceused`：显示数据表的行数、磁盘空间使用量，或整个数据库的空间使用情况；\n- `sp_helpdb`：报告指定数据库或所有数据库的物理文件信息；\n- `sp_who / sp_who2`：提供当前活动的 SQL Server 用户会话、进程和 SPID 监控；\n- `sp_lock`：报告有关系统当前所有活动锁的信息。选 A。"}, {"id": "p2_m31", "number": 31, "title": "在 Windows 操作系统性能监视器（PerfMon）中监控 SQL Server 内存健康度时，通常要求“页面预期寿命”（Page Life Expectancy，PLE）指标（ ）。", "options": ["A. 越大越好（通常建议在 300 秒以上），过低表明存在严重内存压力导致数据页频繁被换出", "B. 越小越好（最好接近 0 秒）", "C. 必须始终严格等于 1 秒", "D. 与数据库性能完全无关"], "answer": "A", "hint": "Page Life Expectancy 指标越大表明数据在内存驻留越久，内存越充裕", "explanation": "【官方考点与速通解析】\nPage Life Expectancy（PLE，页面预期寿命）：\n衡量数据页在没有被引用的情况下在缓冲池（Buffer Pool）中停留的秒数。\nPLE 越大，说明常用数据能够长期缓存于内存中，命中率高；如果 PLE 骤降并持续低于 300 秒，意味着缓冲池严重不足，系统正在剧烈地将旧数据页淘汰换出到磁盘，存在严重的内存瓶颈。选 A。"}, {"id": "p2_m32", "number": 32, "title": "设有关系模式 R(A, B, C, D) 和 S(C, D, E)。在进行关系代数连接运算时，若采用基于排序合并连接（Sort-Merge Join）算法，该算法的前提条件通常是（ ）。", "options": ["A. 两个关系的连接属性列均已排好序", "B. 两个关系中必须有一个关系完全能够装入内存", "C. 两个关系必须具有完全相同的主键", "D. 连接属性必须是数值型"], "answer": "A", "hint": "排序合并连接（Sort-Merge Join）要求输入数据在连接键上已经是有序的", "explanation": "【官方考点与速通解析】\n三大经典物理连接算法：\n1. 嵌套循环连接（Nested Loop Join）：外层驱动表逐行去内层表探查，适合外表很小、内表连接键有索引；\n2. 排序合并连接（Sort-Merge Join）：要求参与连接的双方在连接属性上【都已经是有序的】（如已有索引或先经过外部排序），然后像拉链一样双向指针线性扫描归并，效率极高；\n3. 哈希连接（Hash Join）：适合无序的海量数据等值连接。选 A。"}, {"id": "p2_m33", "number": 33, "title": "在 SQL 语句中，定义外键约束并指定当主表主键被删除时，子表中相应外键记录也自动级联删除的完整性子句是（ ）。", "options": ["A. ON DELETE CASCADE", "B. ON DELETE SET NULL", "C. ON DELETE NO ACTION", "D. ON DELETE RESTRICT"], "answer": "A", "hint": "级联删除关键字为 ON DELETE CASCADE", "explanation": "【官方考点与速通解析】\n外键参照动作（Referential Actions）：\n- `ON DELETE CASCADE`：级联删除，当主表中某行被 DELETE 时，子表中所有引用该行的外键记录自动被一并删除；\n- `ON DELETE SET NULL`：置空，主表行删除后，子表中对应外键列被置为 NULL；\n- `ON DELETE NO ACTION / RESTRICT`：默认拒绝，如果子表有引用，禁止删除主表记录。选 A。"}, {"id": "p2_m34", "number": 34, "title": "下列属于数据库物理结构设计阶段主要工作内容的是（ ）。", "options": ["A. 确定数据存放位置、设计索引、确定数据存储结构与存取路径", "B. 画出全局概念 E-R 图", "C. 将 E-R 图转换为关系模式并进行范式规范化", "D. 收集用户需求并编写数据字典"], "answer": "A", "hint": "物理设计主要决定：索引、存取路径、存储位置、文件组与分区", "explanation": "【官方考点与速通解析】\n数据库设计各个阶段任务划分：\n1. 需求分析：DFD、数据字典；\n2. 概念结构设计：概念 E-R 模型；\n3. 逻辑结构设计：将 E-R 图转换为关系模式，规范化（范式分析），完整性约束；\n4. 物理结构设计：确定物理存储结构、存取路径（索引设计、聚簇选择）、分区方案、文件组配置与物理存储空间估算。选 A。"}, {"id": "p2_m35", "number": 35, "title": "在图数据库（Graph Database，如 Neo4j）中，用于查询图数据、匹配实体间关系网络的最流行声明式查询语言是（ ）。", "options": ["A. Cypher", "B. T-SQL", "C. HQL", "D. XQuery"], "answer": "A", "hint": "Neo4j 图数据库查询语言是 Cypher（通过括号和箭头表示节点与关系）", "explanation": "【官方考点与速通解析】\n- Cypher：Neo4j 创造的专用于属性图数据库的声明式查询语言，使用类似于图形艺术的 ASCII 字符语法（如 `(p:Person)-[:FRIEND]->(f:Person)`）；\n- T-SQL：Microsoft SQL Server 关系数据库扩展查询语言；\n- HQL：Hive 针对大数据的查询语言；\n- XQuery：XML 查询语言。故选 A。"}, {"id": "p2_m36", "number": 36, "title": "在数据挖掘的分类任务中，通过构建形如“如果...那么...”（If-Then）规则的树状分支结构来对未知样本进行预测分类的模型是（ ）。", "options": ["A. 决策树（Decision Tree）", "B. K-Means 聚类", "C. Apriori 算法", "D. 主成分分析（PCA）"], "answer": "A", "hint": "树状分类模型即决策树（如 ID3、C4.5、CART）", "explanation": "【官方考点与速通解析】\n数据挖掘经典分类模型：\n- 决策树（Decision Tree，如 ID3、C4.5、CART）：基于信息增益或基尼指数逐层选择最佳分裂属性构建树状判定图，具有极强的可解释性；\n- K-Means：典型的无监督聚类算法；\n- Apriori：关联规则挖掘算法。选 A。"}, {"id": "p2_m37", "number": 37, "title": "在 SQL Server 中，DBA 建立了一个维护计划，要求每周日执行一次数据库完整性检查以检测是否存在分配错误、页面脱落或损坏。该检查所依赖的核心 DBCC 命令是（ ）。", "options": ["A. DBCC CHECKDB", "B. DBCC SHRINKDATABASE", "C. DBCC DROPCLEANBUFFERS", "D. DBCC FREEPROCCACHE"], "answer": "A", "hint": "数据库一致性完整性检查命令为 DBCC CHECKDB", "explanation": "【官方考点与速通解析】\nDBCC（Database Console Commands，数据库控制台命令）核心：\n- `DBCC CHECKDB`：检查指定数据库中所有对象的物理和逻辑完整性（验证索引与数据页、指针链接一致性）；\n- `DBCC SHRINKDATABASE / SHRINKFILE`：收缩数据库或日志物理空间；\n- `DBCC DROPCLEANBUFFERS`：清空内存缓冲池数据；\n- `DBCC FREEPROCCACHE`：清空执行计划缓存。选 A。"}, {"id": "p2_m38", "number": 38, "title": "关系模式 R(A, B, C) 中，若存在非平凡的多值依赖 X ->-> Y，且 Y 并不函数依赖于 X。根据规范化理论，多值依赖导致的数据冗余通常需要在（ ）中予以消除。", "options": ["A. 4NF（第四范式）", "B. 3NF", "C. 2NF", "D. 1NF"], "answer": "A", "hint": "4NF 专门用于消除非平凡的多值依赖", "explanation": "【官方考点与速通解析】\n范式与依赖类型对应关系：\n- 1NF -> 2NF：消除非主属性对码的【部分函数依赖】；\n- 2NF -> 3NF：消除非主属性对码的【传递函数依赖】；\n- 3NF -> BCNF：消除主属性对码的部分和传递函数依赖（所有决定因素是码）；\n- BCNF -> 4NF：消除非平凡且非函数依赖的【多值依赖（MVD）】。选 A。"}, {"id": "p2_m39", "number": 39, "title": "在 Windows 域环境下配置 SQL Server 数据库访问权限时，最符合安全最佳实践的授权模型是（ ）。", "options": ["A. 将 Windows 域用户添加到 Windows 域组 -> 将域组映射为 SQL Server 登录名 -> 将登录名映射为数据库用户 -> 给数据库角色授权", "B. 为每一个具体员工创建独立的 sa 超级管理员密码", "C. 直接向 Windows 单个域账户赋予 master 库的写权限", "D. 将所有用户统一使用相同的 guest 游客账号访问"], "answer": "A", "hint": "基于角色的访问控制（RBAC）最佳实践：用户->组/角色->统一赋权", "explanation": "【官方考点与速通解析】\n企业级 SQL Server 权限管理最佳实践：\n采用 RBAC（基于角色的访问控制）层级：\n1. 在 Active Directory 中将具有相同职责的用户加入同一【域组】；\n2. 在 SQL Server 中为该域组创建【登录名（Login）】；\n3. 在业务数据库中将该登录名映射为【数据库用户（User）】；\n4. 将该数据库用户加入到具有特定最小权限的【数据库角色（Role）】中。当人员岗位调动时，只需在域组中增删人员，数据库端无需改动任何授权。选 A。"}, {"id": "p2_m40", "number": 40, "title": "在分布式数据库系统中，CAP 定理表明无法同时做到一致性、可用性和分区容错性。著名的 DynamoDB 和 Cassandra 数据库在网络分区时选择保证 AP，它们实现数据副本同步通常采用的算法协议是（ ）。", "options": ["A. Gossip 闲话协议与 Quorum 法定人数读写机制（W + R > N）", "B. 严格的两阶段提交（2PC）", "C. 顺序单线程串行同步", "D. 强制性全网广播"], "answer": "A", "hint": "NoSQL AP 系统副本发现使用 Gossip 协议，一致性读写使用 Quorum（W+R>N）机制", "explanation": "【官方考点与速通解析】\nCassandra / Dynamo 等 AP 系统的典型设计：\n- 节点发现与状态感知：采用去中心化的 Gossip（流言/闲话）协议在节点间异步点对点扩散元数据；\n- 数据副本一致性：采用 Quorum 仲裁机制（N 副本，W 写法定人数，R 读法定人数）。只要满足 W + R > N（即读写副本集合必然存在交集），就能确保客户端读取时通过版本向量（Vector Clock）读取到最新的正确数据，达到最终一致性。选 A。"}], "blanks": [{"id": "p2_b1", "number": 1, "score": 2, "prompt": "【空 1】在关系模型中，若关系 R 中的某个属性是其主键，则该属性值不能为空且不能重复，该规则称为【 1 】完整性规则。", "placeholder": "例如: 实体", "answer": ["实体", "实体完整性"], "hint": "主键非空唯一对应实体完整性"}, {"id": "p2_b2", "number": 2, "score": 2, "prompt": "【空 2】在 SQL 语句中，用于在子表中显式定义外键引用的关键词是 FOREIGN KEY ... 【 2 】。", "placeholder": "例如: REFERENCES", "answer": ["REFERENCES", "references"], "hint": "外键引用语句：FOREIGN KEY (col) REFERENCES MainTable(col)"}, {"id": "p2_b3", "number": 3, "score": 2, "prompt": "【空 3】在 SQL Server 触发器中，当对数据表执行 DELETE 语句时，被删除的旧数据行将被系统自动转移暂存到名为【 3 】的虚拟临时表中。", "placeholder": "例如: deleted", "answer": ["deleted", "DELETED"], "hint": "被删除的行保存在 deleted 临时表中"}, {"id": "p2_b4", "number": 4, "score": 2, "prompt": "【空 4】在 T-SQL 事务处理中，若事务执行过程中捕获到严重错误，用于放弃所有未提交修改并回滚事务的命令是【 4 】。", "placeholder": "例如: ROLLBACK", "answer": ["ROLLBACK", "ROLLBACK TRANSACTION", "rollback"], "hint": "回滚事务命令为 ROLLBACK"}, {"id": "p2_b5", "number": 5, "score": 2, "prompt": "【空 5】事务 T1 两次读取同一数据项，在两次读取期间事务 T2 对该数据项执行了修改并提交，导致 T1 两次读出的数据不一致，该并发异常被称为【 5 】。", "placeholder": "例如: 不可重复读", "answer": ["不可重复读", "Non-repeatable Read"], "hint": "两次读值不一样称为不可重复读"}, {"id": "p2_b6", "number": 6, "score": 2, "prompt": "【空 6】在数据库封锁协议中，排他锁又被称为写锁，通常用大写英文字母【 6 】锁表示。", "placeholder": "填一个英文字母", "answer": ["X", "X锁"], "hint": "排他锁是 X 锁，共享锁是 S 锁"}, {"id": "p2_b7", "number": 7, "score": 2, "prompt": "【空 7】如果一个关系模式中，每一个非平凡函数依赖的左部决定因素都包含该模式的候选码，则该模式至少达到【 7 】范式。", "placeholder": "例如: BCNF", "answer": ["BCNF", "Boyce-Codd范式", "Boyce-Codd"], "hint": "决定因素均包含码对应 BCNF"}, {"id": "p2_b8", "number": 8, "score": 2, "prompt": "【空 8】SQL Server 的索引底层采用高度平衡的【 8 】树作为其物理索引存储结构。", "placeholder": "例如: B+ 或 B-", "answer": ["B+", "B+树", "B-plus"], "hint": "现代数据库索引几乎全部采用 B+ 树"}, {"id": "p2_b9", "number": 9, "score": 2, "prompt": "【空 9】在 T-SQL 中，使用游标逐行读取数据时，系统全局变量【 9 】用于标识上一条 FETCH 语句的执行状态（0 表示提取成功）。", "placeholder": "例如: @@FETCH_STATUS", "answer": ["@@FETCH_STATUS", "@@fetch_status"], "hint": "游标循环提取状态变量 @@FETCH_STATUS"}, {"id": "p2_b10", "number": 10, "score": 2, "prompt": "【空 10】在 SQL Server 权限管理中，用于显式剥夺某用户或角色的访问权限，且优先级高于任何 GRANT 授权的命令是【 10 】。", "placeholder": "例如: DENY", "answer": ["DENY", "deny"], "hint": "显式拒绝权限关键字为 DENY"}, {"id": "p2_b11", "number": 11, "score": 2, "prompt": "【空 11】在系统故障恢复时，对于在日志中只有 BEGIN TRANSACTION 记录但没有 COMMIT 记录的事务，恢复程序必须对其执行【 11 】（撤销）操作。", "placeholder": "例如: UNDO", "answer": ["UNDO", "undo", "撤销"], "hint": "未提交事务在恢复时必须被撤销 UNDO"}, {"id": "p2_b12", "number": 12, "score": 2, "prompt": "【空 12】在数据仓库架构中，以一个包含业务度量的事实表为中心、周围连接多个非规范化维度表的多维模型称为【 12 】模型。", "placeholder": "例如: 星型", "answer": ["星型", "星型模型", "Star Schema"], "hint": "中心事实表+四周维度表即星型模型"}, {"id": "p2_b13", "number": 13, "score": 2, "prompt": "【空 13】在分布式数据库中，将一个全局关系的元组按照某一水平逻辑条件划分为若干不相交的子集，这种数据分片方式称为【 13 】分片。", "placeholder": "例如: 水平", "answer": ["水平", "水平分片"], "hint": "按行（元组）切分称为水平分片"}, {"id": "p2_b14", "number": 14, "score": 2, "prompt": "【空 14】在两阶段封锁协议（2PL）中，一个事务在开始释放封锁后，便进入了【 14 】阶段（只能解锁，不能再申请加锁）。", "placeholder": "例如: 收缩 或 缩减", "answer": ["收缩", "缩减", "收缩阶段", "缩减阶段"], "hint": "第一阶段为扩展（增长）阶段，第二阶段为收缩（缩减）阶段"}, {"id": "p2_b15", "number": 15, "score": 2, "prompt": "【空 15】在 NoSQL 系统的 BASE 理论中，字母 A 代表的特性是基本【 15 】（Basically Available）。", "placeholder": "例如: 可用", "answer": ["可用", "可用性"], "hint": "Basically Available 意为基本可用"}], "applied_questions": [{"id": "p2_app1", "number": 1, "score": 15, "title": "设计与应用题一：E-R 模型设计与向关系模式转换（15分）", "description": "某图书借阅管理系统具有以下业务场景与实体特征：\n1. 读者（Reader）：包含读者证号（ReaderID）、姓名（Name）、所属学院（Dept）、电话（Phone）。其中 `ReaderID` 为唯一主键；\n2. 图书（Book）：包含图书编号（BookID）、书名（Title）、作者（Author）、出版社（Publisher）、库存册数（TotalQty）。其中 `BookID` 为唯一主键；\n3. 借阅联系（Borrow）：一个读者可以多次借阅多种图书，每本图书也可被多个读者借阅（多对多联系 M:N）。每次借阅必须准确记录借阅日期（BorrowDate）以及应还日期（DueDate）。\n\n请按照关系数据库逻辑设计规范，回答下列各小题：", "subquestions": [{"id": "p2_app1_1", "score": 5, "prompt": "【小题 1】请写出根据上述 E-R 关系转换规则生成的三个关系模式（格式要求：关系名(属性1, 属性2...)，并在主键属性下方或用文字标明主键）：", "placeholder": "例如: Reader(ReaderID, Name, Dept, Phone), Book(BookID, Title, Author, Publisher, TotalQty), Borrow(ReaderID, BookID, BorrowDate, DueDate)", "answer": ["Reader(ReaderID, Name, Dept, Phone), Book(BookID, Title, Author, Publisher, TotalQty), Borrow(ReaderID, BookID, BorrowDate, DueDate)", "Reader(ReaderID, Name, Dept, Phone), Book(BookID, Title, Author, Publisher, TotalQty), Borrow(ReaderID, BookID, BorrowDate)", "读者(ReaderID, Name, Dept, Phone), 图书(BookID, Title, Author, Publisher, TotalQty), 借阅(ReaderID, BookID, BorrowDate, DueDate)"], "hint": "实体各转一个表，M:N 借阅联系独立成表，主键为 (ReaderID, BookID, BorrowDate)"}, {"id": "p2_app1_2", "score": 4, "prompt": "【小题 2】指出转换后生成的“借阅”关系模式（Borrow）的主键（主码）以及外键（外码）：", "placeholder": "格式: 主键:(ReaderID, BookID, BorrowDate); 外键:ReaderID, BookID", "answer": ["主键:(ReaderID, BookID, BorrowDate); 外键:ReaderID, BookID", "主键:(ReaderID, BookID); 外键:ReaderID, BookID", "主码:(ReaderID, BookID, BorrowDate); 外码:ReaderID, BookID"], "hint": "同一读者可多次借阅同一本书，主键应包含借阅日期 BorrowDate；外键分别参照读者和图书表"}, {"id": "p2_app1_3", "score": 6, "prompt": "【小题 3】请编写创建“借阅”表（Borrow）的标准 SQL DDL 语句，要求包含主键约束以及分别引用 Reader 和 Book 的外键级联删除约束（ON DELETE CASCADE）：", "placeholder": "CREATE TABLE Borrow ( ... )", "answer": ["CREATE TABLE Borrow ( ReaderID CHAR(10), BookID CHAR(10), BorrowDate DATETIME, DueDate DATETIME, PRIMARY KEY (ReaderID, BookID, BorrowDate), FOREIGN KEY (ReaderID) REFERENCES Reader(ReaderID) ON DELETE CASCADE, FOREIGN KEY (BookID) REFERENCES Book(BookID) ON DELETE CASCADE )"], "hint": "包含 PRIMARY KEY 和两个 FOREIGN KEY REFERENCES ON DELETE CASCADE"}], "explanation": "【官方考点与标准解答】\n1. 关系模式转换：\n   - 读者实体模式：`Reader(ReaderID, Name, Dept, Phone)`，主码为 `ReaderID`；\n   - 图书实体模式：`Book(BookID, Title, Author, Publisher, TotalQty)`，主码为 `BookID`；\n   - 借阅 M:N 联系模式：`Borrow(ReaderID, BookID, BorrowDate, DueDate)`。\n2. 借阅模式的主外码设计：\n   - 主键（主码）：考虑到一个读者在不同日期可能多次借阅同一本图书，为了避免主键冲突，主码必须是复合主键 `(ReaderID, BookID, BorrowDate)`（若假设同一天同一书只借一次）；\n   - 外键（外码）：`ReaderID` 是外键，参照 `Reader` 表的主码 `ReaderID`；`BookID` 是外键，参照 `Book` 表的主码 `BookID`。\n3. 创建表 DDL 语句：\n```sql\nCREATE TABLE Borrow (\n    ReaderID CHAR(10) NOT NULL,\n    BookID CHAR(10) NOT NULL,\n    BorrowDate DATETIME NOT NULL,\n    DueDate DATETIME,\n    CONSTRAINT PK_Borrow PRIMARY KEY (ReaderID, BookID, BorrowDate),\n    CONSTRAINT FK_Borrow_Reader FOREIGN KEY (ReaderID) REFERENCES Reader(ReaderID) ON DELETE CASCADE,\n    CONSTRAINT FK_Borrow_Book FOREIGN KEY (BookID) REFERENCES Book(BookID) ON DELETE CASCADE\n);\n```"}, {"id": "p2_app2", "number": 2, "score": 15, "title": "设计与应用题二：并发冲突可串行化与日志检查点故障恢复（15分）", "description": "【第一部分：并发事务调度分析】\n设有两个并发事务 T1 和 T2，包含以下对数据对象 A 和 B 的读写操作指令序列：\n- 事务 T1: R1(A), W1(A), R1(B), W1(B)\n- 事务 T2: R2(A), W2(A), R2(B), W2(B)\n系统给出了一个并发调度序列 S: R1(A), W1(A), R2(A), W2(A), R1(B), W1(B), R2(B), W2(B)。\n\n【第二部分：基于日志检查点的故障恢复】\n某数据库管理系统在发生系统断电崩溃时，日志文件的记录内容如下（按时间先后顺序写入）：\n1. (START, T1)\n2. (T1, A, 100, 150)\n3. (START, T2)\n4. (T2, B, 50, 80)\n5. (CHECKPOINT, [T1, T2])  <-- 检查点\n6. (COMMIT, T1)\n7. (START, T3)\n8. (T3, C, 200, 260)\n9. (COMMIT, T2)\n10. (START, T4)\n11. (T4, D, 300, 400)\n--- 发生断电故障停机 ---", "subquestions": [{"id": "p2_app2_1", "score": 5, "prompt": "【小题 1】分析并发调度 S 中存在的冲突操作对，并判断调度 S 是否为冲突可串行化调度（填 是 或 否）：", "placeholder": "填 是 或 否", "answer": ["是", "属于冲突可串行化调度", "是冲突可串行化"], "hint": "冲突对均是 T1 在前 T2 在后（W1(A)->R2(A), W1(B)->R2(B)），优先图无环，等价于串行调度 T1->T2"}, {"id": "p2_app2_2", "score": 5, "prompt": "【小题 2】系统崩溃重启后，根据日志分析，在故障恢复阶段需要执行 REDO（重做）操作的事务集合是（写出事务名称如 T1, T2...）：", "placeholder": "例如: T1, T2", "answer": ["T1, T2", "T1和T2", "T1、T2"], "hint": "在故障前已出现 COMMIT 记录的事务需要 REDO：T1 和 T2"}, {"id": "p2_app2_3", "score": 5, "prompt": "【小题 3】根据日志分析，在故障恢复阶段需要执行 UNDO（撤销/回滚）操作的事务集合是：", "placeholder": "例如: T3, T4", "answer": ["T3, T4", "T3和T4", "T3、T4"], "hint": "只有 START 却没有 COMMIT 记录的未提交事务需要 UNDO：T3 和 T4"}], "explanation": "【官方考点与标准解答】\n1. 冲突可串行化判定：\n   - 在调度 S 中寻找针对同一数据项的冲突操作（至少有一个是 Write）：\n     * 针对 A：W1(A) 先于 R2(A)，W1(A) 先于 W2(A)，表明优先图中必须有有向边：`T1 -> T2`；\n     * 针对 B：W1(B) 先于 R2(B)，W1(B) 先于 W2(B)，再次表明有向边：`T1 -> T2`；\n   - 构建事务等待/优先图（Serialization Graph）：图中只有一条单向边 `T1 -> T2`，【不存在任何环路】；\n   - 因此该调度 S 属于【冲突可串行化调度】，且其最终执行效果严格等价于串行执行调度 `T1 -> T2`。\n2. 基于检查点的日志恢复算法：\n   - 在检查点时刻（第 5 项），活动事务集合为 `[T1, T2]`；\n   - 从检查点向前扫描日志直到崩溃点：\n     * T1：在日志第 6 项有 `(COMMIT, T1)`，已正式提交，需要执行【REDO】（重做），确保其对 A 的修改 150 持久化；\n     * T2：在日志第 9 项有 `(COMMIT, T2)`，已正式提交，需要执行【REDO】（重做），确保其对 B 的修改 80 持久化；\n     * T3：在第 7 项 `(START, T3)` 启动，但在崩溃前没有任何 COMMIT 记录，属于未完成事务，必须执行【UNDO】（撤销），将 C 的值恢复为旧值 200；\n     * T4：在第 10 项 `(START, T4)` 启动，崩溃前无 COMMIT，必须执行【UNDO】（撤销），将 D 恢复为旧值 300。\n   - 综上：REDO 队列 = {T1, T2}；UNDO 队列 = {T3, T4}。"}]}, {"id": "db_paper3", "title": "全国计算机等级考试三级数据库技术·全真模拟试卷（三）", "subtitle": "大数据前沿与全真密押冲刺卷 · 聚焦分布式、数据仓库、NoSQL与深度优化", "duration": 120, "total_score": 100, "mcq_score": 40, "blank_score": 30, "app_score": 30, "mcqs": [{"id": "p3_m1", "number": 1, "title": "在 SQL Server 的物理存储架构中，分配和管理空间的最基本单位是（ ）。", "options": ["A. 数据页（Page，大小为 8 KB）", "B. 区（Extent，大小为 64 KB）", "C. 扇区（Sector，大小为 512 字节）", "D. 簇（Cluster，大小为 4 KB）"], "answer": "A", "hint": "SQL Server 最小 I/O 读写单位是 8 KB 数据页", "explanation": "【官方考点与速通解析】\nSQL Server 物理存储基础概念：\n- 数据页（Page）：数据库中数据存储的基本单位，大小恒定为 8 KB（8192 字节），磁盘 I/O 操作均以页为单位进行；\n- 区（Extent）：管理空间的基本单位，由 8 个在物理上连续的数据页组成，大小为 8 × 8 KB = 64 KB。选 A。"}, {"id": "p3_m2", "number": 2, "title": "在创建聚集索引或非聚集索引时，为了减少由于数据插入导致的频繁“页拆分”（Page Split）并预留叶级页空闲空间，应合理配置的参数是（ ）。", "options": ["A. 填充因子（FILLFACTOR）", "B. MAXDOP（最大并行度）", "C. SORT_IN_TEMPDB", "D. IGNORE_DUP_KEY"], "answer": "A", "hint": "预留页面百分比空闲空间的参数是填充因子（FILLFACTOR）", "explanation": "【官方考点与速通解析】\n填充因子（FILLFACTOR）核心考点：\nFILLFACTOR 是在创建或重建索引时指定的一个百分比数值（0 到 100）。它指示索引在刚构建完成时，每个叶级数据页上填充数据的空间比例，其余空间留作预留缓冲。\n对于频繁执行 INSERT / UPDATE 的表，适当设置较低的填充因子（如 70%~80%）可以预留行插入空间，极大减少因页写满引发的昂贵的页拆分（Page Split）和碎片。选 A。"}, {"id": "p3_m3", "number": 3, "title": "在非聚集索引定义中使用 INCLUDE 子句（包含列索引），其核心技术优势在于（ ）。", "options": ["A. 将非键列添加到索引叶级别，既打破了 16 列和 900 字节的索引键大小限制，又实现了覆盖查询", "B. 将该非聚集索引强制升级为聚集索引", "C. 使得包含列自动具备唯一性约束", "D. 允许在包含列上自动建立全文检索"], "answer": "A", "hint": "INCLUDE 子句：把列放到叶子节点而不算入 900 字节键长度限制，用于打造覆盖索引", "explanation": "【官方考点与速通解析】\n包含列（Included Columns）特性：\n传统的复合索引键最多只能包含 16 列且总长度不能超过 900 字节（SQL Server 规范）。\n使用 `CREATE NONCLUSTERED INDEX idx ON T(A) INCLUDE (B, C, D)` 时，B、C、D 只存放在 B+ 树最底层的叶子节点中，不计入 900 字节键值长度限制，不参与 B+ 树各层的键值排序。这不仅扩大了索引列容量，而且完美覆盖了 `SELECT B, C, D WHERE A = ...` 查询，彻底消除回表。选 A。"}, {"id": "p3_m4", "number": 4, "title": "在 SQL Server 的触发器中，若要判断某一行更新操作是否修改了特定的某一列（例如判断是否修改了 Salary 列），应在触发器中使用内置的（ ）函数。", "options": ["A. UPDATE(列名)", "B. IS_MODIFIED(列名)", "C. CHECK_COLUMN(列名)", "D. CHANGED(列名)"], "answer": "A", "hint": "检测特定列是否被更新使用 UPDATE(ColumnName) 函数", "explanation": "【官方考点与速通解析】\n触发器状态检查内置函数：\n`UPDATE(column_name)` 是 SQL Server 触发器专用的布尔函数。\n当该触发器响应 INSERT 或 UPDATE 语句时，若指定的 `column_name` 被该语句赋值修改，函数返回 TRUE，否则返回 FALSE。这使得触发器能够针对特定关键字段的变动执行精准的业务审计。选 A。"}, {"id": "p3_m5", "number": 5, "title": "在 SQL Server 事务隔离级别中，“快照隔离级别”（Snapshot Isolation）与传统的锁机制相比，其最大的运行优势是（ ）。", "options": ["A. 读操作利用 tempdb 中的数据行版本链，实现“读不阻塞写，写不阻塞读”", "B. 彻底禁用了事务日志写入以提高速度", "C. 强制所有事务按严格的单线程串行执行", "D. 彻底杜绝了并发死锁与更新冲突"], "answer": "A", "hint": "快照隔离基于多版本并发控制（MVCC），核心优势是读写互不阻塞", "explanation": "【官方考点与速通解析】\n快照隔离（Snapshot Isolation）原理：\n传统隔离级别依靠加 S 锁和 X 锁控制并发，写操作会阻塞读操作，读操作也会阻塞写操作。\n快照隔离基于多版本并发控制（MVCC）：当事务执行更新时，系统将旧版本数据行保存在 `tempdb` 的版本存储区中；当其他事务读取时，直接读取该事务开始时数据项的历史一致性快照，无需加任何读锁，实现了真正的“读不阻塞写，写不阻塞读”，极大提高了高并发读取性能。选 A。"}, {"id": "p3_m6", "number": 6, "title": "在 SQL Server 的并发死锁处理机制中，若希望让某个低优先级的报表查询会话在发生死锁时优先被系统挑选为“牺牲品”（Victim）予以回滚，应设置的命令是（ ）。", "options": ["A. SET DEADLOCK_PRIORITY LOW", "B. SET DEADLOCK_PRIORITY HIGH", "C. SET TRANSACTION ISOLATION LEVEL SERIALIZABLE", "D. KILL DEADLOCK"], "answer": "A", "hint": "设置死锁优先级为 LOW，死锁时优先牺牲自己", "explanation": "【官方考点与速通解析】\n死锁优先级控制语法：\n`SET DEADLOCK_PRIORITY { LOW | NORMAL | HIGH | 数值(-10到10) }`\n- 默认情况下所有会话为 NORMAL（0）；\n- 如果两个会话产生死锁，SQL Server 默认回滚撤销代价较小的事务；\n- 如果显式将报表任务设为 `LOW`，在死锁发生时引擎会无条件牺牲该会话回滚，从而保护核心关键 OLTP 交易事务不被中断。选 A。"}, {"id": "p3_m7", "number": 7, "title": "在 SQL Server 高可用技术中，Always On 可用性组（Availability Groups）相比于传统的数据库镜像技术，最核心的技术飞跃在于（ ）。", "options": ["A. 支持以整个可用性数据库集合为单位进行多库协同故障转移，且辅助副本可直接用于只读报表查询与备份分流", "B. 只能对单张数据表进行备份", "C. 不依赖任何网络通信", "D. 彻底废除了主副本的概念"], "answer": "A", "hint": "Always On 支持多库协同容灾，且辅助副本支持可读（只读查询分流）与备份分流", "explanation": "【官方考点与速通解析】\nAlways On 可用性组核心优势：\n1. 协同故障转移：以一组用户定义的数据库集合（可用性组）为单位整体故障转移，解决了跨库关联一致性；\n2. 资源利旧与只读分流：传统的镜像备库处于不可访问状态；Always On 的辅助副本（Secondary Replica）支持只读访问，可将大量报表查询和数据库备份分流到辅助节点，极大分担了主库压力。选 A。"}, {"id": "p3_m8", "number": 8, "title": "在 SQL Server 的三种故障恢复模型中，哪种恢复模型在执行检查点后会自动截断并不再保留不活动的事务日志，因此不支持事务日志备份，也不支持将数据库还原到特定时间点？（ ）", "options": ["A. 简单恢复模型（Simple）", "B. 完整恢复模型（Full）", "C. 大容量日志恢复模型（Bulk-Logged）", "D. 混合恢复模型"], "answer": "A", "hint": "简单恢复模型（Simple）自动清日志，无法进行日志备份，不支持时间点恢复", "explanation": "【官方考点与速通解析】\n三大恢复模型特征对比：\n- 简单恢复模型（Simple）：不维护事务日志备份链，每次检查点后自动截断并回收日志空间，占用空间小，但只能还原到最后一次完全/差异备份，不支持时点恢复；\n- 完整恢复模型（Full）：完整记录所有数据库修改日志，日志文件持续增长直到被显式备份，支持还原到任意微秒时间点（Point-in-time Restore）；\n- 大容量日志恢复模型（Bulk-Logged）：对批量导入操作进行最小日志记录，防日志撑爆。选 A。"}, {"id": "p3_m9", "number": 9, "title": "在数据仓库体系中，用于记录数据仓库自身结构、数据源映射关系、ETL 清洗规则以及业务指标定义的“关于数据的数据”被称为（ ）。", "options": ["A. 元数据（Metadata）", "B. 事实数据", "C. 维度数据", "D. 粒度数据"], "answer": "A", "hint": "关于数据的数据 = 元数据（Metadata）", "explanation": "【官方考点与速通解析】\n元数据（Metadata）是数据仓库的“神经中枢”：\n定义为“关于数据的数据”，描述数据的背景、来源、物理结构、字段含义以及转换规则。分为：\n- 技术元数据：描述存储格式、表名、索引、ETL 映射脚本与调度配置；\n- 业务元数据：描述面向业务分析师的指标口径、业务术语、数据归属人。选 A。"}, {"id": "p3_m10", "number": 10, "title": "在星型数据模型的设计中，维度表通常不直接使用业务系统的业务主键（自然键，如身份证号、工号），而是由数据仓库系统自动生成一个无实际业务含义的单调整数作为主键。这种主键被称为（ ）。", "options": ["A. 代理键（Surrogate Key）", "B. 业务主键", "C. 复合候选键", "D. 外部依赖键"], "answer": "A", "hint": "数仓维度表自增整数主键称为代理键（Surrogate Key）", "explanation": "【官方考点与速通解析】\n代理键（Surrogate Key）的设计价值：\n在数仓维度表中，强烈推荐使用由数仓自行维护的整型自增键（代理键）替代源系统的自然业务键（Natural Key）：\n1. 极佳的性能：事实表只需存储 4 字节整数作为外键，大幅减小事实表宽度与索引开销；\n2. 业务解耦与异构集成：不同业务系统的业务代码可能重名冲突，代理键实现全局统一；\n3. 完美支持 SCD 2 慢变维：同一自然人发生属性变更时，可在维度表中赋予不同的代理键生成多条历史版本行。选 A。"}, {"id": "p3_m11", "number": 11, "title": "在分布式数据库查询优化中，为了大幅降低在不同网络节点之间传输的数据量，常用的核心技术是（ ）。", "options": ["A. 半连接（Semi-Join）技术", "B. 笛卡尔积广播", "C. 强制将所有数据集中到单个节点计算", "D. 关闭所有网络压缩"], "answer": "A", "hint": "分布式查询减小网络通信的核心法宝是半连接（Semi-Join）", "explanation": "【官方考点与速通解析】\n半连接（Semi-Join，记为 R ⋉ S）优化机制：\n在分布式网络中跨节点传输整张大表网络开销极大。\n半连接的做法是：场地 1 仅将关系 R 的【连接属性列的值】提取投影并去重，将这几个字节的连接键值通过网络发送给场地 2；场地 2 用该键集与表 S 进行匹配过滤，仅把真正能成功连接的 S 元组传回场地 1。这成百上千倍地消减了网络通信数据量。选 A。"}, {"id": "p3_m12", "number": 12, "title": "在分布式系统一致性算法中，被 Kubernetes、etcd 和 Consul 广泛采用，且相较于 Paxos 更加易于工程实现和理解的分布式共识协议是（ ）。", "options": ["A. Raft 算法", "B. 快速排序算法", "C. Dijkstra 算法", "D. 冒泡排序算法"], "answer": "A", "hint": "著名易懂的分布式共识算法是 Raft 算法（Leader 选举 + 日志复制）", "explanation": "【官方考点与速通解析】\n分布式共识算法体系：\n- Paxos：图灵奖得主 Leslie Lamport 提出的经典分布式共识协议，理论严谨但极其晦涩难懂，工程落地复杂；\n- Raft：斯坦福大学团队设计的新型共识算法，将一致性问题明确解耦为 Leader 选举、日志复制（Log Replication）和安全性三个子问题，通俗易懂，成为云原生领域（etcd、TiKV）的标准共识协议。选 A。"}, {"id": "p3_m13", "number": 13, "title": "流行的高性能分布式内存数据库 Redis 提供了丰富的数据结构。其中能够支持按照“分值”（Score）对成员元素进行自动排序的数据结构是（ ）。", "options": ["A. 有序集合（Sorted Set，ZSet）", "B. 哈希（Hash）", "C. 列表（List）", "D. 字符串（String）"], "answer": "A", "hint": "带 Score 权重的自动排序结构是有序集合 ZSet（底层采用跳表 SkipList）", "explanation": "【官方考点与速通解析】\nRedis 五大基础数据类型：\n- String：字符串/二进制安全；\n- List：双向链表，支持两端推入弹出；\n- Hash：键值对散列表，适合存储对象；\n- Set：无序无重复元素集合；\n- Sorted Set（ZSet）：有序集合，每个元素关联一个浮点数分值（Score），元素按分值从小到大自动排序，底层采用跳跃表（SkipList）和哈希表实现，广泛用于实时排行榜。选 A。"}, {"id": "p3_m14", "number": 14, "title": "在图数据库（如 Neo4j）中，为了在数亿级关系网络中实现毫秒级的多度深度人脉探索，其区别于传统关系型数据库多表 JOIN 瓶颈的核心底层特性是（ ）。", "options": ["A. 无索引邻接（Index-free Adjacency）", "B. 建立更多的全表 B+ 树", "C. 依赖复杂的嵌套外键级联", "D. 单线程串行递归"], "answer": "A", "hint": "图数据库核心秘籍：无索引邻接（每个节点用指针直接挂载其相邻关系和节点）", "explanation": "【官方考点与速通解析】\n无索引邻接（Index-free Adjacency）：\n关系数据库做多度关系检索（如通过 5 层好友找人）必须进行 5 次全局索引查找和表 JOIN，时间复杂度随数据量呈爆炸增长。\n图数据库在底层直接利用物理内存指针，将每个节点与其相连的所有边（关系）物理串联在一起。遍历图时就像沿着链表指针直接跳跃，遍历耗时只与局部子图的相连边数有关，与整个图库包含的总数据量完全无关，遍历复杂度为 O(1)。选 A。"}, {"id": "p3_m15", "number": 15, "title": "在数据挖掘的关联规则发现中，Apriori 算法之所以能够极大地减少候选频繁项集的搜索空间，其依赖的核心性质是（ ）。", "options": ["A. 频繁项集的所有非空子集必定也是频繁的；反之，若某项集是非频繁的，则它的所有超集也绝不可能是频繁的", "B. 任何项集的支持度必定大于其置信度", "C. 只能挖掘包含两个商品的项集", "D. 必须先对所有交易进行聚类"], "answer": "A", "hint": "Apriori 先验性质：非频繁项集的超集必非频繁（向上剪枝）", "explanation": "【官方考点与速通解析】\nApriori 算法先验性质（Apriori Property）：\n“如果一个项集是频繁的，那么它的所有子集也必须是频繁的。”\n其逆否命题是算法剪枝的核心：如果一个候选集（例如 {A, B}）被检测出是非频繁的（低于最小支持度阈值），那么包含它的任何更大超集（如 {A, B, C}、{A, B, D} 等）都绝对不可能成为频繁项集，从而直接将整条分支剪枝，避免了指数级穷举扫描。选 A。"}, {"id": "p3_m16", "number": 16, "title": "在 T-SQL 中使用窗口函数（Window Function）对员工各部门内的工资进行排名时，若希望相同工资的员工获得相同的排名序号、且后续名次连续不产生跳跃（例如 1, 2, 2, 3），应使用的窗口排序函数是（ ）。", "options": ["A. DENSE_RANK()", "B. RANK()", "C. ROW_NUMBER()", "D. NTILE()"], "answer": "A", "hint": "DENSE_RANK() 名次连续不空跳（1,2,2,3）；RANK() 产生跳跃（1,2,2,4）；ROW_NUMBER() 纯物理序号", "explanation": "【官方考点与速通解析】\n三大四大窗口排序函数辨析：\n- `ROW_NUMBER()`：不管值是否相同，按顺序分配连续不重复的物理唯一行号（1, 2, 3, 4）；\n- `RANK()`：并列同名次，但后续名次发生跳跃留空（1, 2, 2, 4，跳过了 3）；\n- `DENSE_RANK()`：密集排名，并列同名次，但后续名次【紧密连续、不发生跳跃】（1, 2, 2, 3）；\n- `NTILE(n)`：将数据切分为 n 等份。选 A。"}, {"id": "p3_m17", "number": 17, "title": "在执行复杂的关键批量事务脚本前，网络管理员设置 `SET XACT_ABORT ON`，该设置的作用是（ ）。", "options": ["A. 当任何一条 T-SQL 语句发生运行时错误时，整个事务将自动终止并回滚", "B. 忽略所有错误继续强制向下执行", "C. 将错误记录写入 Windows 系统日志但提交事务", "D. 自动跳过触发器的检查"], "answer": "A", "hint": "XACT_ABORT ON 遇到任何执行错误自动强制回滚整个事务", "explanation": "【官方考点与速通解析】\n`SET XACT_ABORT` 开关作用：\n- 默认情况（OFF）：当某些特定运行时错误发生时，SQL Server 可能只回滚产生错误的当前单条语句，而事务后续语句可能继续执行，导致事务逻辑半生半熟；\n- 开启 `SET XACT_ABORT ON`：指示 SQL Server 一旦遇到任何运行时错误，立即强行中止整个事务并自动执行全局 ROLLBACK，保证原子性。选 A。"}, {"id": "p3_m18", "number": 18, "title": "我国《网络安全法》与等级保护 2.0 对关键信息基础设施数据库提出了“三权分立”安全管理要求。三权分立通常是指将系统的最高管理权限拆分为（ ）。", "options": ["A. 系统管理员（运维）、安全保密管理员（策略）、安全审计员（审计）", "B. 研发人员、测试人员、运维人员", "C. 数据库管理员、网络工程师、硬件工程师", "D. 董事长、总经理、财务总监"], "answer": "A", "hint": "等保三权分立：系统管理员、安全管理员、审计管理员，相互制约制衡", "explanation": "【官方考点与速通解析】\n等级保护 2.0“三权分立”原则：\n为了防范单一超级管理员（如传统 root 或 sa 拥有无限权力）滥用特权导致安全失控，标准要求设置三个独立职责角色相互监督制衡：\n1. 系统管理员：负责系统日常运行维护、配置部署、备份恢复，但无权查看审计日志；\n2. 安全保密管理员：负责安全策略制定、用户账号与角色权限划分授权；\n3. 安全审计员：负责独立审查所有人员的操作行为日志、分析异常违规事件，但无权修改系统配置和业务数据。选 A。"}, {"id": "p3_m19", "number": 19, "title": "防范 Web 应用向后端数据库发起 SQL 注入（SQL Injection）攻击的最有效、根本性的防范技术是（ ）。", "options": ["A. 采用参数化查询（Parameterized Query）或强类型存储过程调用", "B. 单纯依赖在前端 JavaScript 中过滤单引号", "C. 将数据库默认端口 1433 修改为任意其他端口", "D. 提高数据库服务器的 CPU 主频"], "answer": "A", "hint": "防 SQL 注入正统治本之道：使用参数化查询（Prepared Statement）", "explanation": "【官方考点与速通解析】\nSQL 注入防御核心原则：\nSQL 注入的根源在于“将未经校验的用户输入作为代码的一部分拼接到 SQL 语句中编译执行”。\n参数化查询（预编译语句）在数据库引擎底层将代码与数据严格分离：SQL 语句的语法骨架首先被预先编译，用户输入的内容仅仅作为纯粹的数据参数绑定传入，无论输入包含何种单引号、`OR 1=1` 或 `--` 注释符，数据库均将其视为纯字面常量处理，从根本上杜绝代码注入。选 A。"}, {"id": "p3_m20", "number": 20, "title": "在 SQL Server 中，针对海量数据分析（OLAP）场景，列存储索引（Columnstore Index）相比传统行存储索引在查询性能上能够获得数倍至数十倍提升，其核心机制是（ ）。", "options": ["A. 数据按列垂直组织存放并采用高比率压缩，且支持基于批处理模式（Batch Mode）矢量化执行", "B. 将所有数据无损转换为 XML 格式存储", "C. 彻底关闭了磁盘 I/O 检查", "D. 只允许保存数值型数据"], "answer": "A", "hint": "列存储索引：按列存储超高压缩比，结合 Batch Mode 批处理指令加速", "explanation": "【官方考点与速通解析】\n列存储索引（Columnstore Index）突破性技术：\n1. 数据按列物理组织：同一列的数据类型相同，具有极高的数据相似度，压缩率通常高达 5~10 倍；\n2. 极度节省 I/O：分析聚合某几个列时（如计算总销售额），只需读取该列所在的数据块，完全无需扫描其他无关列；\n3. 批处理模式（Batch Mode）：CPU 一次性处理一个包含约 900 行的数据包，大幅提升指令级并行度与 CPU 缓存命中率。选 A。"}, {"id": "p3_m21", "number": 21, "title": "在关系代数表达式中，将多个连续的投影运算或选择运算进行合并串接。若关系代数包含 $\\sigma_{C1}(\\sigma_{C2}(R))$，其等价变换为（ ）。", "options": ["A. $\\sigma_{C1 \\land C2}(R)$", "B. $\\sigma_{C1 \\lor C2}(R)$", "C. $\\sigma_{C1}(R) \\cup \\sigma_{C2}(R)$", "D. $\\sigma_{C1}(R) \\cap \\sigma_{C2}(R)$"], "answer": "A", "hint": "连续两次选择过滤相当于两条件的逻辑与（AND / ∧）", "explanation": "【官方考点与速通解析】\n关系代数等价变换规则之选择串接律：\n选择操作是对元组的条件筛选。先按照条件 C2 筛选出子集，再在结果中按条件 C1 筛选，其最终结果显然等于同时满足条件 C1 和条件 C2 的元组集合，即 $\\sigma_{C1 \\land C2}(R)$。选 A。"}, {"id": "p3_m22", "number": 22, "title": "在 SQL Server 中，用户定义标量函数（Scalar Function）与内联表值函数（Inline Table-Valued Function）的关键区别在于（ ）。", "options": ["A. 标量函数返回单一的标量数据值，而内联表值函数返回一个结果表格", "B. 标量函数不能带任何参数", "C. 内联表值函数必须包含 BEGIN ... END 语句块", "D. 标量函数只能在系统 master 数据库中创建"], "answer": "A", "hint": "标量函数返回单值（如 INT/VARCHAR），表值函数返回一张 TABLE", "explanation": "【官方考点与速通解析】\n用户定义函数分类：\n- 标量函数（Scalar UDF）：返回单个标量数据值（如返回计算出的折扣额、格式化字符串），在 SELECT 列表中逐行调用；\n- 内联表值函数（Inline TVF）：返回一个 `TABLE` 类型，函数体只有一个单一的 RETURN (SELECT ...) 语句，没有 BEGIN/END，优化器将其像普通视图一样展开优化；\n- 多语句表值函数：包含 BEGIN/END，在内部构建表变量并返回。选 A。"}, {"id": "p3_m23", "number": 23, "title": "在数据库设计中，为了兼顾高频统计查询的极速响应，适度违背范式规则、在关系模式中引入少量冗余字段（如在订单表直接存储订单总金额）的做法属于（ ）。", "options": ["A. 数据库反规范化（Denormalization）技术", "B. 数据库第二范式破坏错误", "C. 存储过程设计失误", "D. 索引失效"], "answer": "A", "hint": "适度牺牲范式、增加冗余以减少高频跨表 JOIN = 反规范化（Denormalization）", "explanation": "【官方考点与速通解析】\n反规范化（Denormalization）工程折中：\n规范化（范式化）减少了数据冗余、消除了插入/修改异常，但在高并发查询时往往需要执行昂贵的跨表多路连接（JOIN）。\n反规范化技术在满足特定高并发分析需求的前提下，通过有意增加适度的数据冗余（如增加冗余列、增加派生汇总列、表合并），以磁盘空间换取查询性能，是物理数据库优化的常用手段。选 A。"}, {"id": "p3_m24", "number": 24, "title": "在分布式数据库系统架构中，“局部映射透明性”（Local Mapping Transparency）位于三级分布透明性中的（ ）。", "options": ["A. 最底层（最低级别透明性）", "B. 最高层（最高级别透明性）", "C. 中间层", "D. 与分片透明性同级"], "answer": "A", "hint": "透明性高低顺序：分片透明（最高） > 位置透明（中间） > 局部映射透明（最低）", "explanation": "【官方考点与速通解析】\n分布透明性层次结构：\n1. 分片透明性（最高层）：用户连数据分片存在都不知道；\n2. 位置透明性（中间层）：用户知道分片，但不知道分片保存在哪个具体物理站点；\n3. 局部映射透明性（最低层）：用户不仅知道分片，还知道分片在哪个站点，但无需知道该站点内部的具体物理数据模型和本地存储细节。选 A。"}, {"id": "p3_m25", "number": 25, "title": "在空间数据库（Spatial Database）中，用于表示地图地理坐标、经纬度及地球曲面几何计算的数据类型是（ ）。", "options": ["A. Geography 数据类型", "B. Geometry 数据类型", "C. Varchar(MAX)", "D. Image 数据类型"], "answer": "A", "hint": "Geography 表示椭球体地理坐标（经纬度）；Geometry 表示平面欧氏几何空间", "explanation": "【官方考点与速通解析】\n空间数据类型：\n- `geography`：用于存储圆球面（椭球体）地面数据，使用 GPS 经纬度坐标，计算距离时自动考虑地球曲率；\n- `geometry`：用于存储平面（平坦直角坐标系）欧几里得几何数据，按平面欧氏几何公式计算距离。选 A。"}, {"id": "p3_m26", "number": 26, "title": "在 SQL Server 中，DBA 运行 DBCC SHRINKFILE 命令的主要目的通常是（ ）。", "options": ["A. 收缩指定数据文件或日志文件的物理磁盘分配空间，将多余的未用空间释放回操作系统", "B. 扩展磁盘文件的最大上限容量", "C. 加密日志文件", "D. 重置系统表中的所有自增标识值"], "answer": "A", "hint": "SHRINK 即收缩，收缩文件释放空闲磁盘空间", "explanation": "【官方考点与速通解析】\n`DBCC SHRINKFILE(file_name, target_size)` 语法：\n用于收缩当前数据库的指定数据文件或事务日志文件，将指定文件内部未被使用的物理磁盘扇区空间释放归还给底层操作系统，常用于清理暴涨之后的庞大日志文件。选 A。"}, {"id": "p3_m27", "number": 27, "title": "在数据仓库星型模型中，事实表（Fact Table）的主键通常由（ ）构成。", "options": ["A. 引用各个维度表的外键组合而成的复合主键", "B. 单一的自增员工工号", "C. 任意一个维度的自然代码", "D. 时间维度的字符串"], "answer": "A", "hint": "事实表主键是由所有外围维度表的外键（代理键）组合而成的复合主键", "explanation": "【官方考点与速通解析】\n事实表（Fact Table）结构特性：\n事实表由两大部分构成：\n1. 维度键：指向各个维度表的外键（如时间维外键、客户维外键、产品维外键），这些外键组合起来构成了事实表的【复合主键】；\n2. 事实度量值：包含可加或半可加的数值指标（如销售量、销售金额、利润率）。选 A。"}, {"id": "p3_m28", "number": 28, "title": "SQL Server 查询优化器在决定使用“索引查找”（Index Seek）还是“表扫描”（Table Scan）时，所依赖的最关键统计元数据是（ ）。", "options": ["A. 数据表的统计信息（Statistics，包含直方图和密度向量）", "B. 操作系统的版本号", "C. 客户端网卡的连接速度", "D. 数据库管理员的登录名"], "answer": "A", "hint": "优化器基数估算的核心依据是统计信息（Statistics）与直方图", "explanation": "【官方考点与速通解析】\n统计信息（Statistics）是基于成本优化器（CBO）的基石：\nSQL Server 在索引列和查询条件列上自动或手动生成统计信息，内含采样数据构建的【直方图（Histogram）】和选择性密度。优化器通过直方图精确估算符合条件的行数（基数估算），行数极少时选索引查找（Seek），行数很大时选全表扫描（Scan）。若统计信息过旧，会导致优化器误判。选 A。"}, {"id": "p3_m29", "number": 29, "title": "在 SQL Server 中，用于在单一原子语句中同时支持“若存在则更新，若不存在则插入”（即著名的 Upsert 模式）的现代标准 SQL 语句是（ ）。", "options": ["A. MERGE 语句", "B. UPSERT 语句", "C. COMBINE 语句", "D. SYNC 语句"], "answer": "A", "hint": "标准 SQL 中整合 INSERT 与 UPDATE 的强大语句是 MERGE", "explanation": "【官方考点与速通解析】\n`MERGE` 语句（SQL:2008 标准，SQL Server 2008 引入）：\n语法结构：`MERGE TargetTable USING SourceTable ON 条件 WHEN MATCHED THEN UPDATE ... WHEN NOT MATCHED THEN INSERT ...;`\n一条语句同时完成对目标表的匹配更新和不匹配插入，且作为单个原子操作执行，极大提升了 ETL 数据同步效率。选 A。"}, {"id": "p3_m30", "number": 30, "title": "在数据库概念建模方法中，IDEF1X 方法是一种广泛应用于国防和工业界的结构化建模标准。在 IDEF1X 中，用于表示实体间“确定性联系”（Identifying Relationship）的图形线是（ ）。", "options": ["A. 实线", "B. 虚线", "C. 双虚线", "D. 带有波浪符号的线"], "answer": "A", "hint": "IDEF1X 中实线表示确定联系（标识联系），虚线表示非确定联系", "explanation": "【官方考点与速通解析】\nIDEF1X 建模图符规则：\n- 确定联系（Identifying Relationship，标识联系）：子实体的存在完全依赖于父实体的主码（父实体主码成为子实体主码的一部分），在 IDEF1X 中用【实线】连接；\n- 非确定联系（Non-identifying Relationship）：父实体的主码仅成为子实体的外键属性（普通属性），用【虚线】连接。选 A。"}, {"id": "p3_m31", "number": 31, "title": "在关系数据库逻辑设计中，若属性组 K 能够唯一标识关系模式 R 中的元组，但 K 的任何真子集都无法唯一标识元组，则 K 被称为（ ）。", "options": ["A. 候选码（Candidate Key）", "B. 超码（Super Key）", "C. 外码（Foreign Key）", "D. 代理键（Surrogate Key）"], "answer": "A", "hint": "唯一标识且不含多余属性（极小性）= 候选码", "explanation": "【官方考点与速通解析】\n超码 vs 候选码：\n- 超码（Super Key）：只要能够唯一标识元组的属性集（可以包含冗余无用的属性）；\n- 候选码（Candidate Key）：能够唯一标识元组，且【不含任何多余属性】的极小超码（Minimal Superkey）。选 A。"}, {"id": "p3_m32", "number": 32, "title": "在数据库恢复技术中，关于“静态转储”（Cold Backup）与“动态转储”（Hot Backup）的区别，正确的是（ ）。", "options": ["A. 动态转储在转储期间允许用户正常对数据库进行并发事务操作", "B. 静态转储运行效率远高于动态转储，且完全不需要停机", "C. 动态转储得到的数据副本必定处于完全一致的静止状态", "D. 静态转储必须结合运行期间的事务日志才能完成恢复"], "answer": "A", "hint": "动态转储在线不停机；静态转储必须无事务运行（脱机）", "explanation": "【官方考点与速通解析】\n转储状态对比：\n- 静态转储（冷备份）：在没有运行任何并发事务的状态下进行转储，必须暂停系统运行，转储出的副本是一致的；\n- 动态转储（热备份）：转储期间允许用户正常执行读写事务，无需停机。但转储期间发生的数据更新可能导致备份副本中数据不一致，因此动态转储【必须同时记录转储期间的事务日志】，恢复时利用日志消除不一致性。选 A。"}, {"id": "p3_m33", "number": 33, "title": "在联机分析处理（OLAP）系统的四种物理存储架构中，将多维数据直接存储在专用的多维数据库（MDBMS）阵列结构中的架构是（ ）。", "options": ["A. MOLAP（多维 OLAP）", "B. ROLAP（关系 OLAP）", "C. HOLAP（混合 OLAP）", "D. WOLAP（网络 OLAP）"], "answer": "A", "hint": "直接用专有多维数组存储的是 MOLAP", "explanation": "【官方考点与速通解析】\nOLAP 物理架构分类：\n- MOLAP（Multidimensional OLAP）：采用物理多维数组存储多维数据立方体，查询预计算度量速度最快，但数据加载慢且稀疏度高；\n- ROLAP（Relational OLAP）：利用传统关系数据库（星型/雪花模型）模拟存储多维数据，扩展性好，但分析查询需大量 JOIN；\n- HOLAP（Hybrid OLAP）：混合架构，核心汇总数据存 MOLAP，底层明细数据存 ROLAP。选 A。"}, {"id": "p3_m34", "number": 34, "title": "关系模式规范化要求消除数据依赖带来的异常。这些异常不包括（ ）。", "options": ["A. 物理存储损坏异常", "B. 数据插入异常", "C. 数据删除异常", "D. 数据修改异常与冗余"], "answer": "A", "hint": "规范化解决的是由于逻辑设计不良导致的插入异常、删除异常和修改冗余，物理介质损坏属于硬件故障", "explanation": "【官方考点与速通解析】\n不规范模式（如 1NF）带来的三大经典逻辑异常：\n1. 插入异常：本应存入的数据由于主键某些字段为空而无法插入；\n2. 删除异常：删除某些无关数据时，导致重要业务数据被意外附带删除；\n3. 修改异常（更新异常）与庞大冗余：修改一个实体信息需要并发修改数百行，极易产生数据不一致。\n物理存储损坏属于硬件故障，与范式规范化无关。选 A。"}, {"id": "p3_m35", "number": 35, "title": "在 SQL 授权语句中，GRANT SELECT, UPDATE ON Employee TO User1; 执行后，User1 用户获得了（ ）。", "options": ["A. 对 Employee 表的查询和修改权限", "B. 对 Employee 表的所有完全控制权限", "C. 连同将这些权限转授给第三方的权利", "D. 删除 Employee 表结构的权利"], "answer": "A", "hint": "GRANT SELECT, UPDATE 仅授予查询和更新权限", "explanation": "【官方考点与速通解析】\n标准 SQL 授权分析：\n`GRANT SELECT, UPDATE ON Employee TO User1;` 明确指定了只授予 `SELECT`（读取查询）和 `UPDATE`（数据修改）两项权限；因为没有附加 `WITH GRANT OPTION`，User1 不能将这些权限转授他人；删除表结构需要 DROP 权限。故选 A。"}, {"id": "p3_m36", "number": 36, "title": "在分布式数据库的“两阶段封锁”（Distributed 2PL）协议中，为了在全网防止死锁，可以为每个事务分配唯一的全局时间戳。根据时间戳决定优先级的“等待-死亡”（Wait-Die）非抢占策略规则是（ ）。", "options": ["A. 老事务（时间戳小）申请新事务持有的锁时允许等待；新事务（时间戳大）申请老事务的锁时立即死亡（自杀回滚）", "B. 只要冲突就全部回滚", "C. 新事务强行抢占老事务的锁", "D. 无论何时均无限期等待"], "answer": "A", "hint": "Wait-Die（等待-死亡）策略：老事务等，新事务死（自杀）", "explanation": "【官方考点与速通解析】\n死锁预防两大著名时间戳策略（TS 越小代表事务资历越老）：\n1. Wait-Die（非抢占式）：若 Ti 申请被 Tj 持有的锁：\n   - 如果 Ti 比 Tj 老（TS(Ti) < TS(Tj)），系统允许 Ti 等待（Wait）；\n   - 如果 Ti 比 Tj 年轻（TS(Ti) > TS(Tj)），系统直接强行将 Ti 杀死回滚（Die）；\n2. Wound-Wait（抢占式）：老事务直接伤害剥夺新事务的锁（Wound），新事务则等待老事务。选 A。"}, {"id": "p3_m37", "number": 37, "title": "在 SQL Server 中，若希望在插入数据时由系统自动为某一整数列依次生成连续递增的唯一序号，通常在定义列时添加的属性是（ ）。", "options": ["A. IDENTITY(种子, 增量)", "B. AUTO_INCREMENT", "C. SEQUENCE_ROW", "D. UNIQUE_KEY"], "answer": "A", "hint": "SQL Server 自增列属性是 IDENTITY(seed, increment)", "explanation": "【官方考点与速通解析】\nSQL Server 自增列语法为 `IDENTITY(1, 1)`（起始种子为 1，每次自增 1）。\n注：`AUTO_INCREMENT` 是 MySQL 的语法，在 SQL Server 中使用 IDENTITY。选 A。"}, {"id": "p3_m38", "number": 38, "title": "在分布式数据库中，当各节点之间的网络通信完全中断划分为两个孤立网络分区时，若两边的节点仍各自独立接收写入并提交事务，最可能导致的数据灾难被称为（ ）。", "options": ["A. 脑裂（Split-Brain）导致数据严重冲突不可逆", "B. 内存永久锁定", "C. 操作系统蓝屏", "D. CPU 频率归零"], "answer": "A", "hint": "网络分区双活导致集群精神分裂 = 脑裂（Split-Brain）", "explanation": "【官方考点与速通解析】\n脑裂（Split-Brain）故障：\n在双中心或集群系统中，如果心跳通信链路发生物理中断，但两侧节点本身全部存活。若缺乏仲裁机制，两侧都误以为对方已宕机，纷纷在本地将自己推举为主节点（Master），并发对外提供写服务。这将导致两边产生完全不同的写入数据，一旦网络恢复，数据状态发生毁灭性冲突且无法自动合并，这种灾难被称为“脑裂”。选 A。"}, {"id": "p3_m39", "number": 39, "title": "在关系数据理论中，设有关系模式 R(A, B, C, D) 和函数依赖集 F = {A -> B, B -> C, D -> A}。该关系模式的候选码是（ ）。", "options": ["A. D", "B. A", "C. (A, D)", "D. (B, D)"], "answer": "A", "hint": "计算闭包：D+ = {D, A, B, C}，能够决定全部属性，因此 D 是唯一的候选码", "explanation": "【官方考点与速通解析】\n闭包推导法求解候选码：\n1. 考察属性位置：D 在依赖右边从未出现过，因此 D 必定包含在任何候选码中；\n2. 计算 D 的属性闭包 D+：\n   - 由 D -> A 可推导 {D, A}；\n   - 由 A -> B 可推导 {D, A, B}；\n   - 由 B -> C 可推导 {D, A, B, C} 全部 4 个属性！\n3. 因此 D 单个属性即能决定关系中所有属性，且不存在更小子集，关系模式 R 的候选码就是 D。选 A。"}, {"id": "p3_m40", "number": 40, "title": "在数据挖掘中，利用 K-Means 算法对客户群体进行消费画像分群时，K-Means 属于（ ）。", "options": ["A. 无监督学习聚类算法（无需预先提供已知标签的训练样本）", "B. 有监督学习分类算法", "C. 时间序列预测模型", "D. 关联规则频繁模式算法"], "answer": "A", "hint": "K-Means 是典型的无监督聚类算法（无需人工标注标签）", "explanation": "【官方考点与速通解析】\n机器学习任务分类：\n- 无监督学习（Unsupervised Learning）：训练数据只有特征，没有人工预先标注的标签（Label）。K-Means（K均值）聚类算法根据样本间的距离相似度自动将样本划分为 K 个簇，是无监督学习的代表；\n- 有监督学习（Supervised Learning）：输入数据带有明确的目标输出标签（如决策树、朴素贝叶斯、支持向量机）。选 A。"}], "blanks": [{"id": "p3_b1", "number": 1, "score": 2, "prompt": "【空 1】在 SQL Server 物理存储结构中，由 8 个在物理上连续的数据页组成的空间管理单位称为【 1 】（Extent）。", "placeholder": "例如: 区 或 扩展区", "answer": ["区", "扩展区", "盘区", "Extent"], "hint": "8个连续数据页组成一个区（Extent）"}, {"id": "p3_b2", "number": 2, "score": 2, "prompt": "【空 2】在创建索引时，为了减少由于数据插入导致的页拆分，用于指定叶级数据页预留空闲百分比的参数是【 2 】（Fill Factor）。", "placeholder": "例如: 填充因子", "answer": ["填充因子", "FILLFACTOR", "fillfactor"], "hint": "预留页面百分比参数为填充因子"}, {"id": "p3_b3", "number": 3, "score": 2, "prompt": "【空 3】在 SQL Server 触发器中，专门用于检测某特定属性列是否被 INSERT 或 UPDATE 语句修改的内置函数是【 3 】(列名)。", "placeholder": "例如: UPDATE", "answer": ["UPDATE", "update"], "hint": "检测列是否变动使用 UPDATE() 函数"}, {"id": "p3_b4", "number": 4, "score": 2, "prompt": "【空 4】在 SQL Server 中，只有在【 4 】恢复模型下，系统才记录完整修改日志，并支持将数据库还原到任意指定的微秒时间点。", "placeholder": "例如: 完整", "answer": ["完整", "完整恢复模型", "Full", "FULL"], "hint": "支持时点恢复的是完整恢复模型（Full）"}, {"id": "p3_b5", "number": 5, "score": 2, "prompt": "【空 5】在数据仓库体系中，以事实表为核心、并且其周围的各个维度表进行了进一步范式规范化拆解的多维架构称为【 5 】模型。", "placeholder": "例如: 雪花", "answer": ["雪花", "雪花模型", "Snowflake Schema"], "hint": "维度表规范化拆分后形似雪花"}, {"id": "p3_b6", "number": 6, "score": 2, "prompt": "【空 6】分布式系统 CAP 定理中的三个字母分别代表强一致性（Consistency）、可用性（Availability）和【 6 】容忍性（Partition tolerance）。", "placeholder": "例如: 分区", "answer": ["分区", "网络分区"], "hint": "P 代表分区容忍性（Partition tolerance）"}, {"id": "p3_b7", "number": 7, "score": 2, "prompt": "【空 7】Redis 数据库中能够通过跳跃表（SkipList）实现元素按照分值（Score）自动排序的集合数据结构是【 7 】（Sorted Set）。", "placeholder": "例如: 有序集合 或 ZSet", "answer": ["有序集合", "ZSet", "zset", "Sorted Set"], "hint": "带分值自动排序的是有序集合 ZSet"}, {"id": "p3_b8", "number": 8, "score": 2, "prompt": "【空 8】在关系规范化中，如果一个关系模式消除了非主属性对候选码的传递函数依赖，则该模式至少达到第【 8 】范式。", "placeholder": "填 三 或 3 或 3NF", "answer": ["三", "3", "3NF", "第三范式"], "hint": "消除传递依赖达到 3NF"}, {"id": "p3_b9", "number": 9, "score": 2, "prompt": "【空 9】在 T-SQL 中，使用【 9 】语句可以实现单条原子操作完成“匹配时更新、不匹配时插入”的数据同步功能。", "placeholder": "例如: MERGE", "answer": ["MERGE", "merge"], "hint": "集成插入与更新的语句是 MERGE"}, {"id": "p3_b10", "number": 10, "score": 2, "prompt": "【空 10】在多维数据分析（OLAP）中，将多维立方体中的坐标轴行列互换、转换查看视角的操作称为【 10 】（Pivot）。", "placeholder": "例如: 旋转", "answer": ["旋转", "Pivot", "透视"], "hint": "行列轴互换为旋转操作（Pivot）"}, {"id": "p3_b11", "number": 11, "score": 2, "prompt": "【空 11】在 T-SQL 窗口函数中，生成相同值并列相同名次且后续排名不留空跳跃的函数是【 11 】()。", "placeholder": "例如: DENSE_RANK", "answer": ["DENSE_RANK", "dense_rank"], "hint": "连续名次无空跳为 DENSE_RANK()"}, {"id": "p3_b12", "number": 12, "score": 2, "prompt": "【空 12】在基于日志的故障恢复中，对于在故障发生前已提交的事务需要执行 REDO，而对于未提交的异常事务需要执行【 12 】（撤销）。", "placeholder": "例如: UNDO", "answer": ["UNDO", "undo", "撤销"], "hint": "撤销未提交事务使用 UNDO"}, {"id": "p3_b13", "number": 13, "score": 2, "prompt": "【空 13】在数据仓库维度表中，由数仓系统自动生成的没有任何实际业务含义的整数主键称为【 13 】键（Surrogate Key）。", "placeholder": "例如: 代理", "answer": ["代理", "代理键", "Surrogate Key"], "hint": "数仓整型主键称为代理键"}, {"id": "p3_b14", "number": 14, "score": 2, "prompt": "【空 14】在分布式数据库两阶段提交协议（2PC）中，包含协调者向各节点询问的第一阶段和各节点正式执行的第二阶段，其中第一阶段称为【 14 】阶段（Prepare）。", "placeholder": "例如: 准备 或 表决", "answer": ["准备", "表决", "准备阶段", "表决阶段"], "hint": "第一阶段为准备（表决）阶段，第二阶段为提交阶段"}, {"id": "p3_b15", "number": 15, "score": 2, "prompt": "【空 15】数据库安全等级保护 2.0 要求打破单一超级管理员权力，推行系统管理员、安全保密管理员和【 15 】管理员的三权分立制度。", "placeholder": "例如: 审计 或 安全审计", "answer": ["审计", "安全审计", "安全审计员", "审计员"], "hint": "三权分立：系统管理员、安全保密员、安全审计员"}], "applied_questions": [{"id": "p3_app1", "number": 1, "score": 15, "title": "设计与应用题一：数据仓库星型模型构建与模式设计（15分）", "description": "某跨国零售连锁集团拟构建企业销售分析数据仓库系统。通过对业务需求的梳理，确定其业务分析的核心主题是“商品零售销售”。分析师需要从以下三个主要维度切入考察销售表现：\n1. 时间维度（Time）：包含时间代理键（TimeKey）、完整日期（FullDate）、年份（YearNumber）、季度（QuarterNumber）、月份（MonthNumber）；\n2. 门店维度（Store）：包含门店代理键（StoreKey）、门店编号（StoreCode）、门店名称（StoreName）、所在城市（City）、所在省份（Province）；\n3. 商品维度（Product）：包含商品代理键（ProductKey）、商品编码（ProductCode）、商品名称（ProductName）、商品大类（Category）、单价（UnitPrice）。\n\n核心度量事实：在每次销售交易中，需要度量销售数量（SalesQty）和实际销售总金额（SalesAmount）。\n\n请按照数据仓库星型模型规范，回答下列各小题：", "subquestions": [{"id": "p3_app1_1", "score": 5, "prompt": "【小题 1】请设计并写出居于多维模型中心的“销售事实表”（Fact_Sales）的关系模式定义（格式：表名(属性1, 属性2...)，并标明哪些字段构成复合主键，哪些是度量值）：", "placeholder": "例如: Fact_Sales(TimeKey, StoreKey, ProductKey, SalesQty, SalesAmount)", "answer": ["Fact_Sales(TimeKey, StoreKey, ProductKey, SalesQty, SalesAmount)", "Fact_Sales(TimeKey, StoreKey, ProductKey, SalesQty, SalesAmount, OrderID)", "销售事实表(TimeKey, StoreKey, ProductKey, SalesQty, SalesAmount)"], "hint": "事实表由三个维度代理外键（TimeKey, StoreKey, ProductKey）与两个度量指标（SalesQty, SalesAmount）组成"}, {"id": "p3_app1_2", "score": 4, "prompt": "【小题 2】指出该星型模型中各个维度表推荐采用的主键类型（填 自然业务键 或 代理键），并简要说明采用该主键类型的两个核心技术理由：", "placeholder": "例如: 代理键; 理由: 1.整型体积小提升JOIN性能; 2.支持慢变维保留历史", "answer": ["代理键", "代理键（Surrogate Key）", "代理主键"], "hint": "数仓维度表主键采用代理键（Surrogate Key，整型自增），提升性能并支持慢变维"}, {"id": "p3_app1_3", "score": 6, "prompt": "【小题 3】请编写 SQL 统计分析语句：统计“2024年”在“北京市”各“商品大类（Category）”的总销售额，按总销售额从大到小降序排列：", "placeholder": "SELECT p.Category, SUM(f.SalesAmount) ... GROUP BY p.Category ORDER BY ...", "answer": ["SELECT p.Category, SUM(f.SalesAmount) AS TotalSales FROM Fact_Sales f JOIN Dim_Time t ON f.TimeKey = t.TimeKey JOIN Dim_Store s ON f.StoreKey = s.StoreKey JOIN Dim_Product p ON f.ProductKey = p.ProductKey WHERE t.YearNumber = 2024 AND s.City = '北京市' GROUP BY p.Category ORDER BY TotalSales DESC"], "hint": "事实表关联时间、门店和商品三个维度表，WHERE 过滤 2024 年和北京市，GROUP BY Category，ORDER BY 降序"}], "explanation": "【官方考点与标准解答】\n1. 销售事实表结构设计：\n   - 关系模式：`Fact_Sales(TimeKey, StoreKey, ProductKey, SalesQty, SalesAmount)`；\n   - 键与度量分析：\n     * 外键组合：`TimeKey`（参照时间维）、`StoreKey`（参照门店维）、`ProductKey`（参照商品维）。三者联合构成事实表的复合主键；\n     * 业务度量值：`SalesQty`（销量）、`SalesAmount`（总金额），均为完全可加性事实数值。\n2. 代理键优势：\n   - 推荐使用【代理键（Surrogate Key）】；\n   - 核心技术理由：\n     1. 性能极大提升：代理键是紧凑的单调整型（INT），在事实表中仅占 4 字节，大幅降低庞大事实表的存储体积和连接（JOIN）开销；\n     2. 支持慢变维（SCD 2）：当商品类别或门店信息变更时，可通过新增代理键记录完整跟踪历史属性版本；\n     3. 屏蔽源系统业务变更：解耦异构数据源的代码冲突。\n3. 多维分析查询 SQL：\n```sql\nSELECT \n    p.Category,\n    SUM(f.SalesAmount) AS TotalSales\nFROM Fact_Sales f\nJOIN Dim_Time t ON f.TimeKey = t.TimeKey\nJOIN Dim_Store s ON f.StoreKey = s.StoreKey\nJOIN Dim_Product p ON f.ProductKey = p.ProductKey\nWHERE t.YearNumber = 2024 AND s.City = '北京市'\nGROUP BY p.Category\nORDER BY TotalSales DESC;\n```"}, {"id": "p3_app2", "number": 2, "score": 15, "title": "设计与应用题二：多表连接视图与 INSTEAD OF 触发器数据插入编程（15分）", "description": "某人力资源系统中包含两个基表：\n1. 部门表 `Department`：包含部门编号 `DeptID`（主键，char(5)）、部门名称 `DeptName`（varchar(30)）；\n2. 员工表 `Employee`：包含员工工号 `EmpID`（主键，char(8)）、员工姓名 `EmpName`（varchar(20)）、部门编号 `DeptID`（外键，char(5)）、基本工资 `Salary`（decimal(10,2)）。\n\n管理员创建了一个多表连接视图 `V_EmpDept`：\n```sql\nCREATE VIEW V_EmpDept AS\nSELECT e.EmpID, e.EmpName, e.Salary, d.DeptID, d.DeptName\nFROM Employee e JOIN Department d ON e.DeptID = d.DeptID;\n```\n\n【业务更新要求】\n默认情况下，向视图 `V_EmpDept` 直接 INSERT 会引发报错。请在视图 `V_EmpDept` 上创建一个 `INSTEAD OF INSERT` 触发器 `trig_InsertV_EmpDept`。当向视图插入一行新数据时：\n1. 首先检查插入的部门编号 `DeptID` 是否已经在 `Department` 表中存在；\n2. 如果该部门尚不存在，则首先自动向 `Department` 表插入该新部门记录（`DeptID` 和 `DeptName`）；\n3. 随后向 `Employee` 表插入员工记录（`EmpID`, `EmpName`, `Salary`, `DeptID`）。\n\n请阅读并补全下列触发器定义代码：", "code_snippet": "CREATE TRIGGER trig_InsertV_EmpDept\nON V_EmpDept\nINSTEAD OF 【空 1】\nAS\nBEGIN\n    SET NOCOUNT ON;\n    DECLARE @eid CHAR(8), @ename VARCHAR(20), @sal DECIMAL(10,2);\n    DECLARE @did CHAR(5), @dname VARCHAR(30);\n    \n    -- 从 inserted 临时表中读取待插入的数据\n    SELECT @eid = EmpID, @ename = EmpName, @sal = Salary, \n           @did = DeptID, @dname = DeptName \n    FROM 【空 2】;\n    \n    -- 检查部门是否存在\n    IF NOT EXISTS (SELECT 1 FROM Department WHERE DeptID = @did)\n    BEGIN\n        -- 插入新部门\n        INSERT INTO Department(DeptID, DeptName)\n        VALUES (@did, @dname);\n    END\n    \n    -- 向员工表插入新员工\n    INSERT INTO Employee(EmpID, EmpName, Salary, DeptID)\n    VALUES (@eid, @ename, @sal, 【空 3】);\nEND", "subquestions": [{"id": "p3_app2_1", "score": 5, "prompt": "【空 1】指定该 INSTEAD OF 触发器拦截的 DML 事件（填 INSERT / UPDATE / DELETE）：", "placeholder": "填 INSERT", "answer": ["INSERT", "insert"], "hint": "向视图插入数据，填 INSERT"}, {"id": "p3_app2_2", "score": 5, "prompt": "【空 2】读取待插入新记录的系统内置虚拟临时表名称：", "placeholder": "例如: inserted", "answer": ["inserted", "INSERTED"], "hint": "新数据存放在 inserted 表中"}, {"id": "p3_app2_3", "score": 5, "prompt": "【空 3】插入 Employee 表 VALUES 子句中对应部门外键变量名称：", "placeholder": "例如: @did", "answer": ["@did", "@did;"], "hint": "对应变量 @did"}], "explanation": "【官方考点与代码解析】\n1. 空 1：题干要求“当向视图插入一行新数据时”，说明该触发器用于拦截针对视图的插入操作，因此定义为 `INSTEAD OF INSERT`。\n2. 空 2：在触发器激活时，客户端发送的待插入记录被暂存在虚拟内存表 `inserted` 中，故写 `FROM inserted`。\n3. 空 3：向底层员工基表插入记录时，外键部门编号对应前面提取的变量 `@did`。\n4. 核心原理：通过在视图上定义 INSTEAD OF 触发器，系统拦截了用户对复杂连接视图的直接写请求，由触发器代码自主保证了主从表的插入次序（先建主表部门，再建子表员工），完美解决了复杂多表连接视图不可直接插入数据的业界技术痛点。"}]}];
+
+    let currentPaperIndex = 0;
+    let isStudyMode = false;
+    let userAnswers = {};
+    let markedQuestions = new Set();
+    let timerInterval = null;
+    let timeRemaining = 120 * 60;
+    let isSubmitted = false;
+
+    // Initialize
+    function init() {
+      loadTheme();
+      renderPaperTabs();
+      switchPaper(0);
+      startTimer();
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const target = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', target);
+      localStorage.setItem('ncre_db_theme', target);
+    }
+
+    function loadTheme() {
+      const saved = localStorage.getItem('ncre_db_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+
+    function toggleMode() {
+      isStudyMode = !isStudyMode;
+      const badge = document.getElementById('modeBadge');
+      if (isStudyMode) {
+        badge.textContent = '💡 逐题刷题模式';
+        badge.style.backgroundColor = 'var(--success-light)';
+        badge.style.color = 'var(--success)';
+      } else {
+        badge.textContent = '📝 全真模考模式';
+        badge.style.backgroundColor = 'var(--primary-light)';
+        badge.style.color = 'var(--primary)';
+      }
+      renderQuestions();
+    }
+
+    function renderPaperTabs() {
+      const tabs = document.getElementById('paperTabs');
+      tabs.innerHTML = '';
+      papersData.forEach((paper, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `paper-tab ${idx === currentPaperIndex ? 'active' : ''}`;
+        btn.textContent = `试卷 ${idx + 1}：${paper.title.split('·')[1] || paper.title}`;
+        btn.onclick = () => switchPaper(idx);
+        tabs.appendChild(btn);
+      });
+    }
+
+    function switchPaper(index) {
+      currentPaperIndex = index;
+      isSubmitted = false;
+      renderPaperTabs();
+      renderPaperIntro();
+      renderQuestions();
+      renderPalette();
+    }
+
+    function renderPaperIntro() {
+      const paper = papersData[currentPaperIndex];
+      const intro = document.getElementById('paperIntro');
+      intro.innerHTML = `
+        <h1>${paper.title}</h1>
+        <p>${paper.subtitle}</p>
+        <div class="stats-bar">
+          <div class="stat-pill">⏱️ 考试时长: <strong>120 分钟</strong></div>
+          <div class="stat-pill">💯 试卷总分: <strong>${paper.total_score} 分</strong></div>
+          <div class="stat-pill">🎯 合格线: <strong>60 分</strong></div>
+          <div class="stat-pill">📚 单选题 40分 | 填空题 30分 | 设计与应用题 30分</div>
+        </div>
+      `;
+    }
+
+    function renderQuestions() {
+      const paper = papersData[currentPaperIndex];
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+
+      // Section 1: MCQs
+      const sec1Title = document.createElement('div');
+      sec1Title.className = 'section-title';
+      sec1Title.textContent = `第一部分：单项选择题（共 40 题，每题 1 分，共 40 分）`;
+      container.appendChild(sec1Title);
+
+      paper.mcqs.forEach((q) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card_${q.id}`;
+
+        const isMarked = markedQuestions.has(q.id);
+        const userAns = getUserAnswer(q.id);
+
+        let optionsHtml = '<div class="options-list">';
+        q.options.forEach((opt) => {
+          const letter = opt.trim().charAt(0);
+          let cls = 'option-item';
+          if (userAns === letter) cls += ' selected';
+
+          if (isSubmitted || isStudyMode) {
+            if (userAns) {
+              if (letter === q.answer) cls += ' correct';
+              else if (userAns === letter) cls += ' wrong';
+            }
+          }
+
+          optionsHtml += `
+            <div class="${cls}" onclick="selectOption('${q.id}', '${letter}')">
+              ${opt}
+            </div>
+          `;
+        });
+        optionsHtml += '</div>';
+
+        card.innerHTML = `
+          <div class="question-header">
+            <span class="q-number">第 ${q.number} 题</span>
+            <div class="q-title">${q.title}</div>
+            <button class="mark-btn ${isMarked ? 'marked' : ''}" onclick="toggleMark('${q.id}')">
+              ${isMarked ? '★ 已标记' : '☆ 标记'}
+            </button>
+          </div>
+          ${optionsHtml}
+          <div class="explanation-box ${isSubmitted || isStudyMode ? 'show' : ''}" id="exp_${q.id}">
+            <div class="exp-title">💡 官方考点与速通解析 【标准答案: ${q.answer}】</div>
+            <div class="exp-content">${q.explanation}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Section 2: Blanks (15 questions, 30 points)
+      const sec2Title = document.createElement('div');
+      sec2Title.className = 'section-title';
+      sec2Title.textContent = `第二部分：填空题（共 15 题，每题 2 分，共 30 分）`;
+      container.appendChild(sec2Title);
+
+      paper.blanks.forEach((b) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card_${b.id}`;
+
+        const isMarked = markedQuestions.has(b.id);
+        const userVal = getUserAnswer(b.id) || '';
+
+        let inputClass = 'blank-input';
+        if (isSubmitted || isStudyMode) {
+          if (userVal.trim()) {
+            if (checkBlankAnswer(userVal, b.answer)) inputClass += ' correct';
+            else inputClass += ' wrong';
+          }
+        }
+
+        card.innerHTML = `
+          <div class="question-header">
+            <span class="q-number">填空题 ${b.number}</span>
+            <div class="q-title">${b.prompt} <span style="color:var(--primary); font-size:0.8rem;">(2分)</span></div>
+            <button class="mark-btn ${isMarked ? 'marked' : ''}" onclick="toggleMark('${b.id}')">
+              ${isMarked ? '★ 已标记' : '☆ 标记'}
+            </button>
+          </div>
+          <div class="blank-input-row" style="margin-top:10px;">
+            <input type="text" class="${inputClass}" id="input_${b.id}"
+              placeholder="${b.placeholder}" value="${escapeHtml(userVal)}"
+              onchange="saveBlankAnswer('${b.id}', this.value)"
+              onblur="saveBlankAnswer('${b.id}', this.value)">
+            ${isStudyMode ? `<button class="btn btn-outline" style="padding:4px 8px;font-size:0.75rem;" onclick="showBlankHint('${b.id}', '${b.hint}')">提示</button>` : ''}
+          </div>
+          <div class="explanation-box ${isSubmitted || isStudyMode ? 'show' : ''}" id="exp_${b.id}">
+            <div class="exp-title">💡 填空标准参考答案：${b.answer.join(' 或 ')}</div>
+            <div class="exp-content">${b.hint}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Section 3: Applied Questions (2 big questions, 30 points)
+      const sec3Title = document.createElement('div');
+      sec3Title.className = 'section-title';
+      sec3Title.textContent = `第三部分：设计与应用题（共 2 大题，每题 15 分，共 30 分）`;
+      container.appendChild(sec3Title);
+
+      paper.applied_questions.forEach((app) => {
+        const appCard = document.createElement('div');
+        appCard.className = 'question-card';
+        appCard.id = `card_${app.id}`;
+
+        let codeHtml = app.code_snippet ? `<div class="code-box">${escapeHtml(app.code_snippet)}</div>` : '';
+
+        let subqsHtml = '';
+        app.subquestions.forEach((sq) => {
+          const userVal = getUserAnswer(sq.id) || '';
+          let inputClass = 'blank-input';
+          if (isSubmitted || isStudyMode) {
+            if (userVal.trim()) {
+              if (checkBlankAnswer(userVal, sq.answer)) inputClass += ' correct';
+              else inputClass += ' wrong';
+            }
+          }
+
+          subqsHtml += `
+            <div class="blank-group">
+              <div class="blank-label">${sq.prompt} <span style="color:var(--primary); font-size:0.8rem;">(${sq.score}分)</span></div>
+              <div class="blank-input-row">
+                <input type="text" class="${inputClass}" id="input_${sq.id}" 
+                  placeholder="${sq.placeholder}" value="${escapeHtml(userVal)}"
+                  onchange="saveBlankAnswer('${sq.id}', this.value)"
+                  onblur="saveBlankAnswer('${sq.id}', this.value)">
+                ${isStudyMode ? `<button class="btn btn-outline" style="padding:4px 8px;font-size:0.75rem;" onclick="showBlankHint('${sq.id}', '${sq.hint}')">提示</button>` : ''}
+              </div>
+              ${(isSubmitted || isStudyMode) ? `<div style="margin-top:6px; font-size:0.8rem; color:var(--text-muted);">【标准参考】${sq.answer.join(' 或 ')} | 提示: ${sq.hint}</div>` : ''}
+            </div>
+          `;
+        });
+
+        appCard.innerHTML = `
+          <div class="question-header">
+            <span class="q-number">应用题 ${app.number}</span>
+            <div class="q-title">${app.title}</div>
+          </div>
+          <p style="font-size:0.95rem; color:var(--text);">${app.description}</p>
+          ${codeHtml}
+          ${subqsHtml}
+          <div class="explanation-box ${isSubmitted || isStudyMode ? 'show' : ''}" id="exp_${app.id}">
+            <div class="exp-title">💡 深度命题精析与考点推导</div>
+            <div class="exp-content">${app.explanation}</div>
+          </div>
+        `;
+        container.appendChild(appCard);
+      });
+    }
+
+    // Palette Render
+    function renderPalette() {
+      const paper = papersData[currentPaperIndex];
+      const grid = document.getElementById('paletteGrid');
+      grid.innerHTML = '';
+
+      let totalCount = 0;
+      let answeredCount = 0;
+
+      // 1. 40 MCQs
+      paper.mcqs.forEach((q) => {
+        totalCount++;
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = q.number;
+        btn.id = `pal_${q.id}`;
+
+        const ans = getUserAnswer(q.id);
+        if (ans) {
+          answeredCount++;
+          btn.classList.add('done');
+        }
+        if (markedQuestions.has(q.id)) {
+          btn.classList.add('marked');
+        }
+
+        if (isSubmitted) {
+          if (ans === q.answer) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+          }
+        }
+
+        btn.onclick = () => scrollToCard(`card_${q.id}`);
+        grid.appendChild(btn);
+      });
+
+      // 2. 15 Blanks
+      paper.blanks.forEach((b) => {
+        totalCount++;
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = `填${b.number}`;
+        btn.id = `pal_${b.id}`;
+
+        const ans = getUserAnswer(b.id);
+        if (ans) {
+          answeredCount++;
+          btn.classList.add('done');
+        }
+        if (markedQuestions.has(b.id)) {
+          btn.classList.add('marked');
+        }
+        if (isSubmitted) {
+          if (checkBlankAnswer(ans, b.answer)) btn.classList.add('correct');
+          else btn.classList.add('wrong');
+        }
+
+        btn.onclick = () => scrollToCard(`card_${b.id}`);
+        grid.appendChild(btn);
+      });
+
+      // 3. 2 Applied Questions
+      paper.applied_questions.forEach((app) => {
+        totalCount++;
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = `应${app.number}`;
+        btn.id = `pal_${app.id}`;
+
+        let done = app.subquestions.every(sq => !!getUserAnswer(sq.id));
+        if (done) {
+          answeredCount++;
+          btn.classList.add('done');
+        }
+        btn.onclick = () => scrollToCard(`card_${app.id}`);
+        grid.appendChild(btn);
+      });
+
+      document.getElementById('progressText').textContent = `${answeredCount} / ${totalCount}`;
+    }
+
+    // State Management
+    function getUserAnswer(qId) {
+      const paperId = papersData[currentPaperIndex].id;
+      if (!userAnswers[paperId]) userAnswers[paperId] = {};
+      return userAnswers[paperId][qId];
+    }
+
+    function selectOption(qId, letter) {
+      const paperId = papersData[currentPaperIndex].id;
+      if (!userAnswers[paperId]) userAnswers[paperId] = {};
+      userAnswers[paperId][qId] = letter;
+      renderQuestions();
+      renderPalette();
+    }
+
+    function saveBlankAnswer(qId, val) {
+      const paperId = papersData[currentPaperIndex].id;
+      if (!userAnswers[paperId]) userAnswers[paperId] = {};
+      userAnswers[paperId][qId] = val.trim();
+      renderPalette();
+    }
+
+    function toggleMark(qId) {
+      if (markedQuestions.has(qId)) markedQuestions.delete(qId);
+      else markedQuestions.add(qId);
+      renderQuestions();
+      renderPalette();
+    }
+
+    function showBlankHint(qId, hint) {
+      alert(`💡 考点提示：${hint}`);
+    }
+
+    function scrollToCard(cardId) {
+      const el = document.getElementById(cardId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function checkBlankAnswer(userInput, correctList) {
+      if (!userInput) return false;
+      const cleanUser = userInput.trim().toLowerCase().replace(/\s+/g, '');
+      return correctList.some(target => {
+        const cleanTarget = target.trim().toLowerCase().replace(/\s+/g, '');
+        return cleanUser === cleanTarget;
+      });
+    }
+
+    // Submit Exam
+    function submitExam() {
+      isSubmitted = true;
+      const paper = papersData[currentPaperIndex];
+
+      let mcqScore = 0;
+      let blankScore = 0;
+      let appScore = 0;
+      const wrongList = [];
+
+      // 1. MCQs
+      paper.mcqs.forEach((q) => {
+        const ans = getUserAnswer(q.id);
+        if (ans === q.answer) {
+          mcqScore += 1;
+        } else {
+          wrongList.push(`第 ${q.number} 题（单选题）：考生选 ${ans || '未作答'}，标准答案 ${q.answer}`);
+        }
+      });
+
+      // 2. Blanks
+      paper.blanks.forEach((b) => {
+        const ans = getUserAnswer(b.id);
+        if (checkBlankAnswer(ans, b.answer)) {
+          blankScore += b.score;
+        } else {
+          wrongList.push(`填空题 ${b.number}：考生填“${ans || '未填'}”，标准参考：“${b.answer[0]}”`);
+        }
+      });
+
+      // 3. Applied Questions
+      paper.applied_questions.forEach((app) => {
+        app.subquestions.forEach((sq) => {
+          const ans = getUserAnswer(sq.id);
+          if (checkBlankAnswer(ans, sq.answer)) {
+            appScore += sq.score;
+          } else {
+            wrongList.push(`应用题 ${app.number} - ${sq.prompt}：考生填“${ans || '未填'}”，参考：“${sq.answer[0]}”`);
+          }
+        });
+      });
+
+      const totalScore = mcqScore + blankScore + appScore;
+
+      // Update Modal
+      document.getElementById('modalScore').textContent = totalScore;
+      document.getElementById('mcqScoreReport').textContent = `${mcqScore} / 40`;
+      document.getElementById('blankScoreReport').textContent = `${blankScore} / 30`;
+      document.getElementById('appScoreReport').textContent = `${appScore} / 30`;
+
+      const title = document.getElementById('modalResultTitle');
+      const subtitle = document.getElementById('modalResultSubtitle');
+      if (totalScore >= 60) {
+        title.innerHTML = '🎉 恭喜！您已顺利通过三级数据库技术模拟考试！';
+        title.style.color = 'var(--success)';
+        subtitle.textContent = `全国计算机等级考试及格线为 60 分，您的成绩已达到合格标准！`;
+      } else {
+        title.innerHTML = '⚠️ 暂未及格，请认真查漏补缺！';
+        title.style.color = 'var(--danger)';
+        subtitle.textContent = `距离 60 分合格线还差 ${60 - totalScore} 分，请仔细研读每题解析！`;
+      }
+
+      const wrongDiv = document.getElementById('wrongQuestionsList');
+      if (wrongList.length === 0) {
+        wrongDiv.innerHTML = '<div style="color:var(--success); font-weight:bold;">🔥 太厉害了！全卷满分零失误！</div>';
+      } else {
+        wrongDiv.innerHTML = wrongList.map(item => `<div style="padding:4px 0; border-bottom:1px dashed var(--border);">${item}</div>`).join('');
+      }
+
+      document.getElementById('scoreModal').classList.add('show');
+      renderQuestions();
+      renderPalette();
+    }
+
+    function closeModal() {
+      document.getElementById('scoreModal').classList.remove('show');
+    }
+
+    function restartExam() {
+      closeModal();
+      resetCurrentPaper();
+    }
+
+    function resetCurrentPaper() {
+      if (confirm('确认清空本套试卷的所有作答记录并重新作答吗？')) {
+        const paperId = papersData[currentPaperIndex].id;
+        userAnswers[paperId] = {};
+        isSubmitted = false;
+        renderQuestions();
+        renderPalette();
+        timeRemaining = 120 * 60;
+      }
+    }
+
+    function toggleAllExplanations() {
+      const boxes = document.querySelectorAll('.explanation-box');
+      const anyHidden = Array.from(boxes).some(b => !b.classList.contains('show'));
+      boxes.forEach(b => {
+        if (anyHidden) b.classList.add('show');
+        else b.classList.remove('show');
+      });
+    }
+
+    // Timer
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (!isSubmitted && !isStudyMode) {
+          timeRemaining--;
+          if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert('⏰ 考试时间到！系统已为您自动交卷评分。');
+            submitExam();
+          }
+          updateTimerDisplay();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timeRemaining / 60);
+      const s = timeRemaining % 60;
+      document.getElementById('timerDisplay').textContent = `⏱️ ${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
