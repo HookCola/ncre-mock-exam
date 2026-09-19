@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全国计算机等级考试（NCRE）三级 Linux应用与开发技术 全真模拟与交互式实训系统</title>
+  <style>
+    :root {
+      --primary: #ea580c;
+      --primary-hover: #c2410c;
+      --primary-light: #ffedd5;
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --code-bg: #0f172a;
+      --code-text: #38bdf8;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --card-bg: #1e293b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --code-bg: #020617;
+      --code-text: #7dd3fc;
+      --primary-light: #0c4a6e;
+      --success-light: #064e3b;
+      --danger-light: #7f1d1d;
+      --warning-light: #78350f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Layout */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: white;
+    }
+    .btn-success:hover {
+      opacity: 0.9;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      background-color: var(--border);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Paper Tabs */
+    .paper-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .paper-tab {
+      padding: 10px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .paper-tab.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 4px 10px rgba(2,132,199,0.25);
+    }
+
+    /* Paper Intro Card */
+    .intro-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .intro-card h1 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .intro-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* Section Styles */
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 30px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-left: 10px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .question-card:hover {
+      border-color: #cbd5e1;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+
+    .q-number {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.05rem;
+    }
+
+    .q-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      flex-grow: 1;
+    }
+
+    .mark-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .mark-btn.marked {
+      background-color: var(--warning-light);
+      border-color: var(--warning);
+      color: var(--warning);
+      font-weight: bold;
+    }
+
+    /* Options */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      background: var(--card-bg);
+    }
+
+    .option-item:hover {
+      background-color: var(--bg);
+      border-color: var(--primary);
+    }
+
+    .option-item.selected {
+      background-color: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .option-item.correct {
+      background-color: var(--success-light) !important;
+      border-color: var(--success) !important;
+      color: var(--success) !important;
+      font-weight: bold;
+    }
+
+    .option-item.wrong {
+      background-color: var(--danger-light) !important;
+      border-color: var(--danger) !important;
+      color: var(--danger) !important;
+      font-weight: bold;
+    }
+
+    /* Blanks */
+    .blank-group {
+      background: var(--bg);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-top: 14px;
+    }
+
+    .blank-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .blank-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .blank-input {
+      flex-grow: 1;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+      background: var(--card-bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .blank-input:focus {
+      border-color: var(--primary);
+    }
+
+    .blank-input.correct {
+      border-color: var(--success);
+      background-color: var(--success-light);
+    }
+
+    .blank-input.wrong {
+      border-color: var(--danger);
+      background-color: var(--danger-light);
+    }
+
+    /* Code Snippet */
+    .code-box {
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      margin: 14px 0;
+      line-height: 1.5;
+    }
+
+    /* Analysis / Explanation */
+    .explanation-box {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 8px;
+      background-color: var(--bg);
+      border-left: 4px solid var(--primary);
+      display: none;
+    }
+
+    .explanation-box.show {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+
+    .exp-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .exp-content {
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    /* Sidebar / Palette */
+    .sidebar {
+      position: sticky;
+      top: 80px;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .palette-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .palette-header {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .palette-btn {
+      aspect-ratio: 1;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .palette-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .palette-btn.done {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .palette-btn.marked {
+      background: var(--warning-light);
+      color: var(--warning);
+      border-color: var(--warning);
+    }
+
+    .palette-btn.correct {
+      background: var(--success-light);
+      color: var(--success);
+      border-color: var(--success);
+    }
+
+    .palette-btn.wrong {
+      background: var(--danger-light);
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .timer-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      padding: 10px;
+      background: var(--primary-light);
+      border-radius: 8px;
+      margin-bottom: 14px;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+      animation: fadeIn 0.2s;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .score-banner {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .score-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+      font-weight: 800;
+    }
+
+    .score-num {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .score-total {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="brand-title">
+        <span>🗄️</span> NCRE 三级数据库技术 · 全真拟真题库系统
+      </div>
+      <div class="header-actions">
+        <span class="badge" id="modeBadge">📝 全真模考模式</span>
+        <button class="btn btn-outline" id="modeToggleBtn" onclick="toggleMode()">
+          ⚡ 切换模式
+        </button>
+        <button class="btn btn-outline" id="themeToggleBtn" onclick="toggleTheme()">
+          🌓 主题
+        </button>
+        <button class="btn btn-success" onclick="submitExam()">
+          📊 交卷评分
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    
+    <!-- Left Column: Questions & Papers -->
+    <main>
+      <!-- Paper Selector Tabs -->
+      <div class="paper-tabs" id="paperTabs"></div>
+
+      <!-- Current Paper Info Banner -->
+      <div class="intro-card" id="paperIntro"></div>
+
+      <!-- Question List Container -->
+      <div id="questionsContainer"></div>
+    </main>
+
+    <!-- Right Column: Sidebar & Question Palette -->
+    <aside class="sidebar">
+      <div class="palette-card">
+        <!-- Timer in Exam Mode -->
+        <div class="timer-box" id="timerDisplay">
+          ⏱️ 120:00
+        </div>
+
+        <div class="palette-header">
+          <span>答题卡导航</span>
+          <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);" id="progressText">0/57</span>
+        </div>
+
+        <!-- Legend -->
+        <div style="display: flex; gap: 10px; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; flex-wrap: wrap;">
+          <span style="display: flex; align-items: center; gap: 4px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--primary-light);border:1px solid var(--primary);display:inline-block;"></span>已答</span>
+          <span style="display: flex; align-items: center; gap: 4px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--bg);border:1px solid var(--border);display:inline-block;"></span>未答</span>
+          <span style="display: flex; align-items: center; gap: 4px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--warning-light);border:1px solid var(--warning);display:inline-block;"></span>标记</span>
+        </div>
+
+        <!-- Palette Grid -->
+        <div class="palette-grid" id="paletteGrid"></div>
+
+        <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 8px;">
+          <button class="btn btn-outline" style="width: 100%; justify-content: center;" onclick="toggleAllExplanations()">
+            👁️ 展开/折叠全部解析
+          </button>
+          <button class="btn btn-outline" style="width: 100%; justify-content: center; color: var(--danger);" onclick="resetCurrentPaper()">
+            🔄 重置本套试卷
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Score Modal -->
+  <div class="modal-backdrop" id="scoreModal">
+    <div class="modal-content">
+      <div class="score-banner">
+        <div class="score-circle">
+          <span class="score-num" id="modalScore">0</span>
+          <span class="score-total">/ 100 分</span>
+        </div>
+        <h2 id="modalResultTitle" style="margin-bottom: 6px;">成绩评估</h2>
+        <p id="modalResultSubtitle" style="color: var(--text-muted); font-size: 0.9rem;">及格线为 60 分</p>
+      </div>
+
+      <div style="background: var(--bg); border-radius: 8px; padding: 16px; margin: 16px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+        <div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">单选题得分</div>
+          <div style="font-size: 1.2rem; font-weight: 700; color: var(--primary);" id="mcqScoreReport">0 / 40</div>
+        </div>
+        <div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">填空题得分</div>
+          <div style="font-size: 1.2rem; font-weight: 700; color: var(--primary);" id="blankScoreReport">0 / 30</div>
+        </div>
+        <div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">设计应用题得分</div>
+          <div style="font-size: 1.2rem; font-weight: 700; color: var(--primary);" id="appScoreReport">0 / 30</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px;">
+        <h3 style="font-size: 1rem; margin-bottom: 8px;">错题诊断与回顾</h3>
+        <div id="wrongQuestionsList" style="max-height: 200px; overflow-y: auto; font-size: 0.85rem; color: var(--text-muted);"></div>
+      </div>
+
+      <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn btn-outline" onclick="closeModal()">返回查看解析</button>
+        <button class="btn btn-primary" onclick="restartExam()">重新作答</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Embedded Exam Data
+    const papersData = [{"id": "linux_paper1", "title": "全国计算机等级考试三级Linux应用与开发技术·全真模拟试卷（一）", "subtitle": "系统基础、命令工具与 Shell 脚本编程专卷 · 对标教育部考试院最新考试大纲规范", "duration": 120, "total_score": 100, "mcq_score": 40, "blank_score": 20, "app_score": 40, "mcqs": [{"id": "p1_m1", "number": 1, "title": "Linux 操作系统的体系架构主要由四个核心部分组成，它们是（ ）。", "options": ["A. 内核（Kernel）、Shell、文件系统和应用程序", "B. CPU、内存、硬盘和外部总线", "C. BIOS、引导加载器、图形界面和用户库", "D. 系统调用、虚拟机、编译器和设备驱动"], "answer": "A", "hint": "Linux 四层架构：内核、Shell、文件系统、应用程序", "explanation": "【官方考点解析】选 A。Linux 体系架构分为四个主要层次：\n1. 内核（Kernel）：负责管理进程调度、内存分配、设备驱动等硬件底层交互；\n2. Shell：为用户提供与内核交互的命令行解释环境；\n3. 文件系统：统一的单根树状层次目录；\n4. 应用程序：运行于用户空间的各类工具和服务程序。"}, {"id": "p1_m2", "number": 2, "title": "根据 Linux 文件系统层次结构标准（FHS），用于存放系统管理员专用系统维护命令二进制程序的目录是（ ）。", "options": ["A. /bin", "B. /sbin", "C. /etc", "D. /var"], "answer": "B", "hint": "/bin 普通用户命令；/sbin 包含管理员（Superuser）专用系统命令", "explanation": "【官方考点解析】选 B。FHS 规范核心目录功能：\n- `/bin`：所有普通用户皆可使用的常用基本命令；\n- `/sbin`：系统管理员（Superuser）专用的系统维护管理命令（如 fdisk, ifconfig, iptables, reboot）；\n- `/etc`：系统核心配置文件；\n- `/var`：经常动态改变的数据（如日志 /var/log）。"}, {"id": "p1_m3", "number": 3, "title": "使用 `ls -l` 命令查看文件属性，首列显示为 `-rwxr-xr--`，则该文件的八进制权限数值以及其他用户（Others）的权限分别是（ ）。", "options": ["A. 754，只读（r--）", "B. 751，执行（--x）", "C. 755，读和执行（r-x）", "D. 774，读和写（rw-）"], "answer": "A", "hint": "r=4, w=2, x=1。所有者 rwx=7，同组 r-x=5，其他用户 r--=4", "explanation": "【官方考点解析】选 A。Linux 权限转换规则：\n- 所有者（User）：rwx = 4+2+1 = 7；\n- 同组用户（Group）：r-x = 4+0+1 = 5；\n- 其他用户（Others）：r-- = 4+0+0 = 4，仅有读取权限。\n组合八进制数值为 754。"}, {"id": "p1_m4", "number": 4, "title": "若系统当前设置的 umask 值为 022，则普通用户新建一个普通文本文件以及新建一个目录时的默认权限分别是（ ）。", "options": ["A. 644 与 755", "B. 666 与 777", "C. 755 与 644", "D. 777 与 755"], "answer": "A", "hint": "文件初始最大 666，目录初始最大 777。减去 022 得到 644 和 755", "explanation": "【官方考点解析】选 A。umask 权限掩码计算：\n- 目录初始最大权限为 777（rwxrwxrwx），777 - 022 = 755（rwxr-xr-x）；\n- 普通文件出于安全默认不赋予执行位，最大初始权限为 666（rw-rw-rw-），666 - 022 = 644（rw-r--r--）。"}, {"id": "p1_m5", "number": 5, "title": "在 Linux 中，硬链接（Hard Link）与软链接（符号链接 Symbolic Link）的最根本区别在于（ ）。", "options": ["A. 硬链接与原文件共享相同的 inode 索引节点号，不能跨文件系统创建", "B. 软链接与原文件共享相同的 inode 号，删掉原文件后软链接依然可用", "C. 硬链接可以指向一个目录，软链接绝不能指向目录", "D. 硬链接是一个独立的新文件，存储着原文件的路径字符串"], "answer": "A", "hint": "硬链接共享相同 inode，不能跨分区且不能链接目录；软链接是包含目标路径的独立文件", "explanation": "【官方考点解析】选 A。硬链接与软链接对比：\n- 硬链接（ln）：本质是同一个 inode 的文件名别名，两者 inode 相同，删除任意一个不丢失内容；硬链接无法跨越文件系统分区，也不能对目录创建；\n- 软链接（ln -s）：独立的新 inode，内容只保存目标文件的路径字符串；源文件删除后软链接变为死链；可跨分区且可对目录建立。"}, {"id": "p1_m6", "number": 6, "title": "使用 `find` 命令在 `/var/log` 目录下查找文件名以 `.log` 结尾、且修改时间在 7 天以前的文件的正确命令是（ ）。", "options": ["A. find /var/log -name \"*.log\" -mtime +7", "B. find /var/log -name \"*.log\" -mtime -7", "C. search /var/log -type f -days 7", "D. locate /var/log \"*.log\" -t +7"], "answer": "A", "hint": "-mtime +7 表示 7 天以前；-mtime -7 表示 7 天以内", "explanation": "【官方考点解析】选 A。find 时间过滤参数：\n- `-mtime +n`：表示文件最后修改时间在 n 天以前（> n）；\n- `-mtime -n`：表示在 n 天以内（< n）；\n- 寻找 .log 且 7 天前的为 `find /var/log -name \"*.log\" -mtime +7`。"}, {"id": "p1_m7", "number": 7, "title": "使用 `tar` 命令将 `/etc` 目录打包并使用 gzip 压缩生成归档文件 `/backup/etc.tar.gz`，应使用的命令是（ ）。", "options": ["A. tar -czvf /backup/etc.tar.gz /etc", "B. tar -xzvf /backup/etc.tar.gz /etc", "C. tar -cjvf /backup/etc.tar.bz2 /etc", "D. gzip -tar /backup/etc.tar.gz /etc"], "answer": "A", "hint": "c 创建归档，z 调用 gzip，v 显示过程，f 紧跟文件名", "explanation": "【官方考点解析】选 A。tar 参数说明：\n- `-c`（create）：新建打包文件；\n- `-x`（extract）：解包；\n- `-z`（gzip）：调用 gzip 压缩（`.tar.gz`）；\n- `-j`（bzip2）：调用 bzip2 压缩（`.tar.bz2`）；\n- `-v`（verbose）：显示详细信息；\n- `-f`（file）：后接归档文件名。"}, {"id": "p1_m8", "number": 8, "title": "在 Linux 命令行重定向机制中，若希望将某脚本命令的标准输出和标准错误全部重定向丢弃到黑洞设备 `/dev/null`，正确的写法是（ ）。", "options": ["A. ./script.sh > /dev/null 2>&1", "B. ./script.sh 1> /dev/null 2> error.log", "C. ./script.sh &> 2 > /dev/null", "D. ./script.sh < /dev/null"], "answer": "A", "hint": "> /dev/null 丢弃标准输出，2>&1 将标准错误重定向到标准输出合并丢弃", "explanation": "【官方考点解析】选 A。重定向描述符：0 为标准输入，1 为标准输出，2 为标准错误。`> /dev/null` 将标准输出导向空设备，`2>&1` 将标准错误合并至标准输出中一并丢弃；Bash 中也支持简写 `&> /dev/null`。"}, {"id": "p1_m9", "number": 9, "title": "在 Shell 脚本编写规范中，脚本文件的第一行通常写为 `#!/bin/bash`。这一行的专业术语及其作用是（ ）。", "options": ["A. Shebang（释伴），用于指定执行该脚本的解释器绝对路径", "B. 仅仅是一句单行普通注释，无任何实际语法作用", "C. 用于为脚本文件自动赋予 755 可执行权限", "D. 用于通知 Linux 内核将该文件常驻内存后台运行"], "answer": "A", "hint": "#! 称为 Shebang，用来声明由哪个解释器执行脚本", "explanation": "【官方考点解析】选 A。脚本首行的 `#!` 语法被称为 Shebang。当以 `./script.sh` 形式直接执行脚本时，内核据此识别并启动指定的解释器（如 `/bin/bash`）来逐行执行脚本内容。"}, {"id": "p1_m10", "number": 10, "title": "在 Bash Shell 编程中，代表“上一条命令执行后的退出返回值（退出状态码）”的内置特殊变量是（ ）。", "options": ["A. $?", "B. $#", "C. $$", "D. $@"], "answer": "A", "hint": "$? 获取上一命令返回值：0 表示成功，非 0 表示各类错误", "explanation": "【官方考点解析】选 A。Shell 特殊变量：\n- `$?`：上一条命令的退出状态码（0为成功，非0为异常）；\n- `$#`：位置参数总数；\n- `$0`：脚本名称；\n- `$$`：当前进程 PID；\n- `$@`：所有位置参数列表。"}, {"id": "p1_m11", "number": 11, "title": "在 Shell 中，若变量 `name=\"Linux\"`，关于单引号与双引号引用变量的区别，下列描述正确的是（ ）。", "options": ["A. echo '$name' 输出 $name，echo \"$name\" 输出 Linux", "B. echo '$name' 输出 Linux，echo \"$name\" 输出 $name", "C. 单引号和双引号在 Shell 中均会解析内部的变量展开", "D. 单引号与双引号没有任何区别"], "answer": "A", "hint": "单引号强引用保持字面值不解析变量；双引号弱引用解析变量和命令替换", "explanation": "【官方考点解析】选 A。Shell 引用机制规则：\n- 单引号（' '）：强引用，括号内的所有字符均被视为纯文本字面量，变量 `$name` 不会被解析，输出 `$name`；\n- 双引号（\" \"）：弱引用，保留绝大多数特殊字符的功能，会正常解析变量展开（`$var`）和命令置换（`$(cmd)`），输出 `Linux`。"}, {"id": "p1_m12", "number": 12, "title": "在 Shell 脚本条件测试中，用于判断某个文件是否存在且为“目录”的测试选项是（ ）。", "options": ["A. [ -d \"$path\" ]", "B. [ -f \"$path\" ]", "C. [ -e \"$path\" ]", "D. [ -s \"$path\" ]"], "answer": "A", "hint": "-d 判断是否为目录（Directory）；-f 判断是否为普通文件（File）", "explanation": "【官方考点解析】选 A。文件属性条件测试速记：\n- `-d`：是否存在且为目录（Directory）；\n- `-f`：是否存在且为普通文件（Regular File）；\n- `-e`：是否存在（Exist）；\n- `-s`：文件存在且大小大于 0 字节；\n- `-r`, `-w`, `-x`：判断是否可读、可写、可执行。"}, {"id": "p1_m13", "number": 13, "title": "在 Shell 中进行整数大小比较时，判断变量 a 是否“大于”变量 b 应使用的比较运算符是（ ）。", "options": ["A. -gt", "B. -lt", "C. -ge", "D. >"], "answer": "A", "hint": "-gt 为 greater than；-lt 为 less than；-ge 为 greater or equal", "explanation": "【官方考点解析】选 A。Shell `[ ]` 测试中的数值比较运算符：\n- `-eq`：equal（等于）；\n- `-ne`：not equal（不等于）；\n- `-gt`：greater than（大于）；\n- `-ge`：greater or equal（大于等于）；\n- `-lt`：less than（小于）；\n- `-le`：less or equal（小于等于）。在 `[ ]` 中 `>` 会被当作字符串字典序比较。"}, {"id": "p1_m14", "number": 14, "title": "使用 `grep` 命令在文件中查找内容时，若希望实现“反向选择”（即只输出不匹配该关键词的行），应添加的选项参数是（ ）。", "options": ["A. -v", "B. -i", "C. -n", "D. -r"], "answer": "A", "hint": "-v 表示 invert-match 反向匹配；-i 忽略大小写；-n 显示行号", "explanation": "【官方考点解析】选 A。grep 常用选项参数：\n- `-v`：反向匹配（Invert match），只打印不包含匹配模式的行；\n- `-i`：忽略大小写（Ignore case）；\n- `-n`：在行首显示行号（Line number）；\n- `-r`：递归检索子目录中的所有文件。"}, {"id": "p1_m15", "number": 15, "title": "使用流编辑器 `sed` 将文件 `data.txt` 中所有的字符串 `2025` 全局替换为 `2026` 并直接修改源文件，正确的命令是（ ）。", "options": ["A. sed -i 's/2025/2026/g' data.txt", "B. sed 's/2025/2026/g' data.txt", "C. sed -e 'replace 2025 with 2026' data.txt", "D. sed -d '2025/2026' data.txt"], "answer": "A", "hint": "-i 参数表示 in-place 直接修改文件内容；g 表示一行内全部匹配替换", "explanation": "【官方考点解析】选 A。`sed` 替换命令基本结构为 `sed 's/原内容/新内容/g'`。默认情况下 sed 仅将结果输出到标准输出而不改变源文件；加上 `-i`（in-place）参数后，将直接就地修改磁盘源文件内容。"}, {"id": "p1_m16", "number": 16, "title": "使用 `awk` 文本处理工具查看系统 `/etc/passwd` 文件时，若要以冒号 `:` 为字段分隔符，打印出每一行的用户名（第1列）和UID（第3列），正确的命令是（ ）。", "options": ["A. awk -F: '{print $1, $3}' /etc/passwd", "B. awk -d: '{print $0, $2}' /etc/passwd", "C. awk --split: '$1 and $3' /etc/passwd", "D. awk '{column 1, 3}' /etc/passwd"], "answer": "A", "hint": "-F 参数指定输入字段分隔符；$1 表示第1字段，$3 表示第3字段", "explanation": "【官方考点解析】选 A。`awk` 核心语法：\n`-F:` 指定输入字段分隔符为冒号；`$1` 代表第 1 列（用户名），`$3` 代表第 3 列（UID），`$0` 代表整行文本。因此打印第一列和第三列的标准命令是 `awk -F: '{print $1, $3}' /etc/passwd`。"}, {"id": "p1_m17", "number": 17, "title": "在 VIM 文本编辑器中，从当前处于的“插入模式（Insert Mode）”切换回“命令模式（Command Mode）”，应按下的键盘按键是（ ）。", "options": ["A. Esc", "B. Enter", "C. Tab", "D. Ctrl+C"], "answer": "A", "hint": "按 Esc 键随时退回到命令普通模式", "explanation": "【官方考点解析】选 A。VIM 三种工作模式流转：\n- 命令模式 ➔ 插入模式：按 `i`、`a`、`o` 等字符；\n- 插入模式 ➔ 命令模式：按键盘左上角的 `Esc` 键；\n- 命令模式 ➔ 末行底线命令模式：输入冒号 `:`。"}, {"id": "p1_m18", "number": 18, "title": "在 VIM 编辑器的命令模式下，快速剪切/删除光标所在的整行内容，应按下的快捷键是（ ）。", "options": ["A. dd", "B. yy", "C. dw", "D. x"], "answer": "A", "hint": "dd 剪切整行；yy 复制整行；p 粘贴；u 撤销", "explanation": "【官方考点解析】选 A。VIM 常用命令模式快捷键：\n- `dd`：删除（剪切）光标所在当前整行；\n- `yy`：复制（拷贝）光标所在当前整行；\n- `p`：在光标后/下一行粘贴剪切板内容；\n- `u`：撤销上一次操作；\n- `x`：删除光标处的单个字符。"}, {"id": "p1_m19", "number": 19, "title": "在 RedHat / CentOS 等基于 RPM 的 Linux 发行版中，查询系统中所有已经安装的 RPM 软件包列表的命令是（ ）。", "options": ["A. rpm -qa", "B. rpm -ivh", "C. rpm -qf", "D. rpm -e"], "answer": "A", "hint": "q 表示 query，a 表示 all 所有包", "explanation": "【官方考点解析】选 A。RPM 常用命令组合：\n- `rpm -qa`：query all，查询已安装的全部 RPM 包；\n- `rpm -ivh`：安装新的 RPM 包并显示哈希进度条；\n- `rpm -qf <文件路径>`：查询指定文件属于哪个安装包；\n- `rpm -e`：卸载指定的软件包。"}, {"id": "p1_m20", "number": 20, "title": "从源码包编译安装开源软件时，通常需要依次执行三个核心步骤，它们正确的次序是（ ）。", "options": ["A. ./configure ➔ make ➔ make install", "B. make ➔ ./configure ➔ make install", "C. make install ➔ make ➔ ./configure", "D. ./configure ➔ make install ➔ make"], "answer": "A", "hint": "源码三步走：配置环境生成 Makefile -> 编译源码 -> 安装到系统目录", "explanation": "【官方考点解析】选 A。源码编译标准三部曲：\n1. `./configure`：检查操作系统运行环境、依赖库并生成 Makefile 构建文件；\n2. `make`：读取 Makefile 调用 GCC 编译器将 C/C++ 源码编译为二进制目标文件；\n3. `make install`：将生成的可执行程序和资源拷贝到系统指定目录（如 `/usr/local/bin`）。"}, {"id": "p1_m21", "number": 21, "title": "配置 OpenSSH 免密登录时，在客户端使用 `ssh-keygen` 生成密钥对后，需要将客户端生成的公钥文件内容追加到服务器端远程用户的哪个文件中？（ ）", "options": ["A. ~/.ssh/authorized_keys", "B. ~/.ssh/known_hosts", "C. ~/.ssh/id_rsa", "D. /etc/ssh/ssh_config"], "answer": "A", "hint": "公钥追加到目标机器的 authorized_keys 授权密钥文件中", "explanation": "【官方考点解析】选 A。SSH 密钥体系：\n- `id_rsa` / `id_ed25519`：客户端私钥，保密不可泄露；\n- `authorized_keys`：服务器端用于存放所有被允许免密登录客户端的公钥列表文件，权限通常必须是 600；\n- `known_hosts`：客户端记录已访问过的远程服务器主机指纹列表。"}, {"id": "p1_m22", "number": 22, "title": "使用 `scp` 命令从本地主机安全拷贝目录 `/data` 到远程服务器 `192.168.1.100` 的 `/backup` 目录下，正确的命令是（ ）。", "options": ["A. scp -r /data root@192.168.1.100:/backup", "B. scp /data root@192.168.1.100:/backup", "C. cp -r /data root@192.168.1.100:/backup", "D. ssh-copy /data 192.168.1.100:/backup"], "answer": "A", "hint": "拷贝目录需要加 -r 递归递归复制", "explanation": "【官方考点解析】选 A。`scp`（Secure Copy）基于 SSH 协议加密传输。拷贝文件直接使用 `scp file user@host:/path`，拷贝整个目录结构必须加上 `-r`（Recursive）递归参数，即 `scp -r /data root@192.168.1.100:/backup`。"}, {"id": "p1_m23", "number": 23, "title": "在 Linux 命令行中，若希望查看当前正在侦听的 TCP 端口以及占用该端口的进程名和 PID，应使用的命令是（ ）。", "options": ["A. netstat -tulnp 或 ss -tulnp", "B. ping -a", "C. ifconfig -p", "D. route -l"], "answer": "A", "hint": "t 为 TCP，u 为 UDP，l 为 listening 监听，n 为数字显示端口，p 为显示进程 PID", "explanation": "【官方考点解析】选 A。查看网络监听状态组合：\n- `netstat -tulnp` 或 `ss -tulnp`：\n  `-t`：TCP 协议；\n  `-u`：UDP 协议；\n  `-l`：正在监听的端口（Listening）；\n  `-n`：以数字形式直接显示 IP 和端口号（不反查主机名）；\n  `-p`：显示占用套接字的进程 PID 及程序名称。"}, {"id": "p1_m24", "number": 24, "title": "在 Bash Shell 脚本中，获取传递给脚本的所有位置参数的集合、并且将每个参数用双引号独立引用的变量符号是（ ）。", "options": ["A. \"$@\"", "B. \"$*\"", "C. $#", "D. $0"], "answer": "A", "hint": "\"$@\" 将参数展开为独立的 \"$1\" \"$2\"；\"$*\" 将所有参数合并为一个长字符串", "explanation": "【官方考点解析】选 A。`$@` 与 `$*` 在被双引号包围时的区别：\n- `\"$@\"`：将参数保留为独立的字符串单元，即 `\"$1\" \"$2\" \"$3\"`，适合在循环中保持带空格参数的完整性；\n- `\"$*\"`：将所有参数以第一个分隔符（默认空格）拼接为一个单一的大字符串，即 `\"$1 $2 $3\"`。"}, {"id": "p1_m25", "number": 25, "title": "在 Linux 中，命令别名（Alias）常用于简化冗长命令。要定义一个临时别名 `alias c='clear'` 并随后将其从当前会话中彻底取消，对应的取消命令是（ ）。", "options": ["A. unalias c", "B. rmalias c", "C. alias -d c", "D. drop alias c"], "answer": "A", "hint": "定义用 alias，取消用 unalias", "explanation": "【官方考点解析】选 A。别名管理命令：\n- 设置别名：`alias 别名='原命令'`（如 `alias ll='ls -la'`）；\n- 取消别名：`unalias 别名`（如 `unalias c`）；若要永久生效需写入用户的 `~/.bashrc` 配置文件中。"}, {"id": "p1_m26", "number": 26, "title": "Linux 系统默认提供虚拟内存交换机制。用于将指定的分区格式化为交换分区（Swap）的命令是（ ）。", "options": ["A. mkswap", "B. swapon", "C. swapoff", "D. mkfs.swap"], "answer": "A", "hint": "创建 swap 用 mkswap，启用用 swapon，禁用用 swapoff", "explanation": "【官方考点解析】选 A。Swap 交换分区管理三部曲：\n1. `mkswap /dev/sdb2`：建立交换分区文件系统标识；\n2. `swapon /dev/sdb2`：立即激活启用该交换分区；\n3. `swapoff /dev/sdb2`：停用关闭交换分区。"}, {"id": "p1_m27", "number": 27, "title": "在 Linux 中，用于动态实时监控系统各进程 CPU 和内存资源占用情况的交互式监控工具是（ ）。", "options": ["A. top", "B. ps", "C. uptime", "D. vmstat"], "answer": "A", "hint": "top 是动态交互式进程监控利器；ps 是静态快照", "explanation": "【官方考点解析】选 A。系统监控命令对比：\n- `top`：以全屏交互界面动态实时刷新显示系统的 CPU 使用率、内存消耗、系统负载 load average 以及各进程排行榜；\n- `ps`：仅截取当前瞬间的静态进程快照。"}, {"id": "p1_m28", "number": 28, "title": "向一个无响应的顽固失控进程发送“强制终止且不可被捕获忽略”的信号所使用的命令是（ ）。", "options": ["A. kill -9 PID", "B. kill -15 PID", "C. kill -1 PID", "D. kill -2 PID"], "answer": "A", "hint": "信号 9 为 SIGKILL，强制杀死，不可捕获与忽略", "explanation": "【官方考点解析】选 A。常用 kill 信号说明：\n- 信号 9（SIGKILL）：操作系统内核直接强制回收进程，进程无法捕获或阻塞该信号，用于解决僵死顽固进程；\n- 信号 15（SIGTERM）：默认信号，礼貌通知进程退出，允许进程清理临时文件并正常退出；\n- 信号 1（SIGHUP）：平滑重载配置文件。"}, {"id": "p1_m29", "number": 29, "title": "在 Linux 周期性定时任务服务中，编辑当前用户的 crontab 任务列表所使用的命令是（ ）。", "options": ["A. crontab -e", "B. crontab -l", "C. crontab -r", "D. crontab -u"], "answer": "A", "hint": "-e 编辑任务（Edit）；-l 列出任务（List）；-r 删除全部任务（Remove）", "explanation": "【官方考点解析】选 A。crontab 常用参数：\n- `crontab -e`：编辑当前用户的定时计划任务文件；\n- `crontab -l`：查看当前用户的定时计划任务；\n- `crontab -r`：删除清空当前用户的所有定时计划任务（慎用）。"}, {"id": "p1_m30", "number": 30, "title": "在 crontab 定时配置中，表示“每周一凌晨 3 点整自动执行一次”的时间表达式是（ ）。", "options": ["A. 0 3 * * 1", "B. 3 0 * * 1", "C. * 3 * * 1", "D. 0 3 1 * *"], "answer": "A", "hint": "时间字段：分（0） 时（3） 日（*） 月（*） 周（1）", "explanation": "【官方考点解析】选 A。crontab 5 个时间占位符标准结构：\n`分 时 日 月 周`。\n- 分：0（整点）；\n- 时：3（凌晨3点）；\n- 日：*（任意日）；\n- 月：*（任意月）；\n- 周：1（星期一）。故表达式为 `0 3 * * 1`。"}, {"id": "p1_m31", "number": 31, "title": "在 Systemd 系统管理体系中，用于查看特定服务（例如 `sshd`）当前实时运行状态的命令是（ ）。", "options": ["A. systemctl status sshd", "B. systemctl start sshd", "C. systemctl check sshd", "D. service sshd test"], "answer": "A", "hint": "systemctl status 查看服务单元状态", "explanation": "【官方考点解析】选 A。Systemd 管理服务核心命令：\n- `systemctl status <服务名>`：查看状态与最新日志；\n- `systemctl start/stop/restart <服务名>`：启动/停止/重启；\n- `systemctl enable/disable <服务名>`：设置开机自启动/取消自启。"}, {"id": "p1_m32", "number": 32, "title": "在 Linux 命令行中，查看本地所有挂载磁盘分区的总容量、已用空间和挂载点的常用命令是（ ）。", "options": ["A. df -h", "B. du -sh", "C. lsblk -m", "D. fdisk -v"], "answer": "A", "hint": "df -h 显示文件系统（Disk Free）容量；du -sh 统计目录大小", "explanation": "【官方考点解析】选 A。`df -h`（Disk Free，-h 为人类易读的 GB/MB 单位）用于汇报所有挂载文件系统的容量使用情况；`du -sh`（Disk Usage）则用于统计某个目录或文件实际占用的磁盘空间大小。"}, {"id": "p1_m33", "number": 33, "title": "Linux 系统中用于解析域名的本地 DNS 客户端配置文件是（ ）。", "options": ["A. /etc/resolv.conf", "B. /etc/hosts", "C. /etc/networks", "D. /etc/sysconfig/network"], "answer": "A", "hint": "/etc/resolv.conf 存放 nameserver DNS 服务器地址；/etc/hosts 是本地静态映射", "explanation": "【官方考点解析】选 A。`/etc/resolv.conf` 是 Linux 系统标准的 DNS 客户端解析配置文件，内部使用 `nameserver <IP地址>` 指令声明首选与备选 DNS 域名服务器。"}, {"id": "p1_m34", "number": 34, "title": "在 Linux 进程调度中，进程优先级由 Priority（PRI）和 Nice（NI）共同决定。关于 Nice 值的说法正确的是（ ）。", "options": ["A. Nice 取值范围为 -20 到 19，数值越小，进程获得的 CPU 优先级越高", "B. Nice 取值范围为 0 到 100，数值越大优先级越高", "C. 普通用户可以任意将进程的 Nice 值调小至负数", "D. Nice 值只能在进程启动后修改，启动时无法指定"], "answer": "A", "hint": "Nice 取值 -20~19，越小越“不谦让”，优先级越高；普通用户只能调大不能调小", "explanation": "【官方考点解析】选 A。Nice 优先级控制：\nNice 取值严格为 `-20 ~ 19`。数值越小代表优先级越高（优先获得 CPU 时间片调度）；普通用户只能把自己的进程调整得更谦让（加大 NI 值），只有超级用户 root 才能将 NI 值调为负数。"}, {"id": "p1_m35", "number": 35, "title": "在多任务操作系统中，如果父进程先于子进程意外退出，则尚未终止的子进程会被哪个系统初始进程自动“收养”？（ ）", "options": ["A. init 或 systemd 进程（PID 为 1）", "B. kthreadd 内核进程（PID 为 2）", "C. bash 登录进程", "D. 该子进程会立即被内核强制杀死"], "answer": "A", "hint": "孤儿进程由 1 号进程（init/systemd）收养", "explanation": "【官方考点解析】选 A。孤儿进程与僵尸进程：\n- 孤儿进程（Orphan Process）：父进程退出后子进程仍在运行，内核会自动将子进程的父进程重设为 1 号初始进程（`init` 或 `systemd`），由其在子进程终止时代为回收资源，因此孤儿进程不会危害系统；\n- 僵尸进程（Zombie）：子进程已终止，但父进程不调用 wait/waitpid，导致其 PCB 结构残留在进程表中。"}, {"id": "p1_m36", "number": 36, "title": "在 Linux C 语言应用程序开发中，用于启动 GCC 编译流程并指定输出可执行文件名为 `myprog` 的标准命令是（ ）。", "options": ["A. gcc main.c -o myprog", "B. gcc -c main.c -o myprog.s", "C. gcc -E main.c myprog", "D. cc myprog main.c"], "answer": "A", "hint": "-o 参数用于指定输出（Output）目标文件名", "explanation": "【官方考点解析】选 A。GCC 命令基本用法：`gcc <源文件> -o <输出可执行文件名>`。如果不加 `-o`，默认会生成名为 `a.out` 的可执行文件。"}, {"id": "p1_m37", "number": 37, "title": "在使用 GDB 调试器调试 C 程序时，若要在名为 `calculate` 的函数入口处设置断点，正确的命令是（ ）。", "options": ["A. break calculate", "B. stop calculate", "C. point calculate", "D. halt calculate"], "answer": "A", "hint": "GDB 设置断点关键字为 break（简写 b）", "explanation": "【官方考点解析】选 A。GDB 断点设置：\n- `break <函数名>`：在函数入口处打断点（如 `b calculate`）；\n- `break <行号>`：在当前源文件的指定行号设置断点（如 `b 25`）；\n- `break <文件名:行号>`：跨文件设置断点。"}, {"id": "p1_m38", "number": 38, "title": "在工程自动化构建工具 Make 的 Makefile 文件中，规则命令行开头必须使用的缩进字符是（ ）。", "options": ["A. 一个制表符（Tab 键）", "B. 四个空格", "C. 两个空格", "D. 任何缩进字符均可"], "answer": "A", "hint": "Makefile 语法铁律：命令行开头必须使用 Tab 字符缩进", "explanation": "【官方考点解析】选 A。Makefile 经典语法规则格式：\n```makefile\ntarget: prerequisites\n\tcommand\n```\n其中命令行的开头必须严格以 **Tab（制表符）** 开头，若使用空格代替会导致 Make 解析报错 `missing separator`。"}, {"id": "p1_m39", "number": 39, "title": "在 Makefile 自动化变量中，用于表示当前规则中的“目标文件（Target）”的变量符号是（ ）。", "options": ["A. $@", "B. $<", "C. $^", "D. $?"], "answer": "A", "hint": "$@ 代表 Target 目标；$< 代表第一个依赖；$^ 代表所有依赖", "explanation": "【官方考点解析】选 A。Makefile 三大高频自动变量：\n- `$@`：规则的目标文件名称；\n- `$<`：规则的第一个依赖文件名称；\n- `$^`：规则的所有依赖文件名称列表（去除重复项）。"}, {"id": "p1_m40", "number": 40, "title": "在 Linux 系统调用中，用于创建新子进程并且具有“一次调用、两次返回”特征的核心函数是（ ）。", "options": ["A. fork()", "B. exec()", "C. clone()", "D. wait()"], "answer": "A", "hint": "fork() 一次调用两次返回：父进程返回子进程 PID，子进程返回 0", "explanation": "【官方考点解析】选 A。`fork()` 系统调用机制：\n`pid_t fork(void);`\n调用成功后，内核复制当前进程生成子进程。对于父进程，`fork()` 返回新创建子进程的 PID（正整数）；对于子进程，`fork()` 返回 0；若创建失败则返回 -1。"}], "blanks": [{"id": "p1_b1", "number": 1, "score": 2, "prompt": "【空 1】在 Linux Shell 脚本的第一行，通常使用字符序列【 1 】来声明该脚本所采用的解释器路径。", "placeholder": "例如: #! 或 #!/bin/bash", "answer": ["#!", "#!/bin/bash", "Shebang", "#!"], "hint": "#! 称为释伴（Shebang），指示内核调用指定解释器"}, {"id": "p1_b2", "number": 2, "score": 2, "prompt": "【空 2】在 Bash 环境中，用于获取上一条命令执行后退出状态返回值的特殊变量是【 2 】。", "placeholder": "填变量名", "answer": ["$?", "?"], "hint": "$? 值为 0 代表成功，非 0 代表失败"}, {"id": "p1_b3", "number": 3, "score": 2, "prompt": "【空 3】在 Shell 脚本中，用于获取传递给脚本的命令行位置参数总个数的内置变量是【 3 】。", "placeholder": "填变量名", "answer": ["$#", "#"], "hint": "$# 代表参数总个数"}, {"id": "p1_b4", "number": 4, "score": 2, "prompt": "【空 4】若某个文件的权限字符串表示为 `-rwxr-xr-x`，则该权限对应的三位八进制数字是【 4 】。", "placeholder": "填三位数字", "answer": ["755"], "hint": "rwx=7, r-x=5, r-x=5"}, {"id": "p1_b5", "number": 5, "score": 2, "prompt": "【空 5】在 Linux 中，用于统计一个文本文件中行数（Lines）的命令及选项组合是【 5 】。", "placeholder": "例如: wc -l", "answer": ["wc -l", "wc  -l"], "hint": "wc 统计单词，-l 统计行数"}, {"id": "p1_b6", "number": 6, "score": 2, "prompt": "【空 6】在开源软件源码编译安装的三步流程中，用于检查系统依赖并生成 Makefile 文件的配置脚本命令是【 6 】。", "placeholder": "例如: ./configure", "answer": ["./configure", "configure"], "hint": "执行当前目录下的 ./configure 脚本"}, {"id": "p1_b7", "number": 7, "score": 2, "prompt": "【空 7】在 RPM 包管理中，用于查询操作系统中已安装全部软件包列表的命令参数组合是 `rpm`【 7 】。", "placeholder": "例如: -qa", "answer": ["-qa", "qa", "-a -q"], "hint": "query all 即 -qa"}, {"id": "p1_b8", "number": 8, "score": 2, "prompt": "【空 8】配置 SSH 免密登录时，客户端公钥内容需要追加存放在服务器端用户家目录下的 `~/.ssh/`【 8 】文件中。", "placeholder": "填文件名", "answer": ["authorized_keys"], "hint": "授权公钥文件名为 authorized_keys"}, {"id": "p1_b9", "number": 9, "score": 2, "prompt": "【空 9】在 VIM 编辑器的末行模式下，保存修改并退出编辑器的命令是【 9 】。", "placeholder": "例如: :wq 或 :x", "answer": [":wq", "wq", ":x", "x"], "hint": "w 写盘保存，q 退出"}, {"id": "p1_b10", "number": 10, "score": 2, "prompt": "【空 10】在重定向操作中，将命令的标准输出以“追加”方式写入到指定文件末尾的重定向操作符是【 10 】。", "placeholder": "填符号", "answer": [">>", ">> "], "hint": "> 为覆盖写，>> 为追加写"}], "apps": [{"id": "p1_a1", "number": 1, "score": 20, "title": "综合应用题 1：Shell 自动化运维备份脚本编写与部署", "description": "某企业 Linux 服务器需每天凌晨对核心业务目录 `/data/web` 进行增量备份并归档到 `/backup` 目录下，且自动删除 30 天以前的旧备份压缩文件。请根据需求补全以下 Shell 备份脚本 `backup.sh`：\n\n```bash\n#!/bin/bash\n# 定义变量\nSOURCE_DIR=\"/data/web\"\nBACKUP_DIR=\"/backup\"\nDATE_STR=$(【 空 1 】 +\"%Y%m%d\")\nARCHIVE_FILE=\"web_backup_${DATE_STR}.tar.gz\"\n\n# 检查备份目标目录是否存在，若不存在则创建\nif [ ! -d \"$BACKUP_DIR\" ]; then\n    【 空 2 】 -p \"$BACKUP_DIR\"\nfi\n\n# 执行打包与压缩\ntar -【 空 3 】 \"${BACKUP_DIR}/${ARCHIVE_FILE}\" \"$SOURCE_DIR\"\n\n# 检查打包命令执行结果\nif [ 【 空 4 】 -eq 0 ]; then\n    echo \"[INFO] 备份成功: ${ARCHIVE_FILE}\"\nelse\n    echo \"[ERROR] 备份失败!\" >&2\n    exit 1\nfi\n\n# 删除 /backup 目录下修改时间超过 30 天的旧备份包\nfind \"$BACKUP_DIR\" -name \"*.tar.gz\" -mtime 【 空 5 】 -exec rm -f {} \\;\n```", "subquestions": [{"num": 1, "score": 4, "prompt": "【空 1】获取当前系统日期格式的系统命令是", "answer": ["date"], "hint": "Linux 中查看和格式化日期的命令是 date"}, {"num": 2, "score": 4, "prompt": "【空 2】用于递归创建多级目录的命令是", "answer": ["mkdir"], "hint": "mkdir -p 递归创建目录"}, {"num": 3, "score": 4, "prompt": "【空 3】tar 命令创建 gzip 压缩归档文件的三个参数（不含f）是", "answer": ["czvf", "czv", "cz"], "hint": "c 为创建，z 为 gzip，v 为详细"}, {"num": 4, "score": 4, "prompt": "【空 4】判断上一条命令是否执行成功的状态变量是", "answer": ["$?"], "hint": "$? 获取退出码"}, {"num": 5, "score": 4, "prompt": "【空 5】指定文件修改时间在 30 天以前的 find 选项值为", "answer": ["+30"], "hint": "+30 代表 30 天以前"}]}, {"id": "p1_a2", "number": 2, "score": 20, "title": "综合应用题 2：Linux 文本流处理与 Web 访问日志分析", "description": "系统管理员在排查 Web 站点安全异常时，需要对 Nginx 访问日志 `/var/log/nginx/access.log` 进行统计分析。日志每行的第 1 字段为客户端 IP 地址，第 9 字段为 HTTP 响应状态码（如 200, 404, 500）。请补全下列文本管道分析命令：\n\n1. 统计当前日志中访问量最高的前 10 个客户端 IP 地址并按访问次数从大到小降序排列：\n`awk '{print $1}' access.log | sort | 【 空 1 】 | sort -rn | 【 空 2 】 -n 10`\n\n2. 过滤出所有返回 HTTP 状态码为 404 的访问记录总行数：\n`awk '$9 == \"404\"' access.log | 【 空 3 】 -l`\n\n3. 将当前访问日志持续动态追加输出到控制台进行实时监控排查：\n`【 空 4 】 -f access.log`\n\n4. 将日志文件中所有的 IP `192.168.1.50` 批量替换脱敏为 `10.0.0.1` 并直接写回文件的命令：\n`【 空 5 】 -i 's/192.168.1.50/10.0.0.1/g' access.log`", "subquestions": [{"num": 1, "score": 4, "prompt": "【空 1】统计相邻重复行出现次数并去重的命令是", "answer": ["uniq -c", "uniq  -c"], "hint": "uniq -c 统计重复次数"}, {"num": 2, "score": 4, "prompt": "【空 2】用于输出前 10 行内容的命令是", "answer": ["head"], "hint": "head -n 10 取前 10 行"}, {"num": 3, "score": 4, "prompt": "【空 3】统计管道传入文本总行数的命令是", "answer": ["wc"], "hint": "wc -l 统计行数"}, {"num": 4, "score": 4, "prompt": "【空 4】动态追踪文件末尾新增内容的命令是", "answer": ["tail"], "hint": "tail -f 动态跟踪日志"}, {"num": 5, "score": 4, "prompt": "【空 5】执行流式正则就地替换的命令是", "answer": ["sed"], "hint": "sed -i 进行文本替换"}]}]}, {"id": "linux_paper2", "title": "全国计算机等级考试三级Linux应用与开发技术·全真模拟试卷（二）", "subtitle": "系统管理技术（用户权限、存储LVM、网络安全与系统服务）专卷", "duration": 120, "total_score": 100, "mcq_score": 40, "blank_score": 20, "app_score": 40, "mcqs": [{"id": "p2_m1", "number": 1, "title": "在 Linux 系统中，记录所有本地合法用户账户基本信息的配置文件是（ ）。", "options": ["A. /etc/passwd", "B. /etc/shadow", "C. /etc/group", "D. /etc/security"], "answer": "A", "hint": "/etc/passwd 存放用户账户信息；/etc/shadow 存放用户加密密码", "explanation": "【官方考点解析】选 A。用户管理关键文件：\n- `/etc/passwd`：所有用户账户清单，包含 7 个冒号分隔字段（用户名:密码占位符x:UID:GID:描述:家目录:登录Shell）；\n- `/etc/shadow`：影子密码文件，保存单向散列加密后的密码及口令老化时效信息，权限严格为 000 仅 root 可读；\n- `/etc/group`：记录本地所有用户组的信息。"}, {"id": "p2_m2", "number": 2, "title": "在 `/etc/passwd` 文件中，某用户的最后一行内容为 `guest:x:1005:1005::/home/guest:/sbin/nologin`。其中 `/sbin/nologin` 的含义是（ ）。", "options": ["A. 禁止该用户进行交互式终端登录", "B. 该用户的密码已过期失效", "C. 该用户为主机超级管理员账户", "D. 该用户只能通过图形界面进行登录"], "answer": "A", "hint": "/sbin/nologin 或 /bin/false 用于禁用交互式登录（常用于运行后台服务的系统账户）", "explanation": "【官方考点解析】选 A。当一个账户被设置为系统伪用户（如 nginx, apache, mysql）或被临时封锁时，其默认 Shell 往往被指定为 `/sbin/nologin`（或 `/bin/false`），该配置的作用是明确禁止该账户通过终端、SSH 等进行交互式登录。"}, {"id": "p2_m3", "number": 3, "title": "使用 `useradd` 命令新建用户时，若要求自动为新用户创建其个人家目录，并指定其默认登录 Shell 为 `/bin/bash`，正确的命令是（ ）。", "options": ["A. useradd -m -s /bin/bash user2", "B. useradd -d /bin/bash user2", "C. adduser -c -n /bin/bash user2", "D. usermod -create user2"], "answer": "A", "hint": "-m 自动创建家目录（make home dir）；-s 指定默认 Shell", "explanation": "【官方考点解析】选 A。useradd 常用参数：\n- `-m`：如果家目录不存在则自动创建；\n- `-s <shell>`：指定用户的默认登录 Shell；\n- `-g <组>`：指定用户的主组（基本组）；\n- `-G <组>`：指定用户的附加组。"}, {"id": "p2_m4", "number": 4, "title": "在 Linux 文件特殊权限位中，SUID（Set UID）的作用是（ ）。", "options": ["A. 让执行该二进制程序的用户在运行期间临时获得该文件属主（Owner）的身份权限", "B. 让新建的文件自动继承父目录的所属组", "C. 允许任何用户都可以删除该文件", "D. 将文件设置为只读且不可修改"], "answer": "A", "hint": "SUID 八进制 4000，显示为 s，如 /bin/passwd 让普通用户临时具有 root 权限修改 shadow", "explanation": "【官方考点解析】选 A。Linux 三大特殊权限：\n- SUID（Set UID，八进制 4000）：赋予可执行二进制文件。当普通用户运行该程序时，进程权限临时提升为该程序**属主（Owner）的权限**（经典代表：`/bin/passwd` 让普通用户临时具有 root 权限修改 `/etc/shadow`）；\n- SGID（Set GID，八进制 2000）：针对目录使用时，新创建的文件自动继承该目录的所属组；\n- Sticky Bit（粘滞位，八进制 1000）：针对公共共享目录（如 `/tmp`），防止用户删除他人文件。"}, {"id": "p2_m5", "number": 5, "title": "系统目录 `/tmp` 的权限通常显示为 `drwxrwxrwt`，末尾的字符 `t` 代表该目录被设置了（ ）。", "options": ["A. 粘滞位（Sticky Bit，八进制 1000）", "B. SUID 权限位（八进制 4000）", "C. SGID 权限位（八进制 2000）", "D. 临时不可写位"], "answer": "A", "hint": "其他用户执行位显示为 t 代表设置了 Sticky Bit 粘滞位", "explanation": "【官方考点解析】选 A。公共目录 `/tmp` 必须允许所有用户创建和读写文件（权限 777），但为防止用户恶意互相删除彼此的文件，Linux 引入了粘滞位（Sticky Bit，八进制 1000）。设置后，只有文件拥有者自身或超级用户 root 才有权删除或重命名该文件。"}, {"id": "p2_m6", "number": 6, "title": "在 Linux 进程状态管理中，使用 `ps aux` 查看时，STAT 列显示为 `Z` 状态的进程代表该进程是（ ）。", "options": ["A. 僵尸进程（Zombie）", "B. 运行中进程（Running）", "C. 深度不可中断睡眠进程", "D. 暂停挂起进程"], "answer": "A", "hint": "Z 代表 Zombie 僵尸进程；R 代表 Running；S 代表 Sleeping", "explanation": "【官方考点解析】选 A。ps 命令常见进程状态码：\n- `R`（Running）：正在运行或在就绪队列中等待调度；\n- `S`（Interruptible Sleep）：可中断的睡眠状态；\n- `D`（Uninterruptible Sleep）：不可中断的睡眠（通常在等待磁盘 I/O）；\n- `T`（Stopped）：已停止；\n- `Z`（Zombie）：僵尸进程，子进程已终止退出但父进程尚未对其进行回收。"}, {"id": "p2_m7", "number": 7, "title": "使用 `top` 命令查看系统负载时，`load average` 后面显示了三个浮点数值（如 `0.85, 1.20, 1.50`）。这三个数字分别代表系统在过去（ ）时间内的平均负载。", "options": ["A. 1 分钟、5 分钟、15 分钟", "B. 1 秒、5 秒、15 秒", "C. 1 小时、5 小时、15 小时", "D. 1 天、5 天、15 天"], "answer": "A", "hint": "平均负载三个数字依次为过去 1、5、15 分钟的 CPU 运行队列长度", "explanation": "【官方考点解析】选 A。`load average` 衡量系统工作负荷指标。三个数字分别代表过去 **1 分钟、5 分钟和 15 分钟** 内处于就绪状态或不可中断睡眠状态的平均进程数。当单核 CPU 负载持续大于 1.0 时，说明系统已出现计算资源排队拥堵。"}, {"id": "p2_m8", "number": 8, "title": "在传统 MBR（主引导记录）磁盘分区表中，一块物理磁盘上最多支持创建的主分区（Primary Partition）数量为（ ）。", "options": ["A. 4 个", "B. 8 个", "C. 16 个", "D. 128 个"], "answer": "A", "hint": "MBR 分区表总共只有 64 字节，每个分区项占 16 字节，故最多 4 个主分区", "explanation": "【官方考点解析】选 A。MBR 分区机制：MBR 位于磁盘第 0 扇区（512 字节），其中分区表仅占用 64 字节，每项分区信息占 16 字节，因此最多支持 **4 个主分区**（或 3 个主分区 + 1 个扩展分区）；若需要突破 4 个限制或突破 2TB 磁盘容量上限，需使用 GPT 分区表。"}, {"id": "p2_m9", "number": 9, "title": "将新磁盘分区 `/dev/sdb1` 格式化为当前 Linux 主流的 ext4 文件系统，应使用的命令是（ ）。", "options": ["A. mkfs.ext4 /dev/sdb1", "B. fdisk -ext4 /dev/sdb1", "C. format /dev/sdb1 ext4", "D. mount.ext4 /dev/sdb1"], "answer": "A", "hint": "格式化文件系统命令为 mkfs（Make File System），即 mkfs.ext4 或 mkfs.xfs", "explanation": "【官方考点解析】选 A。文件系统格式化命令：\n- `mkfs.ext4 /dev/sdb1` 或 `mkfs -t ext4 /dev/sdb1`：格式化为 ext4 文件系统；\n- `mkfs.xfs /dev/sdb1`：格式化为 RHEL/CentOS 7+ 默认的 XFS 高性能文件系统。"}, {"id": "p2_m10", "number": 10, "title": "在 Linux 开机自动挂载配置文件 `/etc/fstab` 中，每一行记录由 6 个字段构成。其中最后两个数值字段（例如 `0 2`）的含义分别是（ ）。", "options": ["A. dump 备份检查标志与 fsck 磁盘检验优先级", "B. 最大重试次数与挂载超时秒数", "C. 物理扇区大小与分配块大小", "D. 用户 UID 与用户组 GID"], "answer": "A", "hint": "倒数第二字段为 dump 备份标记（0忽略，1备份）；最后字段为 fsck 自检顺序（0不查，1根分区，2其他分区）", "explanation": "【官方考点解析】选 A。`/etc/fstab` 六个字段依次为：\n1. 设备文件名或 UUID；\n2. 挂载点目录（Mount point）；\n3. 文件系统类型（ext4/xfs）；\n4. 挂载参数（defaults）；\n5. `dump` 备份标志（0 表示不备份，1 表示备份）；\n6. `fsck` 检查顺序（0 表示开机不检查，1 专用于根分区 `/` 最优先自检，2 表示其他分区其次自检）。"}, {"id": "p2_m11", "number": 11, "title": "LVM（逻辑卷管理器）提供了高弹性的存储管理机制。在 LVM 的层次结构中，从底层到顶层的正确层次构建顺序是（ ）。", "options": ["A. 物理卷（PV） ➔ 卷组（VG） ➔ 逻辑卷（LV）", "B. 逻辑卷（LV） ➔ 物理卷（PV） ➔ 卷组（VG）", "C. 卷组（VG） ➔ 物理卷（PV） ➔ 逻辑卷（LV）", "D. 逻辑卷（LV） ➔ 卷组（VG） ➔ 物理卷（PV）"], "answer": "A", "hint": "底层磁盘初始化为 PV，多个 PV 汇聚成存储池 VG，从 VG 中切出逻辑卷 LV", "explanation": "【官方考点解析】选 A。LVM 核心三层构建模型：\n1. 物理卷（PV，Physical Volume）：将物理磁盘或分区通过 `pvcreate` 初始化；\n2. 卷组（VG，Volume Group）：通过 `vgcreate` 将一个或多个 PV 聚合为一个大型存储资源池；\n3. 逻辑卷（LV，Logical Volume）：通过 `lvcreate` 从 VG 存储池中切出逻辑空间，并在其上格式化文件系统。"}, {"id": "p2_m12", "number": 12, "title": "在使用 LVM 动态扩展逻辑卷时，将名为 `/dev/vg_data/lv_web` 的逻辑卷容量在线增加 10GB 的命令是（ ）。", "options": ["A. lvextend -L +10G /dev/vg_data/lv_web", "B. lvresize -D 10G /dev/vg_data/lv_web", "C. vgextend -L 10G /dev/vg_data/lv_web", "D. lvcreate -add 10G /dev/vg_data/lv_web"], "answer": "A", "hint": "扩容逻辑卷使用 lvextend，-L +10G 表示在现有基础上增加 10G", "explanation": "【官方考点解析】选 A。LVM 扩容流程：\n1. `lvextend -L +10G /dev/vg_data/lv_web`：扩展底层逻辑卷的物理块（PE）分配；\n2. 扩展文件系统：对 ext4 执行 `resize2fs`，对 xfs 执行 `xfs_growfs`。"}, {"id": "p2_m13", "number": 13, "title": "在 Linux 内核包过滤防火墙 `iptables` 中，负责处理常规数据包进出本机过滤的默认“表”是（ ）。", "options": ["A. filter 表", "B. nat 表", "C. mangle 表", "D. raw 表"], "answer": "A", "hint": "filter 表负责过滤；nat 表负责网络地址转换", "explanation": "【官方考点解析】选 A。iptables 四表功能划分：\n- `filter` 表：默认表，专门负责数据包的过滤和阻断放行，包含 INPUT、OUTPUT、FORWARD 三条链；\n- `nat` 表：负责地址转换（SNAT、DNAT、端口映射）；\n- `mangle` 表：修改数据包服务类型（TOS）、打标记（MARK）；\n- `raw` 表：关闭连接追踪机制。"}, {"id": "p2_m14", "number": 14, "title": "使用 `iptables` 规则允许来自任何 IP 地址对本机 TCP 端口 80（HTTP 服务）的访问，正确的添加规则命令是（ ）。", "options": ["A. iptables -A INPUT -p tcp --dport 80 -j ACCEPT", "B. iptables -D INPUT -p tcp --dport 80 -j DROP", "C. iptables -A OUTPUT -p udp --sport 80 -j ACCEPT", "D. iptables -I FORWARD -p tcp --dport 80 -j REJECT"], "answer": "A", "hint": "-A 追加规则到 INPUT 链，-p tcp 指定协议，--dport 80 目标端口，-j ACCEPT 动作放行", "explanation": "【官方考点解析】选 A。iptables 语法规则：\n- `-A INPUT`：在入站链（INPUT）末尾追加一条规则；\n- `-p tcp`：匹配 TCP 协议；\n- `--dport 80`：目的端口（Destination Port）为 80；\n- `-j ACCEPT`：匹配后执行动作（Jump）为放行。"}, {"id": "p2_m15", "number": 15, "title": "在 CentOS / RHEL 等系统中，记录系统用户 SSH 登录成功或失败等安全认证审计事件的日志文件是（ ）。", "options": ["A. /var/log/secure", "B. /var/log/messages", "C. /var/log/boot.log", "D. /var/log/cron"], "answer": "A", "hint": "RHEL/CentOS 认证安全日志为 /var/log/secure；Ubuntu/Debian 为 /var/log/auth.log", "explanation": "【官方考点解析】选 A。核心日志文件路径：\n- `/var/log/secure`（CentOS）或 `/var/log/auth.log`（Ubuntu）：记录所有用户认证鉴权信息（包括 SSH 登录尝试、sudo 提权使用）；\n- `/var/log/messages`：系统全局综合日志；\n- `/var/log/cron`：定时任务计划日志。"}, {"id": "p2_m16", "number": 16, "title": "Systemd 使用“Target”取代了传统 SysVinit 的运行级别（Runlevel）。其中，相当于传统“运行级别 3（完全多用户字符命令行模式）”的 Target 单元是（ ）。", "options": ["A. multi-user.target", "B. graphical.target", "C. rescue.target", "D. poweroff.target"], "answer": "A", "hint": "multi-user.target 对应 3 级别字符终端；graphical.target 对应 5 级别图形界面", "explanation": "【官方考点解析】选 A。Systemd Target 与 SysVinit 运行级别对应表：\n- 运行级别 0 ➔ `poweroff.target`（关机）；\n- 运行级别 1 ➔ `rescue.target`（单用户救援模式）；\n- 运行级别 3 ➔ `multi-user.target`（多用户纯字符命令行模式，服务器常用）；\n- 运行级别 5 ➔ `graphical.target`（图形桌面模式）；\n- 运行级别 6 ➔ `reboot.target`（重启）。"}, {"id": "p2_m17", "number": 17, "title": "使用 `journalctl` 工具查看 Systemd 托管的 `nginx` 服务最新产生日志并处于实时滚动追踪状态的命令是（ ）。", "options": ["A. journalctl -u nginx -f", "B. journalctl -p nginx -d", "C. systemctl log nginx", "D. dmesg -u nginx"], "answer": "A", "hint": "-u 指定 unit 单元服务名，-f 类似 tail -f 实时跟随", "explanation": "【官方考点解析】选 A。`journalctl` 常用参数：\n- `-u <unit名>`：只查看指定服务单元的日志（如 `-u nginx`）；\n- `-f`（follow）：实时动态跟随显示新增日志。"}, {"id": "p2_m18", "number": 18, "title": "若磁盘空间使用率未满（`df -h` 显示尚有剩余空间），但创建新文件时系统依然报错 `No space left on device`，最常见的原因是（ ）。", "options": ["A. 该文件系统的 inode 索引节点已全部耗尽（通过 `df -i` 可查）", "B. CPU 运算寄存器溢出", "C. 系统 Swap 交换分区损坏", "D. 内存缓存被页面缓存占满"], "answer": "A", "hint": "大量极小文件会耗尽 inode，即使磁盘块有空余也无法新建文件", "explanation": "【官方考点解析】选 A。经典系统故障：文件系统既有 Block 数据块空间，也有独立的 inode 索引节点数量限制。如果目录下产生了上百万个极小临时文件，会迅速耗尽所有 inode（`df -i` 显示 100%）。此时即使磁盘 Block 还有几十 GB 空闲，系统也无法分配新的 inode，从而报磁盘满错误。"}, {"id": "p2_m19", "number": 19, "title": "在 Linux 用户权限管理中，允许普通用户通过 `sudo` 命令临时提权执行特定管理员命令的全局配置文件是（ ）。", "options": ["A. /etc/sudoers", "B. /etc/su.conf", "C. /etc/admin.conf", "D. /etc/permissions"], "answer": "A", "hint": "sudo 提权配置文件为 /etc/sudoers，推荐使用 visudo 命令编辑", "explanation": "【官方考点解析】选 A。`/etc/sudoers` 记录哪些用户或组具备免密或输入密码使用 `sudo` 提权的权限列表。系统提供专门的 `visudo` 命令来编辑该文件，具备自动语法校验机制，防止配置写错锁死 root 权限。"}, {"id": "p2_m20", "number": 20, "title": "使用 `userdel` 命令删除用户 `tester` 时，若要将其个人家目录（`/home/tester`）和邮件池一并彻底物理删除，正确的参数是（ ）。", "options": ["A. userdel -r tester", "B. userdel -f tester", "C. userdel -d tester", "D. rmuser tester"], "answer": "A", "hint": "-r 参数表示 remove 家目录与邮件一并清理", "explanation": "【官方考点解析】选 A。`userdel` 默认仅删除系统账户映射，而保留用户的家目录和邮件数据（防止误删用户重要资产）。若需要彻底清除残余文件，必须加上 `-r`（Recursive）参数：`userdel -r tester`。"}, {"id": "p2_m21", "number": 21, "title": "系统管理综合考题 21：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m22", "number": 22, "title": "系统管理综合考题 22：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m23", "number": 23, "title": "系统管理综合考题 23：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m24", "number": 24, "title": "系统管理综合考题 24：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m25", "number": 25, "title": "系统管理综合考题 25：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m26", "number": 26, "title": "系统管理综合考题 26：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m27", "number": 27, "title": "系统管理综合考题 27：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m28", "number": 28, "title": "系统管理综合考题 28：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m29", "number": 29, "title": "系统管理综合考题 29：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m30", "number": 30, "title": "系统管理综合考题 30：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m31", "number": 31, "title": "系统管理综合考题 31：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m32", "number": 32, "title": "系统管理综合考题 32：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m33", "number": 33, "title": "系统管理综合考题 33：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m34", "number": 34, "title": "系统管理综合考题 34：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m35", "number": 35, "title": "系统管理综合考题 35：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m36", "number": 36, "title": "系统管理综合考题 36：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m37", "number": 37, "title": "系统管理综合考题 37：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m38", "number": 38, "title": "系统管理综合考题 38：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m39", "number": 39, "title": "系统管理综合考题 39：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}, {"id": "p2_m40", "number": 40, "title": "系统管理综合考题 40：Linux 系统在进行存储管理、用户权限隔离和网络通信调优时，下列操作正确的是（ ）。", "options": ["A. 使用 `tune2fs -l` 查看 ext4 文件系统超级块参数，使用 `ethtool` 调节网卡双工速率", "B. 直接修改 /etc/shadow 文件权限为 777 方便用户修改密码", "C. 禁用系统防火墙并开启所有端口对公网监听以提升通信效率", "D. 在开机挂载 /etc/fstab 中将所有磁盘挂载参数强制设为 ro 只读"], "answer": "A", "hint": "tune2fs 和 ethtool 是合法的管理工具，其余选项破坏系统安全或逻辑", "explanation": "【官方考点解析】选 A。Linux 运维管理考点：`tune2fs` 用于管理 ext 文件系统超级块信息；`ethtool` 用于查询和设置网络设备的硬件属性（如速率、千兆全双工）；`/etc/shadow` 必须保持 000 权限严格防范越权泄漏。"}], "blanks": [{"id": "p2_b1", "number": 1, "score": 2, "prompt": "【空 1】Linux 存放本地合法用户账户基本信息的系统文件路径是【 1 】。", "placeholder": "例如: /etc/passwd", "answer": ["/etc/passwd", "etc/passwd"], "hint": "/etc/passwd"}, {"id": "p2_b2", "number": 2, "score": 2, "prompt": "【空 2】为目录设置粘滞位（Sticky Bit）防止非属主用户互删文件时，权限首位对应的八进制数字是【 2 】。", "placeholder": "填一位数字", "answer": ["1", "1000"], "hint": "Sticky Bit 为 1"}, {"id": "p2_b3", "number": 3, "score": 2, "prompt": "【空 3】在 crontab 定时任务中，表示“每隔 5 分钟执行一次”的时间表达式是【 3 】。", "placeholder": "例如: */5 * * * *", "answer": ["*/5 * * * *", "*/5 * * * * "], "hint": "*/5 * * * *"}, {"id": "p2_b4", "number": 4, "score": 2, "prompt": "【空 4】向某个顽固无响应进程发送强制杀死信号时，kill 命令对应的信号数字是【 4 】。", "placeholder": "填数字", "answer": ["9", "-9", "SIGKILL"], "hint": "kill -9"}, {"id": "p2_b5", "number": 5, "score": 2, "prompt": "【空 5】Linux 系统中用于配置开机自动挂载磁盘分区的核心配置文件是【 5 】。", "placeholder": "例如: /etc/fstab", "answer": ["/etc/fstab", "etc/fstab"], "hint": "/etc/fstab"}, {"id": "p2_b6", "number": 6, "score": 2, "prompt": "【空 6】在终端查看各个挂载文件系统总容量及已用空间的命令是【 6 】。", "placeholder": "例如: df -h", "answer": ["df -h", "df"], "hint": "df -h"}, {"id": "p2_b7", "number": 7, "score": 2, "prompt": "【空 7】在 LVM 管理中，将物理磁盘或分区初始化为“物理卷”的命令是【 7 】。", "placeholder": "例如: pvcreate", "answer": ["pvcreate"], "hint": "pvcreate"}, {"id": "p2_b8", "number": 8, "score": 2, "prompt": "【空 8】Linux 系统用于声明 DNS 域名服务器 IP 地址的客户端配置文件是【 8 】。", "placeholder": "例如: /etc/resolv.conf", "answer": ["/etc/resolv.conf", "etc/resolv.conf"], "hint": "/etc/resolv.conf"}, {"id": "p2_b9", "number": 9, "score": 2, "prompt": "【空 9】使用 systemctl 命令将某个服务设置为开机自启动状态的子操作关键字是【 9 】。", "placeholder": "例如: enable", "answer": ["enable"], "hint": "systemctl enable"}, {"id": "p2_b10", "number": 10, "score": 2, "prompt": "【空 10】用于查询当前操作系统内核版本号及硬件架构的命令是【 10 】。", "placeholder": "例如: uname -a", "answer": ["uname -a", "uname -r", "uname"], "hint": "uname -a"}], "apps": [{"id": "p2_a1", "number": 1, "score": 20, "title": "综合应用题 1：Linux 存储管理与 LVM 逻辑卷构建实战", "description": "企业服务器新接入一块容量为 100GB 的磁盘 `/dev/sdb`，要求使用 LVM 技术对其进行管理并挂载到 `/database`。请补全下列操作命令：\n\n1. 将磁盘 `/dev/sdb` 初始化为 LVM 物理卷：\n`【 空 1 】 /dev/sdb`\n\n2. 使用该物理卷创建一个名为 `vg_storage` 的卷组：\n`【 空 2 】 vg_storage /dev/sdb`\n\n3. 从卷组 `vg_storage` 中划分出大小为 50GB、名称为 `lv_data` 的逻辑卷：\n`【 空 3 】 -L 50G -n lv_data vg_storage`\n\n4. 将该逻辑卷格式化为 ext4 文件系统：\n`【 空 4 】 /dev/vg_storage/lv_data`\n\n5. 手动将该逻辑卷挂载到目录 `/database`：\n`mount /dev/vg_storage/lv_data 【 空 5 】`", "subquestions": [{"num": 1, "score": 4, "prompt": "【空 1】初始化物理卷的命令是", "answer": ["pvcreate"], "hint": "pvcreate"}, {"num": 2, "score": 4, "prompt": "【空 2】创建卷组的命令是", "answer": ["vgcreate"], "hint": "vgcreate"}, {"num": 3, "score": 4, "prompt": "【空 3】创建逻辑卷的命令是", "answer": ["lvcreate"], "hint": "lvcreate"}, {"num": 4, "score": 4, "prompt": "【空 4】格式化为 ext4 文件系统的命令是", "answer": ["mkfs.ext4", "mkfs -t ext4"], "hint": "mkfs.ext4"}, {"num": 5, "score": 4, "prompt": "【空 5】挂载的目标目录路径是", "answer": ["/database"], "hint": "/database"}]}, {"id": "p2_a2", "number": 2, "score": 20, "title": "综合应用题 2：Linux 用户特权控制与自定义 Systemd 服务编写", "description": "为规范系统安全，管理员需新建普通运维用户 `ops`，并将其加入具有 sudo 权限的附加组，同时为其部署由 Systemd 托管的后端监控进程服务 `monitord`。\n\n1. 新建用户 `ops` 并将其加入名为 `wheel` 的附加组：\n`useradd -m -G 【 空 1 】 ops`\n\n2. 编辑 sudoers 配置文件时所推荐使用的具有语法自检机制的安全命令是：\n`【 空 2 】`\n\n3. 在 `/etc/systemd/system/monitord.service` 文件中，指定该服务启动执行的可执行文件绝对路径的字段指令是：\n`【 空 3 】=/usr/local/bin/monitord`\n\n4. 重新加载 Systemd 管理器配置以识别新写入的服务单元文件：\n`systemctl 【 空 4 】`\n\n5. 启动该服务并设置为开机随系统自动运行的组合命令动作：\n`systemctl start monitord && systemctl 【 空 5 】 monitord`", "subquestions": [{"num": 1, "score": 4, "prompt": "【空 1】附加组组名是", "answer": ["wheel", "sudo"], "hint": "wheel 组"}, {"num": 2, "score": 4, "prompt": "【空 2】安全编辑 sudoers 的命令是", "answer": ["visudo"], "hint": "visudo"}, {"num": 3, "score": 4, "prompt": "【空 3】指定启动程序的字段指令是", "answer": ["ExecStart"], "hint": "ExecStart"}, {"num": 4, "score": 4, "prompt": "【空 4】重新加载配置的子命令是", "answer": ["daemon-reload"], "hint": "daemon-reload"}, {"num": 5, "score": 4, "prompt": "【空 5】设置开机自启的子动作是", "answer": ["enable"], "hint": "enable"}]}]}, {"id": "linux_paper3", "title": "全国计算机等级考试三级Linux应用与开发技术·全真模拟试卷（三）", "subtitle": "开发与部署技术（GCC编译、GDB调试、Makefile、系统调用与Web部署）专卷", "duration": 120, "total_score": 100, "mcq_score": 40, "blank_score": 20, "app_score": 40, "mcqs": [{"id": "p3_m1", "number": 1, "title": "使用 GCC 编译器编译 C 语言源程序时，将 `.c` 源文件编译转换为汇编语言代码（`.s` 文件）所经历的处理阶段是（ ）。", "options": ["A. 编译阶段（Compilation）", "B. 预处理阶段（Preprocessing）", "C. 汇编阶段（Assembly）", "D. 链接阶段（Linking）"], "answer": "A", "hint": "预处理生成 .i，编译生成汇编 .s，汇编生成目标 .o，链接生成可执行程序", "explanation": "【官方考点解析】选 A。GCC 四步编译流程速记：\n1. 预处理（-E）：展开宏与头文件，生成预处理文件 `.i`；\n2. 编译（-S）：词法语法分析，将 C 语言翻译为汇编语言代码，生成 `.s`；\n3. 汇编（-c）：调用 as 汇编器将汇编指令转换为机器二进制目标文件，生成 `.o`；\n4. 链接（-o）：调用 ld 链接器链接库文件，生成可执行文件。"}, {"id": "p3_m2", "number": 2, "title": "在使用 GCC 编译 C 程序时，若要将 GDB 调试符号表信息嵌入到最终生成的可执行文件中，必须添加的编译参数是（ ）。", "options": ["A. -g", "B. -Wall", "C. -O2", "D. -s"], "answer": "A", "hint": "-g 生成调试信息供 GDB 使用；-Wall 开启警告；-O2 代码优化", "explanation": "【官方考点解析】选 A。GCC 核心参数：\n- `-g`：在可执行二进制文件中加入操作系统级别的符号表和源码调试元信息，使 GDB 能够单步跟踪、查看行号和变量名；\n- `-Wall`：开启所有合理的编译器警告；\n- `-O2`：二级代码优化；\n- `-s`：剥离所有符号表以缩减体积（剥离后无法使用 GDB 调试）。"}, {"id": "p3_m3", "number": 3, "title": "在 Linux 下使用 GDB 调试正在运行的程序，单步执行一条语句时，“不进入被调用函数内部（步过）”和“进入被调用函数内部（步入）”的 GDB 命令分别是（ ）。", "options": ["A. next 与 step", "B. step 与 next", "C. continue 与 run", "D. print 与 display"], "answer": "A", "hint": "n（next）单步步过不进函数；s（step）单步步入函数", "explanation": "【官方考点解析】选 A。GDB 单步调试命令：\n- `n`（next）：单步步过，若当前行包含函数调用，直接将整个函数当作单步执行完毕，不进入函数内部；\n- `s`（step）：单步步入，若当前行有函数调用，则跳入该函数的首行语句开始单步调试。"}, {"id": "p3_m4", "number": 4, "title": "在 GDB 调试过程中，当程序因发生“段错误（Segmentation fault）”异常崩溃中断时，用于快速查看当前函数调用堆栈、精确定位崩溃发生所在函数及行号的命令是（ ）。", "options": ["A. backtrace（或 bt）", "B. info break", "C. list", "D. print"], "answer": "A", "hint": "bt（backtrace）回溯调用栈帧", "explanation": "【官方考点解析】选 A。`backtrace`（简写 `bt` 或 `where`）用于打印当前线程的函数调用堆栈帧列表（Call Stack）。每一帧显示了函数名称、传入实参以及所对应的源代码行号，是分析空指针异常、内存越界导致段错误的核心利器。"}, {"id": "p3_m5", "number": 5, "title": "在 Makefile 规则定义中，代表“所有依赖文件列表中排在第一位的依赖文件名称”的自动变量符号是（ ）。", "options": ["A. $<", "B. $@", "C. $^", "D. $?"], "answer": "A", "hint": "$< 代表第一个依赖；$@ 代表目标；$^ 代表所有依赖", "explanation": "【官方考点解析】选 A。Makefile 自动变量：\n- `$<`：依赖文件列表中的第一个依赖文件；\n- `$@`：规则的目标文件（Target）；\n- `$^`：依赖文件列表中的所有依赖文件（去重）；\n- `$?`：所有比目标文件更新的依赖文件列表。"}, {"id": "p3_m6", "number": 6, "title": "在 Makefile 中，声明伪目标 `.PHONY: clean` 的主要目的是（ ）。", "options": ["A. 防止当前目录下恰好存在名为 clean 的同名文件时导致 clean 规则失效不被执行", "B. 强制清理磁盘上所有以 .o 结尾的文件", "C. 允许 Makefile 并发多线程编译", "D. 提升 GCC 编译器的优化级别"], "answer": "A", "hint": ".PHONY 声明伪目标，避免同名文件引起 Make 判断为“最新”而不执行命令", "explanation": "【官方考点解析】选 A。Make 判断目标是否需要重新执行是依据目标文件的时间戳。如果目录下恰好有一个名为 `clean` 的普通文件，且该文件时间较新，那么在执行 `make clean` 时，Make 会认为目标文件已是最新从而拒绝执行清理命令。声明 `.PHONY: clean` 后，Make 将不再检查同名文件，无论如何都会无条件执行其下的清理命令。"}, {"id": "p3_m7", "number": 7, "title": "Linux 系统为每个进程默认打开三个标准文件描述符。其中标准输入、标准输出和标准错误对应的整型描述符分别是（ ）。", "options": ["A. 0、1、2", "B. 1、2、3", "C. 0、2、1", "D. -1、0、1"], "answer": "A", "hint": "0 为 stdin，1 为 stdout，2 为 stderr", "explanation": "【官方考点解析】选 A。POSIX 文件描述符（File Descriptor）标准：\n- 0：`STDIN_FILENO`，标准输入；\n- 1：`STDOUT_FILENO`，标准输出；\n- 2：`STDERR_FILENO`，标准错误输出；后续应用程序新调 `open()` 分配的描述符将从当前最小未使用的整数（通常为 3）开始分配。"}, {"id": "p3_m8", "number": 8, "title": "在使用 POSIX 线程库（pthread）进行多线程开发时，在 GCC 编译命令末尾必须链接的动态线程库参数是（ ）。", "options": ["A. -lpthread", "B. -lthread", "C. -posix", "D. -lm"], "answer": "A", "hint": "链接 pthread 库加 -lpthread", "explanation": "【官方考点解析】选 A。在 Linux 环境下使用 `<pthread.h>` 编写多线程代码时，线程函数实现位于 `libpthread.so` 动态库中，GCC 编译命令行末尾必须显式加上链接参数 `-lpthread`（或现代 GCC 参数 `-pthread`）。"}, {"id": "p3_m9", "number": 9, "title": "在 Linux 套接字网络编程中，TCP 服务端程序建立监听连接的标准系统调用函数调用顺序是（ ）。", "options": ["A. socket() ➔ bind() ➔ listen() ➔ accept()", "B. socket() ➔ listen() ➔ bind() ➔ accept()", "C. socket() ➔ connect() ➔ bind() ➔ listen()", "D. bind() ➔ socket() ➔ listen() ➔ accept()"], "answer": "A", "hint": "服务端四步走：socket 创建套接字 -> bind 绑定端口 -> listen 开启监听 -> accept 阻塞接受客户端连接", "explanation": "【官方考点解析】选 A。TCP 服务端编程标准时序：\n1. `socket()`：创建网络通信套接字；\n2. `bind()`：将套接字与本机的 IP 地址和端口绑定；\n3. `listen()`：设置等待连接队列长度，使套接字进入被动监听状态；\n4. `accept()`：阻塞等待客户端三次握手完成，并返回一个全新的已连接套接字用于后续通信。"}, {"id": "p3_m10", "number": 10, "title": "在 Nginx Web 服务器的主配置文件 `nginx.conf` 中，用于将接收到的客户端 HTTP 请求透明反向代理转发至后端应用服务器的配置指令是（ ）。", "options": ["A. proxy_pass http://127.0.0.1:8080;", "B. forward http://127.0.0.1:8080;", "C. redirect http://127.0.0.1:8080;", "D. upstream_connect http://127.0.0.1:8080;"], "answer": "A", "hint": "Nginx 反向代理核心指令为 proxy_pass", "explanation": "【官方考点解析】选 A。Nginx 反向代理配置典型范例：\n```nginx\nlocation /api/ {\n    proxy_pass http://127.0.0.1:8080;\n    proxy_set_header Host $host;\n    proxy_set_header X-Real-IP $remote_addr;\n}\n```\n其中 `proxy_pass` 是定义后端真实应用服务器地址（或 upstream 集群名）的标准配置指令。"}, {"id": "p3_m11", "number": 11, "title": "Linux 应用程序开发与部署综合题 11：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m12", "number": 12, "title": "Linux 应用程序开发与部署综合题 12：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m13", "number": 13, "title": "Linux 应用程序开发与部署综合题 13：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m14", "number": 14, "title": "Linux 应用程序开发与部署综合题 14：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m15", "number": 15, "title": "Linux 应用程序开发与部署综合题 15：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m16", "number": 16, "title": "Linux 应用程序开发与部署综合题 16：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m17", "number": 17, "title": "Linux 应用程序开发与部署综合题 17：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m18", "number": 18, "title": "Linux 应用程序开发与部署综合题 18：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m19", "number": 19, "title": "Linux 应用程序开发与部署综合题 19：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m20", "number": 20, "title": "Linux 应用程序开发与部署综合题 20：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m21", "number": 21, "title": "Linux 应用程序开发与部署综合题 21：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m22", "number": 22, "title": "Linux 应用程序开发与部署综合题 22：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m23", "number": 23, "title": "Linux 应用程序开发与部署综合题 23：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m24", "number": 24, "title": "Linux 应用程序开发与部署综合题 24：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m25", "number": 25, "title": "Linux 应用程序开发与部署综合题 25：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m26", "number": 26, "title": "Linux 应用程序开发与部署综合题 26：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m27", "number": 27, "title": "Linux 应用程序开发与部署综合题 27：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m28", "number": 28, "title": "Linux 应用程序开发与部署综合题 28：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m29", "number": 29, "title": "Linux 应用程序开发与部署综合题 29：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m30", "number": 30, "title": "Linux 应用程序开发与部署综合题 30：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m31", "number": 31, "title": "Linux 应用程序开发与部署综合题 31：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m32", "number": 32, "title": "Linux 应用程序开发与部署综合题 32：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m33", "number": 33, "title": "Linux 应用程序开发与部署综合题 33：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m34", "number": 34, "title": "Linux 应用程序开发与部署综合题 34：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m35", "number": 35, "title": "Linux 应用程序开发与部署综合题 35：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m36", "number": 36, "title": "Linux 应用程序开发与部署综合题 36：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m37", "number": 37, "title": "Linux 应用程序开发与部署综合题 37：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m38", "number": 38, "title": "Linux 应用程序开发与部署综合题 38：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m39", "number": 39, "title": "Linux 应用程序开发与部署综合题 39：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}, {"id": "p3_m40", "number": 40, "title": "Linux 应用程序开发与部署综合题 40：在进行 Linux 系统级 C 编程与软件架构设计时，下列做法正确的是（ ）。", "options": ["A. 在父进程中通过 `wait()` 或 `waitpid()` 监听子进程退出，回收子进程资源以避免产生僵尸进程", "B. 在 Makefile 中所有依赖规则的命令行前使用空格进行缩进", "C. 多线程并发修改全局共享变量时不需要使用互斥锁（Mutex）进行同步保护", "D. 在调用 fork() 之前关闭所有标准文件描述符"], "answer": "A", "hint": "调用 wait/waitpid 回收子进程退出资源是防止僵尸进程的标准做法", "explanation": "【官方考点解析】选 A。开发规范考点：父进程负责调用 `wait()` 或 `waitpid()` 读取子进程的退出状态码并由内核释放子进程的 PCB，防止子进程沦为僵尸进程（Zombie）。"}], "blanks": [{"id": "p3_b1", "number": 1, "score": 2, "prompt": "【空 1】在 GCC 编译参数中，仅执行预处理阶段并输出预处理文本的参数是【 1 】。", "placeholder": "例如: -E", "answer": ["-E"], "hint": "-E"}, {"id": "p3_b2", "number": 2, "score": 2, "prompt": "【空 2】使用 GCC 编译程序时，用于生成供 GDB 调试器使用的调试符号信息的参数是【 2 】。", "placeholder": "例如: -g", "answer": ["-g"], "hint": "-g"}, {"id": "p3_b3", "number": 3, "score": 2, "prompt": "【空 3】在 GDB 调试器中，用于打印当前某个变量或表达式取值的命令是【 3 】。", "placeholder": "例如: print 或 p", "answer": ["print", "p"], "hint": "print"}, {"id": "p3_b4", "number": 4, "score": 2, "prompt": "【空 4】在 GDB 调试中，当程序崩溃时用于查看当前函数调用堆栈帧的命令是【 4 】。", "placeholder": "例如: backtrace 或 bt", "answer": ["backtrace", "bt"], "hint": "backtrace"}, {"id": "p3_b5", "number": 5, "score": 2, "prompt": "【空 5】Makefile 文件中规则行开头必须严格使用的缩进按键字符是【 5 】。", "placeholder": "填 Tab 或 制表符", "answer": ["Tab", "tab", "制表符"], "hint": "Tab 键"}, {"id": "p3_b6", "number": 6, "score": 2, "prompt": "【空 6】在 Makefile 自动变量中，用于指代当前规则中的目标文件（Target）的符号是【 6 】。", "placeholder": "例如: $@", "answer": ["$@", "@"], "hint": "$@"}, {"id": "p3_b7", "number": 7, "score": 2, "prompt": "【空 7】在 POSIX 线程库中，用于创建新线程的核心函数名称是【 7 】。", "placeholder": "例如: pthread_create", "answer": ["pthread_create"], "hint": "pthread_create"}, {"id": "p3_b8", "number": 8, "score": 2, "prompt": "【空 8】Linux 系统调用中用于创建子进程并具有“一次调用两次返回”特性的函数是【 8 】。", "placeholder": "例如: fork", "answer": ["fork", "fork()"], "hint": "fork"}, {"id": "p3_b9", "number": 9, "score": 2, "prompt": "【空 9】Linux 进程中标准输入（stdin）默认分配的整型文件描述符数值是【 9 】。", "placeholder": "填数字", "answer": ["0"], "hint": "0"}, {"id": "p3_b10", "number": 10, "score": 2, "prompt": "【空 10】在 Nginx 配置文件中，用于将客户端请求反向代理转发到后端服务器的指令是【 10 】。", "placeholder": "例如: proxy_pass", "answer": ["proxy_pass"], "hint": "proxy_pass"}], "apps": [{"id": "p3_a1", "number": 1, "score": 20, "title": "综合应用题 1：多模块 C 工程 Makefile 构建文件编写", "description": "某 C 语言工程包含主模块 `main.c`、工具模块 `utils.c` 以及头文件 `utils.h`，要求生成最终目标可执行文件 `app`。请补全以下自动化构建 `Makefile`：\n\n```makefile\nCC = gcc\nCFLAGS = -Wall -O2\nTARGET = app\nOBJS = main.o utils.o\n\n# 最终目标生成规则\n$(TARGET): $(OBJS)\n\t$(CC) 【 空 1 】 -o 【 空 2 】\n\n# main.o 编译规则\nmain.o: main.c utils.h\n\t$(CC) $(CFLAGS) -c 【 空 3 】\n\n# utils.o 编译规则\nutils.o: utils.c utils.h\n\t$(CC) $(CFLAGS) -c 【 空 4 】\n\n# 清理伪目标规则\n.PHONY: clean\nclean:\n\trm -f $(OBJS) $(TARGET)\n```", "subquestions": [{"num": 1, "score": 5, "prompt": "【空 1】代表全部依赖对象列表 $(OBJS) 的自动变量符号是", "answer": ["$^"], "hint": "$^ 代表所有依赖"}, {"num": 2, "score": 5, "prompt": "【空 2】代表当前目标文件 $(TARGET) 的自动变量符号是", "answer": ["$@"], "hint": "$@ 代表目标文件"}, {"num": 3, "score": 5, "prompt": "【空 3】代表依赖项中的第一个依赖 main.c 的自动变量符号是", "answer": ["$<", "main.c"], "hint": "$< 代表首个依赖"}, {"num": 4, "score": 5, "prompt": "【空 4】代表依赖项中的第一个依赖 utils.c 的自动变量符号是", "answer": ["$<", "utils.c"], "hint": "$< 代表首个依赖"}]}, {"id": "p3_a2", "number": 2, "score": 20, "title": "综合应用题 2：Linux Web 服务 Nginx 虚拟主机与反向代理部署", "description": "管理员需要为域名 `ncre.example.com` 部署 Nginx 虚拟主机，将端口 80 的所有请求反向代理到本地由 Node.js/Python 运行在 `http://127.0.0.1:3000` 的应用。请补全 `/etc/nginx/conf.d/ncre.conf` 配置：\n\n```nginx\nserver {\n    # 监听标准 HTTP 端口\n    【 空 1 】 80;\n    \n    # 绑定站点域名\n    【 空 2 】 ncre.example.com;\n\n    # 访问日志文件路径定义\n    access_log /var/log/nginx/ncre_access.log;\n\n    location / {\n        # 配置反向代理转发到本地 3000 端口服务\n        【 空 3 】 http://127.0.0.1:3000;\n        \n        # 传递真实客户端 IP\n        proxy_set_header X-Real-IP $remote_addr;\n    }\n}\n```\n\n配置完成后，在不中断现有连接的前提下，对 Nginx 服务执行平滑重新加载配置生效的 systemctl 命令是：\n`systemctl 【 空 4 】 nginx`", "subquestions": [{"num": 1, "score": 5, "prompt": "【空 1】指定监听端口的 Nginx 指令是", "answer": ["listen"], "hint": "listen 80;"}, {"num": 2, "score": 5, "prompt": "【空 2】指定域名服务名的 Nginx 指令是", "answer": ["server_name"], "hint": "server_name 域名;"}, {"num": 3, "score": 5, "prompt": "【空 3】指定反向代理目标地址的指令是", "answer": ["proxy_pass"], "hint": "proxy_pass URL;"}, {"num": 4, "score": 5, "prompt": "【空 4】平滑重载服务的 systemctl 动作是", "answer": ["reload"], "hint": "reload"}]}]}];
+
+    let currentPaperIndex = 0;
+    let isStudyMode = false;
+    let userAnswers = {};
+    let markedQuestions = new Set();
+    let timerInterval = null;
+    let timeRemaining = 120 * 60;
+    let isSubmitted = false;
+
+    // Initialize
+    function init() {
+      loadTheme();
+      renderPaperTabs();
+      switchPaper(0);
+      startTimer();
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const target = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', target);
+      localStorage.setItem('ncre_db_theme', target);
+    }
+
+    function loadTheme() {
+      const saved = localStorage.getItem('ncre_db_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+
+    function toggleMode() {
+      isStudyMode = !isStudyMode;
+      const badge = document.getElementById('modeBadge');
+      if (isStudyMode) {
+        badge.textContent = '💡 逐题刷题模式';
+        badge.style.backgroundColor = 'var(--success-light)';
+        badge.style.color = 'var(--success)';
+      } else {
+        badge.textContent = '📝 全真模考模式';
+        badge.style.backgroundColor = 'var(--primary-light)';
+        badge.style.color = 'var(--primary)';
+      }
+      renderQuestions();
+    }
+
+    function renderPaperTabs() {
+      const tabs = document.getElementById('paperTabs');
+      tabs.innerHTML = '';
+      papersData.forEach((paper, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `paper-tab ${idx === currentPaperIndex ? 'active' : ''}`;
+        btn.textContent = `试卷 ${idx + 1}：${paper.title.split('·')[1] || paper.title}`;
+        btn.onclick = () => switchPaper(idx);
+        tabs.appendChild(btn);
+      });
+    }
+
+    function switchPaper(index) {
+      currentPaperIndex = index;
+      isSubmitted = false;
+      renderPaperTabs();
+      renderPaperIntro();
+      renderQuestions();
+      renderPalette();
+    }
+
+    function renderPaperIntro() {
+      const paper = papersData[currentPaperIndex];
+      const intro = document.getElementById('paperIntro');
+      intro.innerHTML = `
+        <h1>${paper.title}</h1>
+        <p>${paper.subtitle}</p>
+        <div class="stats-bar">
+          <div class="stat-pill">⏱️ 考试时长: <strong>120 分钟</strong></div>
+          <div class="stat-pill">💯 试卷总分: <strong>${paper.total_score} 分</strong></div>
+          <div class="stat-pill">🎯 合格线: <strong>60 分</strong></div>
+          <div class="stat-pill">📚 单选题 40分 | 填空题 30分 | 设计与应用题 30分</div>
+        </div>
+      `;
+    }
+
+    function renderQuestions() {
+      const paper = papersData[currentPaperIndex];
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+
+      // Section 1: MCQs
+      const sec1Title = document.createElement('div');
+      sec1Title.className = 'section-title';
+      sec1Title.textContent = `第一部分：单项选择题（共 40 题，每题 1 分，共 40 分）`;
+      container.appendChild(sec1Title);
+
+      paper.mcqs.forEach((q) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card_${q.id}`;
+
+        const isMarked = markedQuestions.has(q.id);
+        const userAns = getUserAnswer(q.id);
+
+        let optionsHtml = '<div class="options-list">';
+        q.options.forEach((opt) => {
+          const letter = opt.trim().charAt(0);
+          let cls = 'option-item';
+          if (userAns === letter) cls += ' selected';
+
+          if (isSubmitted || isStudyMode) {
+            if (userAns) {
+              if (letter === q.answer) cls += ' correct';
+              else if (userAns === letter) cls += ' wrong';
+            }
+          }
+
+          optionsHtml += `
+            <div class="${cls}" onclick="selectOption('${q.id}', '${letter}')">
+              ${opt}
+            </div>
+          `;
+        });
+        optionsHtml += '</div>';
+
+        card.innerHTML = `
+          <div class="question-header">
+            <span class="q-number">第 ${q.number} 题</span>
+            <div class="q-title">${q.title}</div>
+            <button class="mark-btn ${isMarked ? 'marked' : ''}" onclick="toggleMark('${q.id}')">
+              ${isMarked ? '★ 已标记' : '☆ 标记'}
+            </button>
+          </div>
+          ${optionsHtml}
+          <div class="explanation-box ${isSubmitted || isStudyMode ? 'show' : ''}" id="exp_${q.id}">
+            <div class="exp-title">💡 官方考点与速通解析 【标准答案: ${q.answer}】</div>
+            <div class="exp-content">${q.explanation}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Section 2: Blanks (15 questions, 30 points)
+      const sec2Title = document.createElement('div');
+      sec2Title.className = 'section-title';
+      sec2Title.textContent = `第二部分：填空题（共 15 题，每题 2 分，共 30 分）`;
+      container.appendChild(sec2Title);
+
+      paper.blanks.forEach((b) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card_${b.id}`;
+
+        const isMarked = markedQuestions.has(b.id);
+        const userVal = getUserAnswer(b.id) || '';
+
+        let inputClass = 'blank-input';
+        if (isSubmitted || isStudyMode) {
+          if (userVal.trim()) {
+            if (checkBlankAnswer(userVal, b.answer)) inputClass += ' correct';
+            else inputClass += ' wrong';
+          }
+        }
+
+        card.innerHTML = `
+          <div class="question-header">
+            <span class="q-number">填空题 ${b.number}</span>
+            <div class="q-title">${b.prompt} <span style="color:var(--primary); font-size:0.8rem;">(2分)</span></div>
+            <button class="mark-btn ${isMarked ? 'marked' : ''}" onclick="toggleMark('${b.id}')">
+              ${isMarked ? '★ 已标记' : '☆ 标记'}
+            </button>
+          </div>
+          <div class="blank-input-row" style="margin-top:10px;">
+            <input type="text" class="${inputClass}" id="input_${b.id}"
+              placeholder="${b.placeholder}" value="${escapeHtml(userVal)}"
+              onchange="saveBlankAnswer('${b.id}', this.value)"
+              onblur="saveBlankAnswer('${b.id}', this.value)">
+            ${isStudyMode ? `<button class="btn btn-outline" style="padding:4px 8px;font-size:0.75rem;" onclick="showBlankHint('${b.id}', '${b.hint}')">提示</button>` : ''}
+          </div>
+          <div class="explanation-box ${isSubmitted || isStudyMode ? 'show' : ''}" id="exp_${b.id}">
+            <div class="exp-title">💡 填空标准参考答案：${b.answer.join(' 或 ')}</div>
+            <div class="exp-content">${b.hint}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Section 3: Applied Questions (2 big questions, 30 points)
+      const sec3Title = document.createElement('div');
+      sec3Title.className = 'section-title';
+      sec3Title.textContent = `第三部分：设计与应用题（共 2 大题，每题 15 分，共 30 分）`;
+      container.appendChild(sec3Title);
+
+      paper.applied_questions.forEach((app) => {
+        const appCard = document.createElement('div');
+        appCard.className = 'question-card';
+        appCard.id = `card_${app.id}`;
+
+        let codeHtml = app.code_snippet ? `<div class="code-box">${escapeHtml(app.code_snippet)}</div>` : '';
+
+        let subqsHtml = '';
+        app.subquestions.forEach((sq) => {
+          const userVal = getUserAnswer(sq.id) || '';
+          let inputClass = 'blank-input';
+          if (isSubmitted || isStudyMode) {
+            if (userVal.trim()) {
+              if (checkBlankAnswer(userVal, sq.answer)) inputClass += ' correct';
+              else inputClass += ' wrong';
+            }
+          }
+
+          subqsHtml += `
+            <div class="blank-group">
+              <div class="blank-label">${sq.prompt} <span style="color:var(--primary); font-size:0.8rem;">(${sq.score}分)</span></div>
+              <div class="blank-input-row">
+                <input type="text" class="${inputClass}" id="input_${sq.id}" 
+                  placeholder="${sq.placeholder}" value="${escapeHtml(userVal)}"
+                  onchange="saveBlankAnswer('${sq.id}', this.value)"
+                  onblur="saveBlankAnswer('${sq.id}', this.value)">
+                ${isStudyMode ? `<button class="btn btn-outline" style="padding:4px 8px;font-size:0.75rem;" onclick="showBlankHint('${sq.id}', '${sq.hint}')">提示</button>` : ''}
+              </div>
+              ${(isSubmitted || isStudyMode) ? `<div style="margin-top:6px; font-size:0.8rem; color:var(--text-muted);">【标准参考】${sq.answer.join(' 或 ')} | 提示: ${sq.hint}</div>` : ''}
+            </div>
+          `;
+        });
+
+        appCard.innerHTML = `
+          <div class="question-header">
+            <span class="q-number">应用题 ${app.number}</span>
+            <div class="q-title">${app.title}</div>
+          </div>
+          <p style="font-size:0.95rem; color:var(--text);">${app.description}</p>
+          ${codeHtml}
+          ${subqsHtml}
+          <div class="explanation-box ${isSubmitted || isStudyMode ? 'show' : ''}" id="exp_${app.id}">
+            <div class="exp-title">💡 深度命题精析与考点推导</div>
+            <div class="exp-content">${app.explanation}</div>
+          </div>
+        `;
+        container.appendChild(appCard);
+      });
+    }
+
+    // Palette Render
+    function renderPalette() {
+      const paper = papersData[currentPaperIndex];
+      const grid = document.getElementById('paletteGrid');
+      grid.innerHTML = '';
+
+      let totalCount = 0;
+      let answeredCount = 0;
+
+      // 1. 40 MCQs
+      paper.mcqs.forEach((q) => {
+        totalCount++;
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = q.number;
+        btn.id = `pal_${q.id}`;
+
+        const ans = getUserAnswer(q.id);
+        if (ans) {
+          answeredCount++;
+          btn.classList.add('done');
+        }
+        if (markedQuestions.has(q.id)) {
+          btn.classList.add('marked');
+        }
+
+        if (isSubmitted) {
+          if (ans === q.answer) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+          }
+        }
+
+        btn.onclick = () => scrollToCard(`card_${q.id}`);
+        grid.appendChild(btn);
+      });
+
+      // 2. 15 Blanks
+      paper.blanks.forEach((b) => {
+        totalCount++;
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = `填${b.number}`;
+        btn.id = `pal_${b.id}`;
+
+        const ans = getUserAnswer(b.id);
+        if (ans) {
+          answeredCount++;
+          btn.classList.add('done');
+        }
+        if (markedQuestions.has(b.id)) {
+          btn.classList.add('marked');
+        }
+        if (isSubmitted) {
+          if (checkBlankAnswer(ans, b.answer)) btn.classList.add('correct');
+          else btn.classList.add('wrong');
+        }
+
+        btn.onclick = () => scrollToCard(`card_${b.id}`);
+        grid.appendChild(btn);
+      });
+
+      // 3. 2 Applied Questions
+      paper.applied_questions.forEach((app) => {
+        totalCount++;
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.textContent = `应${app.number}`;
+        btn.id = `pal_${app.id}`;
+
+        let done = app.subquestions.every(sq => !!getUserAnswer(sq.id));
+        if (done) {
+          answeredCount++;
+          btn.classList.add('done');
+        }
+        btn.onclick = () => scrollToCard(`card_${app.id}`);
+        grid.appendChild(btn);
+      });
+
+      document.getElementById('progressText').textContent = `${answeredCount} / ${totalCount}`;
+    }
+
+    // State Management
+    function getUserAnswer(qId) {
+      const paperId = papersData[currentPaperIndex].id;
+      if (!userAnswers[paperId]) userAnswers[paperId] = {};
+      return userAnswers[paperId][qId];
+    }
+
+    function selectOption(qId, letter) {
+      const paperId = papersData[currentPaperIndex].id;
+      if (!userAnswers[paperId]) userAnswers[paperId] = {};
+      userAnswers[paperId][qId] = letter;
+      renderQuestions();
+      renderPalette();
+    }
+
+    function saveBlankAnswer(qId, val) {
+      const paperId = papersData[currentPaperIndex].id;
+      if (!userAnswers[paperId]) userAnswers[paperId] = {};
+      userAnswers[paperId][qId] = val.trim();
+      renderPalette();
+    }
+
+    function toggleMark(qId) {
+      if (markedQuestions.has(qId)) markedQuestions.delete(qId);
+      else markedQuestions.add(qId);
+      renderQuestions();
+      renderPalette();
+    }
+
+    function showBlankHint(qId, hint) {
+      alert(`💡 考点提示：${hint}`);
+    }
+
+    function scrollToCard(cardId) {
+      const el = document.getElementById(cardId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function checkBlankAnswer(userInput, correctList) {
+      if (!userInput) return false;
+      const cleanUser = userInput.trim().toLowerCase().replace(/\s+/g, '');
+      return correctList.some(target => {
+        const cleanTarget = target.trim().toLowerCase().replace(/\s+/g, '');
+        return cleanUser === cleanTarget;
+      });
+    }
+
+    // Submit Exam
+    function submitExam() {
+      isSubmitted = true;
+      const paper = papersData[currentPaperIndex];
+
+      let mcqScore = 0;
+      let blankScore = 0;
+      let appScore = 0;
+      const wrongList = [];
+
+      // 1. MCQs
+      paper.mcqs.forEach((q) => {
+        const ans = getUserAnswer(q.id);
+        if (ans === q.answer) {
+          mcqScore += 1;
+        } else {
+          wrongList.push(`第 ${q.number} 题（单选题）：考生选 ${ans || '未作答'}，标准答案 ${q.answer}`);
+        }
+      });
+
+      // 2. Blanks
+      paper.blanks.forEach((b) => {
+        const ans = getUserAnswer(b.id);
+        if (checkBlankAnswer(ans, b.answer)) {
+          blankScore += b.score;
+        } else {
+          wrongList.push(`填空题 ${b.number}：考生填“${ans || '未填'}”，标准参考：“${b.answer[0]}”`);
+        }
+      });
+
+      // 3. Applied Questions
+      paper.applied_questions.forEach((app) => {
+        app.subquestions.forEach((sq) => {
+          const ans = getUserAnswer(sq.id);
+          if (checkBlankAnswer(ans, sq.answer)) {
+            appScore += sq.score;
+          } else {
+            wrongList.push(`应用题 ${app.number} - ${sq.prompt}：考生填“${ans || '未填'}”，参考：“${sq.answer[0]}”`);
+          }
+        });
+      });
+
+      const totalScore = mcqScore + blankScore + appScore;
+
+      // Update Modal
+      document.getElementById('modalScore').textContent = totalScore;
+      document.getElementById('mcqScoreReport').textContent = `${mcqScore} / 40`;
+      document.getElementById('blankScoreReport').textContent = `${blankScore} / 30`;
+      document.getElementById('appScoreReport').textContent = `${appScore} / 30`;
+
+      const title = document.getElementById('modalResultTitle');
+      const subtitle = document.getElementById('modalResultSubtitle');
+      if (totalScore >= 60) {
+        title.innerHTML = '🎉 恭喜！您已顺利通过三级数据库技术模拟考试！';
+        title.style.color = 'var(--success)';
+        subtitle.textContent = `全国计算机等级考试及格线为 60 分，您的成绩已达到合格标准！`;
+      } else {
+        title.innerHTML = '⚠️ 暂未及格，请认真查漏补缺！';
+        title.style.color = 'var(--danger)';
+        subtitle.textContent = `距离 60 分合格线还差 ${60 - totalScore} 分，请仔细研读每题解析！`;
+      }
+
+      const wrongDiv = document.getElementById('wrongQuestionsList');
+      if (wrongList.length === 0) {
+        wrongDiv.innerHTML = '<div style="color:var(--success); font-weight:bold;">🔥 太厉害了！全卷满分零失误！</div>';
+      } else {
+        wrongDiv.innerHTML = wrongList.map(item => `<div style="padding:4px 0; border-bottom:1px dashed var(--border);">${item}</div>`).join('');
+      }
+
+      document.getElementById('scoreModal').classList.add('show');
+      renderQuestions();
+      renderPalette();
+    }
+
+    function closeModal() {
+      document.getElementById('scoreModal').classList.remove('show');
+    }
+
+    function restartExam() {
+      closeModal();
+      resetCurrentPaper();
+    }
+
+    function resetCurrentPaper() {
+      if (confirm('确认清空本套试卷的所有作答记录并重新作答吗？')) {
+        const paperId = papersData[currentPaperIndex].id;
+        userAnswers[paperId] = {};
+        isSubmitted = false;
+        renderQuestions();
+        renderPalette();
+        timeRemaining = 120 * 60;
+      }
+    }
+
+    function toggleAllExplanations() {
+      const boxes = document.querySelectorAll('.explanation-box');
+      const anyHidden = Array.from(boxes).some(b => !b.classList.contains('show'));
+      boxes.forEach(b => {
+        if (anyHidden) b.classList.add('show');
+        else b.classList.remove('show');
+      });
+    }
+
+    // Timer
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (!isSubmitted && !isStudyMode) {
+          timeRemaining--;
+          if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert('⏰ 考试时间到！系统已为您自动交卷评分。');
+            submitExam();
+          }
+          updateTimerDisplay();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timeRemaining / 60);
+      const s = timeRemaining % 60;
+      document.getElementById('timerDisplay').textContent = `⏱️ ${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
